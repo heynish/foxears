@@ -7,7 +7,7 @@ const frameMetadata = getFrameMetadata({
       label: 'Try Me',
     },
   ],
-  image: `/next.svg`,
+  image: `/get-a-mask.png`,
   post_url: `/api/frame`,
 });
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MetaMask Masks',
     description: 'See my masks',
-    images: [`https://mframes.vercel.app/get-a-mask.png`],
+    images: [`/get-a-mask.png`],
   },
   other: {
     ...frameMetadata,
