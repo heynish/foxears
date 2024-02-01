@@ -14,54 +14,6 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
 
-  // Resize the picture to fit the circle's diameter
- await picture.resize(300, Jimp.AUTO)
-
-  // Create a circle mask
-  const diameter = 300; // Fixed diameter as per specified size
-  const radius = diameter / 2;
-  const mask = new Jimp(diameter, diameter, 0x00000000); // start with a transparent (black in this case) circle
-
-  await mask.scan(0, 0, diameter, diameter, function(x, y, idx) {
-    const distance = Math.sqrt(
-      Math.pow(x - radius, 2) +
-      Math.pow(y - radius, 2)
-    );
-    if (distance <= radius) {
-      this.bitmap.data[idx + 3] = 255; // set alpha to 255 (opaque) inside the circle
-    }
-  });
-
-  // Apply the circle mask onto the picture
-  picture.mask(mask, 0, 0);
-
-  // Calculate the position to center the circle on the base image
-  const x = (baseImage.bitmap.width / 2) - radius;
-  const y = (baseImage.bitmap.height / 2) - radius;
-
-  // Composite the picture onto the base image at the calculated position
-  baseImage.composite(picture, x, y, {
-    mode: Jimp.BLEND_SOURCE_OVER,
-    opacitySource: 1,
-    opacityDest: 1
-  });
-
-  // Resize the overlay image to fit within the circle
-  const overlayDiameter = diameter / 3; // Sizing the overlay as 1/3 of the circle's diameter
-  await overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
-
-  // Calculate the position for the overlay
-  const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
-  const overlayY = y + diameter / 15; // A little bit down from the top of the circle
-
-  // Composite the overlay image onto the base image
-  baseImage.composite(overlayImage, overlayX, overlayY, {
-    mode: Jimp.BLEND_SOURCE_OVER,
-    opacitySource: 1,
-    opacityDest: 1
-  });
-
-    /*
     // Scale down the picture (example: scale to 100x100)
     await picture.resize(300, Jimp.AUTO);
 
@@ -103,7 +55,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayY = y + (diameter / 15); // A little bit down from the top of the circle
 
     // Composite the overlay image onto the base image
-    baseImage.composite(overlayImage, overlayX, overlayY);*/
+    baseImage.composite(overlayImage, overlayX, overlayY);
 
 
     console.log('Calling buffer');
