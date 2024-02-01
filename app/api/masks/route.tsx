@@ -7,7 +7,7 @@ import {
 //import { getFrameAccountPFP } from '../../core/getFrameAccountPFP';
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
-//no axios
+import { overlayImages } from '../../core/overlayImages';
 
 const imageUrl: string = 'http://example.com/image.jpg';
 const imageName: string = 'my-image.jpg';
@@ -48,16 +48,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfp = pfpData.data.userDataBody.value;
     console.log(pfp);
 
-// Call the function with image paths
-sendRequest(pfp+'.jpg', 'https://mframes.vercel.app/2.png')
-  .then((data) => {
-    // Handle the response data
-    console.log('Response data:', data);
-  })
-  .catch((error) => {
-    // Handle error if necessary
-    console.error('Error:', error);
-  });
+    await overlayImages('/path/to/base/image.jpg', '/path/to/overlay/image.png', '/output/path/overlayed-image.jpg', {
+      x: 50, // Set overlay position X-coordinate to 50
+      y: 50, // Set overlay position Y-coordinate to 50
+    });
+
+
   console.log("Return response to user");
   return new NextResponse(
     getFrameHtmlResponse({
@@ -80,32 +76,6 @@ sendRequest(pfp+'.jpg', 'https://mframes.vercel.app/2.png')
     <meta property="fc:frame:post_url" content="https://mframes.vercel.app/api/masks" />
   </head></html>`);*/
 }
-
-async function sendRequest(backgroundImage: string, overlayImage: string): Promise<void> {
-  try {
-    const response = await fetch('https://mframes.vercel.app/api/overlay', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        backgroundImage,
-        overlayImage,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch');
-    }
-
-    const data = await response.json();
-    console.log('Path to resulting image:', data.outputPath);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-
 
 
 export async function POST(req: NextRequest): Promise<Response> {
