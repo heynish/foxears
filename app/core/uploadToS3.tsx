@@ -14,7 +14,7 @@ export async function uploadToS3(buffer: Buffer, fileName: string): Promise<stri
     Bucket: process.env.AWS_BUCKET_NAME!,
     Key: fileName,
     Body: buffer,
-    ContentType: 'image/jpeg', // make sure this matches your file type
+    ContentType: 'image/png', // make sure this matches your file type
   };
 
   try {
