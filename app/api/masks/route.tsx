@@ -11,8 +11,6 @@ import { NextRequest, NextResponse } from 'next/server';
 // Farcaster API
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
-* @param message The validated message from the Frame
-
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
   let accountPFP: string | undefined = '';
