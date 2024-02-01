@@ -51,6 +51,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         {
           //label: `${accountAddress}`,
           label: `${pfp}`,
+          action: 'post_redirect',
         },
       ],
       image:'https://mframes.vercel.app/2.png',
