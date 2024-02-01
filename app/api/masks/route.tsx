@@ -61,7 +61,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         {
           //label: `${accountAddress}`,
-          label: `Screenshot & Share`,
+          label: `Screenshot & Share ❤️`,
         },
       ],
       //image: pfp+'.jpg',

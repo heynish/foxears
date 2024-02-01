@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 const frameMetadata = getFrameMetadata({
   buttons: [
     {
-      label: 'Try Me',
+      label: 'Try Me 🦊',
     },
   ],
   image: `https://mframes.vercel.app/1.png`,

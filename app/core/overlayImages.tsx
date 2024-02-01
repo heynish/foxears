@@ -14,41 +14,45 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
 
-    // Resize the picture to be square with the desired size
-    const squareSize = 300;
-    await picture.resize(squareSize, squareSize); // Ensure the image is square
+   // Resize the picture to be square with the desired size
+   const squareSize = Math.min(picture.bitmap.width, picture.bitmap.height);
+   await picture.resize(squareSize, squareSize); // Ensure the image is square
 
-    // Create a circular mask with a diameter equal to the new square size
-    const mask = new Jimp(squareSize, squareSize, 0xFFFFFFFF);
-    await mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function(x, y, idx) {
-      const distance = Math.sqrt(
-        Math.pow(x - squareSize / 2, 2) + Math.pow(y - squareSize / 2, 2)
-      );
-      if (distance > squareSize / 2) {
-        this.bitmap.data[idx + 3] = 0; // Set alpha to 0 (transparent)
-      }
-    });
+   // Create a circle mask
+   const diameter = squareSize;
+   const radius = diameter / 2;
+   const mask = new Jimp(diameter, diameter, 0x00000000);
 
-    // Apply the circle mask onto the picture
-    picture.mask(mask, 0, 0);
+   // Draw a white circle on the mask
+   await mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function (x, y, idx) {
+     const distance = Math.sqrt(
+       Math.pow(x - radius, 2) + Math.pow(y - radius, 2)
+     );
+     if (distance <= radius) {
+       this.bitmap.data[idx] = 255; // red
+       this.bitmap.data[idx + 1] = 255; // green
+       this.bitmap.data[idx + 2] = 255; // blue
+       this.bitmap.data[idx + 3] = 255; // alpha
+     }
+   });
 
-    // Positioning the circle in the center of the base image
-    const x = (baseImage.bitmap.width - squareSize) / 2;
-    const y = (baseImage.bitmap.height - squareSize) / 2;
+   // Apply the circular mask
+   picture.mask(mask, 0, 0);
 
-    // Composite the picture onto the base image
-    baseImage.composite(picture, x, y);
+   // Composite the picture onto the base image
+   const xComposite = (baseImage.bitmap.width - diameter) / 2;
+   const yComposite = (baseImage.bitmap.height - diameter) / 2;
+   baseImage.composite(picture, xComposite, yComposite);
 
-    // Resize and position the overlay image at the top inside of the circle
-    const overlayDiameter = squareSize / 3; // Sizing the overlay as 1/3 of the circle's diameter
-    await overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
+   // Resize and position the overlay image at the top inside of the circle
+   const overlayDiameter = diameter / 3;
+   await overlayImage.resize(overlayDiameter, Jimp.AUTO);
 
-    // Calculate the position for the top overlay
-    const overlayX = x + (squareSize - overlayDiameter) / 2; // Horizontally centered within the circle
-    const overlayY = y + (squareSize / 15); // A little bit down from the top of the circle
+   const overlayX = xComposite + (diameter - overlayDiameter) / 2;
+   const overlayY = yComposite; // Adjust this value as necessary to position the overlay image at the top inside of the circle
 
-    // Composite the overlay image onto the base image
-    baseImage.composite(overlayImage, overlayX, overlayY);
+   // Composite the overlay image onto the base image
+   baseImage.composite(overlayImage, overlayX, overlayY);
 
     /*
     // Scale down the picture (example: scale to 100x100)
