@@ -10,11 +10,15 @@ export async function axiosDownloadImage(url: string, fileName: string): Promise
       responseType: 'blob',
     });
 
+    console.log('converting to buffer');
+
     // Convert Blob to ArrayBuffer
     const arrayBuffer: ArrayBuffer = await response.data.arrayBuffer();
 
     // Convert ArrayBuffer to Buffer
     const buffer: Buffer = Buffer.from(arrayBuffer);
+
+    console.log('Writing to public');
 
     // Create a file path to the public directory
     const publicPath = path.join(process.cwd(), 'public', fileName);
