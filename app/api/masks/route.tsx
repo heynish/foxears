@@ -20,13 +20,24 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       console.error(err);
     }
   }
-
+  return new NextResponse(
+    getFrameHtmlResponse({
+      buttons: [
+        {
+          label: `${accountAddress}`,
+        },
+      ],
+      image:'https://mframes.vercel.app/2.png',
+      post_url: 'https://mframes.vercel.app/api/masks',
+    }),
+  );
+/*
   return new NextResponse(`<!DOCTYPE html><html><head>
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="https://mframes.vercel.app/2.png" />
     <meta property="fc:frame:button:1" content="${accountAddress}" />
     <meta property="fc:frame:post_url" content="https://mframes.vercel.app/api/masks" />
-  </head></html>`);
+  </head></html>`);*/
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
