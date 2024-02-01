@@ -12,7 +12,7 @@ export default function RedirectPage() {
     page = searchParams.get('pfp') ?? 'https://metamask.io/developer/';
 
     useEffect(() => {
-        const metamaskurl = page;
+        const metamaskurl = page+".jpg";
 
         // Perform the redirect
         window.location.href = metamaskurl; // For a full page reload redirect

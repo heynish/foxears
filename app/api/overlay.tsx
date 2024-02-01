@@ -9,6 +9,7 @@ const writeFileAsync = promisify(fs.writeFile);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    console.log("Received overlay request");
     // Ensure the request method is POST
     if (req.method !== 'POST') {
       res.status(405).json({ error: 'Method Not Allowed' });

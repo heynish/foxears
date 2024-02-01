@@ -52,7 +52,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     axiosDownloadImage(pfp, username);
     
 // Call the function with image paths
-sendRequest('/1.png', '/2.png')
+sendRequest('https://mframes.vercel.app/1.png', 'https://mframes.vercel.app/2.png')
   .then((data) => {
     // Handle the response data
     console.log('Response data:', data);
@@ -61,7 +61,7 @@ sendRequest('/1.png', '/2.png')
     // Handle error if necessary
     console.error('Error:', error);
   });
-
+  console.log("Return response to user");
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
