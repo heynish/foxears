@@ -79,7 +79,7 @@ sendRequest('/1.png', '/2.png')
 
 async function sendRequest(backgroundImage: string, overlayImage: string): Promise<void> {
   try {
-    const response = await fetch('/api/overlay', {
+    const response = await fetch('../../api/overlay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
