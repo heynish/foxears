@@ -17,6 +17,7 @@ const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
+  let outputimage: string | undefined = 'https://mframes.vercel.app/2.png';
   let accountPFP: string | undefined = '';
   let FID: number | undefined = 3;
   
@@ -48,7 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfp = pfpData.data.userDataBody.value;
     console.log(pfp);
 
-    await overlayImages(pfp+'.jpg', 'https://mframes.vercel.app/2.png', username+'.png', {
+    outputimage = await overlayImages(pfp+'.jpg', 'https://mframes.vercel.app/2.png', username+'.png', {
       x: 50, // Set overlay position X-coordinate to 50
       y: 50, // Set overlay position Y-coordinate to 50
     });
@@ -64,7 +65,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           action: 'post_redirect',
         },
       ],
-      image:'https://mframes.vercel.app/2.png',
+      image: outputimage,
       post_url: 'https://mframes.vercel.app/api/masks/redirect',
     }),
   );
