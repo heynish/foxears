@@ -40,6 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const username = usernameData.data.userDataBody.value;
     const pfpData: UserData = await pfpRes.json();
     const pfp = pfpData.data.userDataBody.value;
+    console.log(pfp);
 
   return new NextResponse(
     getFrameHtmlResponse({
