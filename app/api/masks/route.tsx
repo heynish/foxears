@@ -55,7 +55,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image:'https://mframes.vercel.app/2.png',
-      post_url: 'https://mframes.vercel.app/api/masks',
+      post_url: 'https://mframes.vercel.app/api/masks/redirect',
     }),
   );
 /*
