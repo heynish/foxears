@@ -8,7 +8,7 @@ const frameMetadata = getFrameMetadata({
     },
   ],
   image: `https://mframes.vercel.app/1.png`,
-  post_url: `/api/frame`,
+  post_url: `/api/masks`,
 });
 
 export const metadata: Metadata = {
