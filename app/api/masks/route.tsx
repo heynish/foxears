@@ -10,23 +10,28 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Farcaster API
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
-const FID = 3
+
+* @param message The validated message from the Frame
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
   let accountPFP: string | undefined = '';
+  let FID: number | undefined = 3;
   
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body);
-
   if (isValid) {
     try {
+         // Get the Farcaster ID from the message
+      FID = message.fid ?? 3;
       accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
       console.log(accountAddress);
     } catch (err) {
       console.error(err);
     }
   }
+
+
 
     // Get username and pfp
     const usernamePromise = fetch(
