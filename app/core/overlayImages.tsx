@@ -1,4 +1,5 @@
 // utils/imageOverlay.ts
+"use client"
 
 import Jimp from 'jimp';
 import { useState } from "react";
