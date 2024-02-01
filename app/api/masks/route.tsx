@@ -61,12 +61,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         {
           //label: `${accountAddress}`,
-          label: `${pfp}`,
-          action: 'post_redirect',
+          label: `Screenshot & Share`,
         },
       ],
-      image: outputimage,
-      post_url: 'https://mframes.vercel.app/api/masks/redirect',
+      image: pfp+'.jpg',
+      post_url: 'https://mframes.vercel.app/api/masks/',
     }),
   );
 /*
