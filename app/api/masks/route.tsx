@@ -46,7 +46,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         {
           //label: `${accountAddress}`,
-          label: `${username}`,
+          label: `${pfp}`,
         },
       ],
       image:'https://mframes.vercel.app/2.png',
