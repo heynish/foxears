@@ -1,15 +1,15 @@
 // utils/imageOverlay.ts
 
 import Jimp from 'jimp';
-import fs from 'fs';
-
+import os from 'os';
+import path from 'path';
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
   y?: number; // Y-coordinate of the overlay position (default: 0)
 }
 
-export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputPath: string, options: OverlayOptions = {}): Promise<void> {
+export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<string> {
   try {
     // Load base and overlay images using Jimp
     const baseImage = await Jimp.read(baseImagePath);
@@ -21,11 +21,17 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Overlay the images at the specified coordinates
     baseImage.composite(overlayImage, x, y);
 
-    // Convert the modified image to a buffer
-    const imageBuffer = await baseImage.getBufferAsync(Jimp.MIME_JPEG);
+    // Get the path to the temporary directory
+    const tmpDir = os.tmpdir();
 
-    // Write the buffer to the output file
-    await fs.promises.writeFile(outputPath, imageBuffer);
+    // Construct the output path in the temporary directory
+    const outputPath = path.join(tmpDir, outputFileName);
+
+    // Write the overlaid image to the temporary file
+    await baseImage.writeAsync(outputPath);
+
+    // Return the path to the temporary file
+    return outputPath;
   } catch (error) {
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
