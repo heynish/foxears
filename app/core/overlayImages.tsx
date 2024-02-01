@@ -25,13 +25,14 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
     console.log('Calling upload');
-    uploadToS3(buffer, "final").then(imageUrl => {
-      //Return URL
+    try {
+      const imageUrl = await uploadToS3(buffer, "fileName");
+      console.log('Image URL:', imageUrl);
       return imageUrl;
-      console.log('The image has been uploaded. URL:', imageUrl);
-    }).catch(error => {
-      console.error('Error uploading to S3:', error);
-    });
+    } catch (error) {
+      console.error('Error calling uploadToS3:', error);
+    }
+    console.log('After calling uploadToS3');
     return "https://mframes.vercel.app/2.png";
   } catch (error) {
     console.error('Error overlaying images:', error);
