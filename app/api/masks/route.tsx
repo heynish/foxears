@@ -5,9 +5,9 @@ import {
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 //import { getFrameAccountPFP } from '../../core/getFrameAccountPFP';
-import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
+//import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
-import { axiosDownloadImage } from '../../core/axiosDownloadImage';
+//no axios
 
 const imageUrl: string = 'http://example.com/image.jpg';
 const imageName: string = 'my-image.jpg';
@@ -48,11 +48,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfp = pfpData.data.userDataBody.value;
     console.log(pfp);
 
-    //download image to public
-    axiosDownloadImage(pfp, username);
-    
 // Call the function with image paths
-sendRequest('https://mframes.vercel.app/1.png', 'https://mframes.vercel.app/2.png')
+sendRequest(pfp+'.jpg', 'https://mframes.vercel.app/2.png')
   .then((data) => {
     // Handle the response data
     console.log('Response data:', data);
