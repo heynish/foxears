@@ -17,7 +17,7 @@ type FidResponse = {
  * @param message The validated message from the Frame
  * @param NEYNAR_API_KEY The api key for the Neynar API
  * @returns The account address or undefined
- */
+
 async function getFrameAccountPFP(
   message: FrameData,
   { NEYNAR_API_KEY = 'NEYNAR_ONCHAIN_KIT' },
@@ -36,4 +36,4 @@ async function getFrameAccountPFP(
   return;
 }
 
-export { getFrameAccountPFP };
+export { getFrameAccountPFP };*/
