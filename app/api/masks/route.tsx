@@ -5,7 +5,7 @@ import {
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 //import { getFrameAccountPFP } from '../../core/getFrameAccountPFP';
-//import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
+import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 //no axios
 
