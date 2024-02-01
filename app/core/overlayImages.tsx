@@ -15,7 +15,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
 
     // Scale down the picture (example: scale to 100x100)
-    await picture.resize(300, Jimp.AUTO);
+    await picture.resize(250, Jimp.AUTO);
 
     // Create a circle mask
     const diameter = picture.getWidth(); // assuming width & height are equal after resize
