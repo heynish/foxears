@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MetaMask Masks',
     description: 'See my masks',
-    images: [`/get-a-mask.png`],
+    images: [`./get-a-mask.png`],
   },
   other: {
     ...frameMetadata,
