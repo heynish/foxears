@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MetaMask Masks',
     description: 'See my masks',
-    images: [`https://mframes.vercel.app/get-a-mask.png`],
+    images: ['https://mframes.vercel.app/get-a-mask.png'],
   },
   other: {
     ...frameMetadata,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <h1>MetaMask Masks</h1>
+      <img src={'/get-a-mask.png'}/>
     </>
   );
 }
