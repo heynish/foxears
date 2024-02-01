@@ -4,6 +4,8 @@ import path from 'path';
 
 export async function axiosDownloadImage(url: string, fileName: string): Promise<void> {
   try {
+    console.log("Downloading Image");
+    console.log(url);
     const response: AxiosResponse<Blob> = await axios.get(url, {
       responseType: 'blob',
     });
