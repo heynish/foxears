@@ -21,7 +21,7 @@ export async function uploadToS3(buffer: Buffer, fileName: string): Promise<stri
     // Create a command to put the object in the S3 bucket
     const command = new PutObjectCommand(uploadParams);
     await s3Client.send(command);
-    
+    console.log('Calling S3');
     // Construct the URL of the uploaded image
     const imageUrl = `https://${uploadParams.Bucket}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/${encodeURIComponent(fileName)}`;
     console.log('Successfully uploaded image to S3. Image URL:', imageUrl);
