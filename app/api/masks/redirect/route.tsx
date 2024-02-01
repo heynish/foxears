@@ -42,7 +42,7 @@
       const pfp = pfpData.data.userDataBody.value;
       console.log(pfp);
   
-      return NextResponse.redirect(pfp, {status: 302});
+      return NextResponse.redirect('https://mframes.vercel.app/pfp', {status: 302});
   }
   
   export async function POST(req: NextRequest): Promise<Response> {
