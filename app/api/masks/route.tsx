@@ -64,7 +64,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           label: `Screenshot & Share`,
         },
       ],
-      image: pfp+'.jpg',
+      //image: pfp+'.jpg',
+      image: outputimage,
       post_url: 'https://mframes.vercel.app/api/masks/',
     }),
   );
