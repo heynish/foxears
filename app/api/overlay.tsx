@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     backgroundImageBuffer.composite(overlayImageBuffer, 0, 0);
 
     // Save the resulting image
-    const outputPath = 'public/output.jpg'; // Adjust the output path as needed
+    const outputPath = 'public/users/output.jpg'; // Adjust the output path as needed
     await writeFileAsync(outputPath, await backgroundImageBuffer.getBufferAsync('image/jpeg'));
 
     // Return the path to the resulting image

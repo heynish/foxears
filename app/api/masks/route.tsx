@@ -7,6 +7,10 @@ import {
 //import { getFrameAccountPFP } from '../../core/getFrameAccountPFP';
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
+import { axiosDownloadImage } from '../../core/axiosDownloadImage';
+
+const imageUrl: string = 'http://example.com/image.jpg';
+const imageName: string = 'my-image.jpg';
 
 // Farcaster API
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
@@ -43,6 +47,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfpData: UserData = await pfpRes.json();
     const pfp = pfpData.data.userDataBody.value;
     console.log(pfp);
+
+    //download image to public
+    axiosDownloadImage(pfp, username);
     
 // Call the function with image paths
 sendRequest('/1.png', '/2.png')
