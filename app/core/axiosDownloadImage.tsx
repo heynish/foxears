@@ -28,7 +28,3 @@ export async function axiosDownloadImage(url: string, fileName: string): Promise
   }
 }
 
-const imageUrl: string = 'http://example.com/image.jpg';
-const imageName: string = 'my-image.jpg';
-
-axiosDownloadImage(imageUrl, imageName);
