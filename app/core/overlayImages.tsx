@@ -1,6 +1,13 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
+import * as faceapi from 'face-api.js';
+import { Canvas, Image, ImageData } from 'canvas';
+faceapi.env.monkeyPatch({
+  Canvas,
+  Image,
+  ImageData
+} as any)
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -13,6 +20,9 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const baseImage = await Jimp.read(baseImagePath);
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
+    // Load face-api models
+  await faceapi.nets.ssdMobilenetv1.loadFromDisk('./models');
+  await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
 
     // Scale down the picture (example: scale to 100x100)
     await picture.resize(250, Jimp.AUTO);
@@ -62,9 +72,61 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
+
+
+
+
+    //Detection Mask
+    // Load the original image and crown using Jimp
+  const [originalImage, crownImage] = await Promise.all([
+    Jimp.read(buffer),
+    Jimp.read('https://mframes.vercel.app/ears.png'), // Replace with the path to your crown image
+  ]);
+
+  // Create a canvas and draw the original image onto it
+  const canvas = new Canvas(originalImage.getWidth(), originalImage.getHeight());
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(new Image(), 0, 0);
+
+  // Run face detection
+  // @ts-ignore
+  const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
+
+  console.log('detections complete');
+
+  // For each detection, add the crown
+  detections.forEach((detection) => {
+    const { landmarks } = detection;
+    const jawline = landmarks.getJawOutline();
+    const nose = landmarks.getNose();
+
+    // Calculate position and size for the crown (you might need to adjust these)
+    const crownWidth = jawline[jawline.length - 1].x - jawline[0].x;
+    const crownHeight = crownWidth * (crownImage.getHeight() / crownImage.getWidth());
+    const xOffset = (jawline[0].x + jawline[jawline.length - 1].x) / 2 - crownWidth / 2;
+    const yOffset = nose[0].y - crownHeight - 20; // Adjust Y offset as needed
+
+    console.log('crownWidth', crownWidth);
+    console.log('crownHeight', crownHeight);
+    console.log('xOffset', xOffset);
+    console.log('yOffset', yOffset);
+    // Resize and composite the crown onto the original image
+    crownImage.resize(crownWidth, crownHeight);
+    originalImage.composite(crownImage, xOffset, yOffset);
+  });
+
+  // Convert the Jimp image back to a buffer
+  const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
+
+
+
+
+
+
+
     console.log('Calling upload');
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
+      const imageUrl = await uploadToS3(crownedImageBuffer, crypto.randomBytes(16).toString('hex')+".png");
       console.log('Image URL:', imageUrl);
       return imageUrl;
     } catch (error) {
