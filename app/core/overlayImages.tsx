@@ -1,8 +1,10 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
+import * as canvas from 'canvas';
 import * as faceapi from 'face-api.js';
-import { Canvas, Image, ImageData } from 'canvas';
+import * as tf from '@tensorflow/tfjs-node';
+const { Canvas, Image, ImageData } = canvas
 faceapi.env.monkeyPatch({
   Canvas,
   Image,
@@ -21,7 +23,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
     // Load face-api models
-  await faceapi.nets.ssdMobilenetv1.loadFromDisk('./models');
+  await faceapi.nets.tinyFaceDetector.loadFromDisk('./models');
   await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
 
     // Scale down the picture (example: scale to 100x100)
@@ -75,7 +77,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
 
 
-
+/*
     //Detection Mask
     // Load the original image and crown using Jimp
   const [originalImage, crownImage] = await Promise.all([
@@ -84,19 +86,23 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
   ]);
 
   // Create a canvas and draw the original image onto it
-  const canvas = new Canvas(originalImage.getWidth(), originalImage.getHeight());
+  
+  const canvas = new Canvas(originalImage.getWidth(), originalImage.getHeight()) as any as HTMLCanvasElement;
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(new Image(), 0, 0);
+  //ctx.drawImage(new Image(), 0, 0);
 
+  const base64Image = await originalImage.getBase64Async(Jimp.MIME_PNG);
+
+  const facecanvas = faceapi.createCanvasFromMedia(buffer);
   // Run face detection
-  // @ts-ignore
-  const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
+  //const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
+  const detections = await faceapi.detectSingleFace(facecanvas).withFaceLandmarks();
 
   console.log('detections complete');
 
   // For each detection, add the crown
-  detections.forEach((detection) => {
-    const { landmarks } = detection;
+  if (detections) {
+    const { landmarks } = detections;
     const jawline = landmarks.getJawOutline();
     const nose = landmarks.getNose();
 
@@ -113,11 +119,11 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Resize and composite the crown onto the original image
     crownImage.resize(crownWidth, crownHeight);
     originalImage.composite(crownImage, xOffset, yOffset);
-  });
+  };
 
   // Convert the Jimp image back to a buffer
   const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
-
+*/
 
 
 
@@ -126,7 +132,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     console.log('Calling upload');
     try {
-      const imageUrl = await uploadToS3(crownedImageBuffer, crypto.randomBytes(16).toString('hex')+".png");
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
       console.log('Image URL:', imageUrl);
       return imageUrl;
     } catch (error) {
