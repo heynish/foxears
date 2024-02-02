@@ -5,11 +5,11 @@ import * as canvas from 'canvas';
 import * as faceapi from 'face-api.js';
 import * as tf from '@tensorflow/tfjs-node';
 const { Canvas, Image, ImageData } = canvas
-faceapi.env.monkeyPatch({
+/*faceapi.env.monkeyPatch({
   Canvas,
   Image,
   ImageData
-} as any)
+} as any) */
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
