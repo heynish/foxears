@@ -105,9 +105,10 @@ croppedImage.mask(mask, 0, 0);
    pixelData[i++] = originalImage.bitmap.data[idx + 2];
    pixelData[i++] = originalImage.bitmap.data[idx + 3];
  });
-/*
+
  // Create a Tensor3D from the pixel data
  const tensor = faceapi.tf.tensor3d(pixelData, [originalImage.getHeight(), originalImage.getWidth(), 4], 'int32');
+ /*
   // Run face detection
   //const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
   const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
