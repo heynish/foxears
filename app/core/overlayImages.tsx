@@ -27,10 +27,10 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
   //await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
 
     // Scale down the picture (example: scale to 100x100)
-    //await picture.resize(250, 250);
+    picture.resize(250, Jimp.AUTO);
      // Find the shorter edge (since we want a square)
      //const size = Math.min(picture.getWidth(), picture.getHeight());
-     const size = 168;
+     const size = 250;
 
      // Crop the image to the new size, from top-center
      picture.crop(0, 0, size, size);
