@@ -23,11 +23,33 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
     // Load face-api models
-  //await faceapi.nets.tinyFaceDetector.loadFromDisk('./models');
-  //await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
+  await faceapi.nets.tinyFaceDetector.loadFromDisk('./models');
+  await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
 
-    // Scale down the picture (example: scale to 100x100)
-    picture.resize(250, Jimp.AUTO);
+  // Scale down the picture (example: scale to 100x100)
+  picture.resize(250, Jimp.AUTO);
+  // Create a circle mask with full transparency
+const diameter = picture.getWidth();
+const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
+
+// Draw a white circle on the mask
+mask.scan(0, 0, diameter, diameter, function(x, y, idx) {
+    const distance = Math.sqrt(
+        Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
+    );
+    if (distance <= diameter / 2) {
+        // Paint the circle white
+        this.bitmap.data[idx + 0] = 255; // Red channel
+        this.bitmap.data[idx + 1] = 255; // Green channel
+        this.bitmap.data[idx + 2] = 255; // Blue channel
+        this.bitmap.data[idx + 3] = 255; // Alpha channel, 255 for full opacity
+    }
+});
+
+// Apply the circle mask onto the picture to cut out the circular area
+picture.mask(mask, 0, 0);
+
+    /*
      // Find the shorter edge (since we want a square)
      //const size = Math.min(picture.getWidth(), picture.getHeight());
      const size = 250;
@@ -55,7 +77,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Apply the circle mask onto the picture
     picture.mask(mask, 0, 0);
-
+*/
     // Calculate the position to center the circle on the base image
     const x = (baseImage.bitmap.width / 2) - (diameter / 2);
     const y = (baseImage.bitmap.height / 2) - (diameter / 2);
