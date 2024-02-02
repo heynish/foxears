@@ -36,11 +36,12 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
      picture.crop(0, 0, size, size);
      console.log('picture.getWidth()', picture.getWidth());
      console.log('picture.getHeight()', picture.getHeight());
+     picture.resize(250, Jimp.AUTO);
 
     // Create a circle mask
     const diameter = picture.getWidth(); // assuming width & height are equal after resize
-    const mask = new Jimp(diameter, diameter, 0x0FFFFFF); // start with a white circle on black bg
-    await mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function(x, y, idx) {
+    const mask = new Jimp(diameter, diameter, 0xFFFFFFFF); // start with a white circle on black bg
+    mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function(x, y, idx) {
       const distance = Math.sqrt(
         Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
       );
