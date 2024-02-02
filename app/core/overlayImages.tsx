@@ -108,13 +108,22 @@ croppedImage.mask(mask, 0, 0);
 
  // Create a Tensor3D from the pixel data
  const tensor = faceapi.tf.tensor3d(pixelData, [originalImage.getHeight(), originalImage.getWidth(), 4], 'int32');
- /*
+ console.log('tensor: ', tensor);
+
+ try {
+  // Run face detection
+    const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
+  } catch (error) {
+    console.error(error);
+    // Handle the error appropriately
+    // For example, you might want to return null or throw a custom error
+  }
   // Run face detection
   //const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
-  const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
+  //const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
 
   console.log('detections complete');
-
+ /*
   // For each detection, add the crown
   if (detections) {
     const { landmarks } = detections;
