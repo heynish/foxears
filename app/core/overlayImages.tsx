@@ -30,8 +30,15 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
   // Scale down the picture (example: scale to 100x100)
   picture.resize(250, Jimp.AUTO);
+    // Determine the smallest dimension (width or height)
+    const size = Math.min(picture.getWidth(), picture.getHeight());
+
+    // Crop the image to make it square from the top
+    const croppedImage = picture.crop(0, 0, size, size);
+
+
   // Create a circle mask with full transparency
-const diameter = picture.getWidth();
+const diameter = croppedImage.getWidth();
 const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
 
 // Draw a white circle on the mask
@@ -49,43 +56,14 @@ mask.scan(0, 0, diameter, diameter, function(x, y, idx) {
 });
 
 // Apply the circle mask onto the picture to cut out the circular area
-picture.mask(mask, 0, 0);
+croppedImage.mask(mask, 0, 0);
 
-    /*
-     // Find the shorter edge (since we want a square)
-     //const size = Math.min(picture.getWidth(), picture.getHeight());
-     const size = 250;
-
-     // Crop the image to the new size, from top-center
-     picture.crop(0, 0, size, size);
-     console.log('picture.getWidth()', picture.getWidth());
-     console.log('picture.getHeight()', picture.getHeight());
-     picture.resize(250, Jimp.AUTO);
-
-    // Create a circle mask
-    const diameter = picture.getWidth(); // assuming width & height are equal after resize
-    const mask = new Jimp(diameter, diameter, 0x00000000); // start with a white circle on black bg
-    mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function(x, y, idx) {
-      const distance = Math.sqrt(
-        Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
-      );
-      if (distance > diameter / 2) {
-        this.bitmap.data[idx + 0] = 0;
-        this.bitmap.data[idx + 1] = 0;
-        this.bitmap.data[idx + 2] = 0;
-        this.bitmap.data[idx + 3] = 0; // Set alpha to 0 (transparent)
-      }
-    });
-
-    // Apply the circle mask onto the picture
-    picture.mask(mask, 0, 0);
-*/
     // Calculate the position to center the circle on the base image
     const x = (baseImage.bitmap.width / 2) - (diameter / 2);
     const y = (baseImage.bitmap.height / 2) - (diameter / 2);
 
     // Composite the picture onto the base image at the calculated position
-    baseImage.composite(picture, x, y, {
+    baseImage.composite(croppedImage, x, y, {
       mode: Jimp.BLEND_SOURCE_OVER,
       opacitySource: 1,
       opacityDest: 1
@@ -93,7 +71,7 @@ picture.mask(mask, 0, 0);
 
     // Resize and position the overlay image at the top inside of the circle
     const overlayDiameter = diameter / 3; // Sizing the overlay as 1/3 of the circle's diameter
-    await overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
+    overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
 
     // Calculate the position for the top overlay
     const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
@@ -110,7 +88,7 @@ picture.mask(mask, 0, 0);
 
 
 
-/*
+
     //Detection Mask
     // Load the original image and crown using Jimp
   const [originalImage, crownImage] = await Promise.all([
@@ -118,18 +96,21 @@ picture.mask(mask, 0, 0);
     Jimp.read('https://mframes.vercel.app/ears.png'), // Replace with the path to your crown image
   ]);
 
-  // Create a canvas and draw the original image onto it
-  
-  const canvas = new Canvas(originalImage.getWidth(), originalImage.getHeight()) as any as HTMLCanvasElement;
-  const ctx = canvas.getContext('2d');
-  //ctx.drawImage(new Image(), 0, 0);
+ // Get the pixel data as a TypedArray from the Jimp image
+ const pixelData = new Uint8Array(originalImage.getWidth() * originalImage.getHeight() * 4);
+ let i = 0;
+ originalImage.scan(0, 0, originalImage.getWidth(), originalImage.getHeight(), (x, y, idx) => {
+   pixelData[i++] = originalImage.bitmap.data[idx + 0];
+   pixelData[i++] = originalImage.bitmap.data[idx + 1];
+   pixelData[i++] = originalImage.bitmap.data[idx + 2];
+   pixelData[i++] = originalImage.bitmap.data[idx + 3];
+ });
 
-  const base64Image = await originalImage.getBase64Async(Jimp.MIME_PNG);
-
-  const facecanvas = faceapi.createCanvasFromMedia(buffer);
+ // Create a Tensor3D from the pixel data
+ const tensor = faceapi.tf.tensor3d(pixelData, [originalImage.getHeight(), originalImage.getWidth(), 4], 'int32');
   // Run face detection
   //const detections = await faceapi.detectAllFaces(canvas).withFaceLandmarks();
-  const detections = await faceapi.detectSingleFace(facecanvas).withFaceLandmarks();
+  const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
 
   console.log('detections complete');
 
@@ -156,16 +137,11 @@ picture.mask(mask, 0, 0);
 
   // Convert the Jimp image back to a buffer
   const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
-*/
-
-
-
-
 
 
     console.log('Calling upload');
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
+      const imageUrl = await uploadToS3(crownedImageBuffer, crypto.randomBytes(16).toString('hex')+".png");
       console.log('Image URL:', imageUrl);
       return imageUrl;
     } catch (error) {
