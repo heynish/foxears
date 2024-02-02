@@ -25,7 +25,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Load face-api models
   //await faceapi.nets.tinyFaceDetector.loadFromDisk('/models');
   await faceapi.nets.tinyFaceDetector.loadFromUri('https://mframes.vercel.app/models');
-  await faceapi.nets.faceLandmark68Net.loadFromUri('https://mframes.vercel.app/models');
+  await faceapi.nets.faceLandmark68TinyNet.loadFromUri('https://mframes.vercel.app/models');
   //await faceapi.nets.faceLandmark68Net.loadFromDisk('/models');
 
   // Scale down the picture (example: scale to 100x100)
