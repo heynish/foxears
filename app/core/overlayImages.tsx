@@ -2,8 +2,8 @@ import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 //import * as canvas from 'canvas';
-//import * as faceapi from 'face-api.js';
-//import * as tf from '@tensorflow/tfjs-node';
+import * as faceapi from 'face-api.js';
+import * as tf from '@tensorflow/tfjs-node';
 //const { Canvas, Image, ImageData } = canvas
 /*faceapi.env.monkeyPatch({
   Canvas,
