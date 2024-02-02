@@ -16,6 +16,8 @@
     "@coinbase/onchainkit": "0.3.1",
     "@vercel/blob": "^0.20.0",
     "axios": "^1.6.7",
+    "canvas": "^2.11.2",
+    "face-api.js": "^0.22.2",
     "jimp": "^0.3.11",
     "next": "13.5.6",
     "next-s3-upload": "^0.3.4",
