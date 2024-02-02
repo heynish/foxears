@@ -1,15 +1,12 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
-//import * as canvas from 'canvas';
+import * as canvas from 'canvas';
 import * as faceapi from 'face-api.js';
 import * as tf from '@tensorflow/tfjs-node';
-//const { Canvas, Image, ImageData } = canvas
-/*faceapi.env.monkeyPatch({
-  Canvas,
-  Image,
-  ImageData
-} as any) */
+
+const { Canvas, Image, ImageData } = canvas;
+faceapi.env.monkeyPatch({ Canvas: Canvas as any, Image: Image as any, ImageData: ImageData as any});
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -96,23 +93,11 @@ croppedImage.mask(mask, 0, 0);
     Jimp.read('https://mframes.vercel.app/ears.png'), // Replace with the path to your crown image
   ]);
 
- // Get the pixel data as a TypedArray from the Jimp image
- const pixelData = new Uint8Array(originalImage.getWidth() * originalImage.getHeight() * 4);
- let i = 0;
- originalImage.scan(0, 0, originalImage.getWidth(), originalImage.getHeight(), (x, y, idx) => {
-   pixelData[i++] = originalImage.bitmap.data[idx + 0];
-   pixelData[i++] = originalImage.bitmap.data[idx + 1];
-   pixelData[i++] = originalImage.bitmap.data[idx + 2];
-   pixelData[i++] = originalImage.bitmap.data[idx + 3];
- });
-
- // Create a Tensor3D from the pixel data
- const tensor = faceapi.tf.tensor3d(pixelData, [originalImage.getHeight(), originalImage.getWidth(), 4], 'int32');
- console.log('tensor: ', tensor);
+  const image = await canvas.loadImage(buffer) as unknown as HTMLImageElement;
 
  try {
   // Run face detection
-    const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
+    const detections = await faceapi.detectSingleFace(image).withFaceLandmarks();
   } catch (error) {
     console.error(error);
     // Handle the error appropriately
