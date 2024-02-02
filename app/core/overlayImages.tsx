@@ -87,7 +87,7 @@ croppedImage.mask(mask, 0, 0);
 
 
 
-
+    try {
 
     //Detection Mask
     // Load the original image and crown using Jimp
@@ -136,12 +136,16 @@ croppedImage.mask(mask, 0, 0);
   };
 
   // Convert the Jimp image back to a buffer
-  const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
+  //const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
 
+} catch (error) {
+  console.error('Failed to load models:', error);
+  // Handle the error appropriately
+}
 
     console.log('Calling upload');
     try {
-      const imageUrl = await uploadToS3(crownedImageBuffer, crypto.randomBytes(16).toString('hex')+".png");
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
       console.log('Image URL:', imageUrl);
       return imageUrl;
     } catch (error) {
