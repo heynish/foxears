@@ -2,14 +2,14 @@ import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import * as canvas from 'canvas';
-import * as faceapi from 'face-api.js';
-import * as tf from '@tensorflow/tfjs-node';
-const { Canvas, Image, ImageData } = canvas
+//import * as faceapi from 'face-api.js';
+//import * as tf from '@tensorflow/tfjs-node';
+/*const { Canvas, Image, ImageData } = canvas
 faceapi.env.monkeyPatch({
   Canvas,
   Image,
   ImageData
-} as any)
+} as any)*/
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -23,8 +23,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
     // Load face-api models
-  await faceapi.nets.tinyFaceDetector.loadFromDisk('./models');
-  await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
+  //await faceapi.nets.tinyFaceDetector.loadFromDisk('./models');
+  //await faceapi.nets.faceLandmark68Net.loadFromDisk('./models');
 
     // Scale down the picture (example: scale to 100x100)
     await picture.resize(250, 250);
