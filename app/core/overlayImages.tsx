@@ -2,14 +2,14 @@ import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import * as canvas from 'canvas';
-//import * as faceapi from 'face-api.js';
-//import * as tf from '@tensorflow/tfjs-node';
-/*const { Canvas, Image, ImageData } = canvas
+import * as faceapi from 'face-api.js';
+import * as tf from '@tensorflow/tfjs-node';
+const { Canvas, Image, ImageData } = canvas
 faceapi.env.monkeyPatch({
   Canvas,
   Image,
   ImageData
-} as any)*/
+} as any)
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -37,7 +37,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Create a circle mask
     const diameter = picture.getWidth(); // assuming width & height are equal after resize
-    const mask = new Jimp(diameter, diameter, 0xFFFFFFFF); // start with a white circle on black bg
+    const mask = new Jimp(diameter, diameter, 0x037dd6); // start with a white circle on black bg
     await mask.scan(0, 0, mask.getWidth(), mask.getHeight(), function(x, y, idx) {
       const distance = Math.sqrt(
         Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
