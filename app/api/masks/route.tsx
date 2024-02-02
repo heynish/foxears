@@ -56,6 +56,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
 
   console.log(outputimage);
+  console.log('return response');
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
