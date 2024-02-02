@@ -5,13 +5,14 @@ import * as canvas from 'canvas';
 import * as faceapi from 'face-api.js';
 import * as tf from '@tensorflow/tfjs-node';
 
-const { Canvas, Image, ImageData } = canvas;
-faceapi.env.monkeyPatch({ Canvas: Canvas as any, Image: Image as any, ImageData: ImageData as any});
+const { Canvas, Image, ImageData } = canvas
+faceapi.env.monkeyPatch({ Canvas, Image, ImageData } as any)
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
   y?: number; // Y-coordinate of the overlay position (default: 0)
 }
+
 
 export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<string> {
   try {
@@ -94,7 +95,6 @@ croppedImage.mask(mask, 0, 0);
   ]);
 
   const image = await canvas.loadImage(buffer) as unknown as HTMLImageElement;
-
  try {
   // Run face detection
     const detections = await faceapi.detectSingleFace(image).withFaceLandmarks();
