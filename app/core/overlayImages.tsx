@@ -87,7 +87,7 @@ croppedImage.mask(mask, 0, 0);
 
 
 
-    try {
+   
 
     //Detection Mask
     // Load the original image and crown using Jimp
@@ -105,7 +105,7 @@ croppedImage.mask(mask, 0, 0);
    pixelData[i++] = originalImage.bitmap.data[idx + 2];
    pixelData[i++] = originalImage.bitmap.data[idx + 3];
  });
-
+/*
  // Create a Tensor3D from the pixel data
  const tensor = faceapi.tf.tensor3d(pixelData, [originalImage.getHeight(), originalImage.getWidth(), 4], 'int32');
   // Run face detection
@@ -137,11 +137,8 @@ croppedImage.mask(mask, 0, 0);
 
   // Convert the Jimp image back to a buffer
   //const crownedImageBuffer = await originalImage.getBufferAsync(Jimp.MIME_PNG);
+*/
 
-} catch (error) {
-  console.error('Failed to load models:', error);
-  // Handle the error appropriately
-}
 
     console.log('Calling upload');
     try {
