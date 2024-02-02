@@ -23,10 +23,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
     // Load face-api models
-    const path = require('path');
-const modelsPath = path.join(process.cwd(), 'models');
-  await faceapi.nets.tinyFaceDetector.loadFromDisk(modelsPath);
-  await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
+  await faceapi.nets.tinyFaceDetector.loadFromDisk('/models');
+  await faceapi.nets.faceLandmark68Net.loadFromDisk('/models');
 
   // Scale down the picture (example: scale to 100x100)
   picture.resize(250, Jimp.AUTO);
