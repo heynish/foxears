@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <>
       <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon" />
         {/* Add any other meta tags, title, or links needed here */}
       </head>
       <body>
