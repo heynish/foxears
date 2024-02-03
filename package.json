@@ -8,7 +8,8 @@
     "build": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postbuild": "prisma generate"
   },
   "author": "https://twitter.com/heynmodi",
   "dependencies": {
