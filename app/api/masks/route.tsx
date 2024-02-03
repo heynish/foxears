@@ -60,8 +60,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       y: 50, // Set overlay position Y-coordinate to 50
     });
 
-    const postURL = 'https://mframes.vercel.app/api/masks/move?'+'x='+x+'&y='+y;
-  console.log(outputimage);
+    const postURL = 'https://mframes.vercel.app/api/masks/move?url='+url+'&x='+x+'&y='+y;
+    console.log(postURL);
   console.log('return response');
   return new NextResponse(
     getFrameHtmlResponse({

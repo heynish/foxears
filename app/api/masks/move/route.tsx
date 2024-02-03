@@ -4,7 +4,6 @@ import {
     getFrameMessage,
     getFrameHtmlResponse,
   } from '@coinbase/onchainkit';
-  import { USER_DATA_TYPE, UserData } from "../../../farcaster/user";
   import { NextRequest, NextResponse } from 'next/server';
   import { overlayImages } from '../../../core/overlayImages';
   import ImageDetails from '../../../core/imageData';
@@ -23,7 +22,8 @@ import {
         console.error(err);
       }
     }
-
+    const buttonId = message?.buttonIndex || 0;
+    console.log('buttonId', buttonId);
       // Extract query parameters from the request
   const queryParams = req.nextUrl.searchParams;
 
