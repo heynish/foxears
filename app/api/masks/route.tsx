@@ -55,12 +55,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       y: 50, // Set overlay position Y-coordinate to 50
     });*/
 
-    const { url, x, y }: ImageDetails =  await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
+    const { urlfinal, urlbase, x, y }: ImageDetails =  await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
       x: 50, // Set overlay position X-coordinate to 50
       y: 50, // Set overlay position Y-coordinate to 50
     });
 
-    const postURL = 'https://mframes.vercel.app/api/masks/move?url='+url+'&x='+x+'&y='+y;
+    const postURL = 'https://mframes.vercel.app/api/masks/move?url='+urlbase+'&x='+x+'&y='+y;
     console.log(postURL);
   console.log('return response', postURL);
   return new NextResponse(
@@ -84,7 +84,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       //image: pfp+'.jpg',
-      image: url,
+      image: urlfinal,
       post_url: postURL,
     }),
   );

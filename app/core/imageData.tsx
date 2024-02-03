@@ -1,6 +1,7 @@
 // Single image with coordinates
 type ImageDetails = {
-    url: string,
+    urlfinal: string,
+    urlbase: string,
     x: number, 
     y: number,
   };

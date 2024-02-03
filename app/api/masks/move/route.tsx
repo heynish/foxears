@@ -5,7 +5,7 @@ import {
     getFrameHtmlResponse,
   } from '@coinbase/onchainkit';
   import { NextRequest, NextResponse } from 'next/server';
-  import { overlayImages } from '../../../core/overlayImages';
+  import { moveImage } from '../../../core/moveImage';
   import ImageDetails from '../../../core/imageData';
   
   async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -38,6 +38,32 @@ import {
   console.log(`X Parameter: ${xParam}`);
   console.log(`Y Parameter: ${yParam}`);
 
+  const urlBase = urlParam || 'https://mframes.vercel.app/3.png';
+  let xFloat: number;
+  let yFloat: number;
+
+  xFloat = parseFloat(xParam || '261.83333333333337');
+  yFloat = parseFloat(yParam || '100.83333333333337');
+
+  if (buttonId == 1){
+    xFloat = xFloat - 5;
+  } else if (buttonId == 2){
+    xFloat = xFloat + 5;
+  } else if (buttonId == 1){
+    yFloat = yFloat - 5;
+  } else if (buttonId == 1){
+    yFloat = yFloat + 5;
+  }
+  
+
+  const { urlfinal, urlbase, x, y }: ImageDetails =  await moveImage(urlBase, xFloat, yFloat, {
+      x: 50, // Set overlay position X-coordinate to 50
+      y: 50, // Set overlay position Y-coordinate to 50
+    });
+
+    const postURL = 'https://mframes.vercel.app/api/masks/move?url='+urlBase+'&x='+x+'&y='+y;
+    console.log(postURL);
+
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
@@ -58,9 +84,8 @@ import {
             label: `🔽 Down`,
           },
         ],
-        //image: pfp+'.jpg',
-        image: 'https://mframes.vercel.app/1.png',
-        post_url: 'https://mframes.vercel.app/api/masks/move',
+        image: urlfinal,
+        post_url: postURL,
       }),
     );
   /*
