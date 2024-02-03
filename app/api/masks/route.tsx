@@ -62,11 +62,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         {
           //label: `${accountAddress}`,
-          label: `Left`,
+          label: `◀️ Left`,
         },
         {
           //label: `${accountAddress}`,
-          label: `Right`,
+          label: `Right ▶️`,
+        },
+        {
+          //label: `${accountAddress}`,
+          label: `🔼 Up`,
+        },
+        {
+          //label: `${accountAddress}`,
+          label: `🔽 Down`,
         },
       ],
       //image: pfp+'.jpg',
