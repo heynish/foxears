@@ -86,6 +86,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       //image: pfp+'.jpg',
       image: urlfinal,
       post_url: postURL,
+      refresh_period: 6,
     }),
   );
 /*

@@ -86,6 +86,7 @@ import {
         ],
         image: urlfinal,
         post_url: postURL,
+        refresh_period: 3,
       }),
     );
   /*
