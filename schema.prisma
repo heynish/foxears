@@ -23,7 +23,7 @@ model Masks {
   id         Int      @id @default(autoincrement())
   username   String
   address    String   @unique
-  totalloads Number
+  totalloads Int
   lastimage  String
   lastupdate DateTime @default(now())
   createdAt  DateTime @default(now())
