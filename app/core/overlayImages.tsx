@@ -1,16 +1,16 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
-import * as canvas from 'canvas';
-import * as faceapi from 'face-api.js';
-import * as tf from '@tensorflow/tfjs-node';
+//import * as canvas from 'canvas';
+//import * as faceapi from 'face-api.js';
+//import * as tf from '@tensorflow/tfjs-node';
 
-const { Canvas, Image, ImageData } = canvas
-faceapi.env.monkeyPatch({ Canvas, Image, ImageData } as any)
+//const { Canvas, Image, ImageData } = canvas
+//faceapi.env.monkeyPatch({ Canvas, Image, ImageData } as any)
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
-  y?: number; // Y-coordinate of the overlay position (default: 0)
+  y?: number; // Y-coordinate of the overlay npm i canvas@2.6.1position (default: 0)
 }
 
 
@@ -22,8 +22,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
     // Load face-api models
   //await faceapi.nets.tinyFaceDetector.loadFromDisk('/models');
-  await faceapi.nets.tinyFaceDetector.loadFromUri('https://mframes.vercel.app/models');
-  await faceapi.nets.faceLandmark68TinyNet.loadFromUri('https://mframes.vercel.app/models');
+  //await faceapi.nets.tinyFaceDetector.loadFromUri('https://mframes.vercel.app/models');
+  //await faceapi.nets.faceLandmark68TinyNet.loadFromUri('https://mframes.vercel.app/models');
   //await faceapi.nets.faceLandmark68Net.loadFromDisk('/models');
 
   // Scale down the picture (example: scale to 100x100)
@@ -86,7 +86,7 @@ croppedImage.mask(mask, 0, 0);
 
 
    
-
+/*
     //Detection Mask
     // Load the original image and crown using Jimp
   const [originalImage, crownImage] = await Promise.all([
@@ -108,7 +108,7 @@ croppedImage.mask(mask, 0, 0);
   //const detections = await faceapi.detectSingleFace(tensor).withFaceLandmarks();
 
   console.log('detections complete');
- /*
+ 
   // For each detection, add the crown
   if (detections) {
     const { landmarks } = detections;
