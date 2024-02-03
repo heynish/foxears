@@ -62,7 +62,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     const postURL = 'https://mframes.vercel.app/api/masks/move?url='+url+'&x='+x+'&y='+y;
     console.log(postURL);
-  console.log('return response');
+  console.log('return response', postURL);
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
