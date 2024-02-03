@@ -15,7 +15,7 @@ const imageUrl: string = 'http://example.com/image.jpg';
 const imageName: string = 'my-image.jpg';
 
 // Farcaster API
-const HUBBLE_URL = "https://846697.hubs.neynar.com:2281";
+const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
