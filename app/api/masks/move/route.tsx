@@ -22,17 +22,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
   const buttonId = message?.buttonIndex || 0;
-  console.log('1.2 buttonId', buttonId);
+  console.log('2.1 buttonId', buttonId);
 
   // Extracting individual query parameters
   const urlParam = searchParams.get('url');
   const xParam = searchParams.get('x');
   const yParam = searchParams.get('y');
-
-  // Example usage of the extracted parameters
-  console.log(`URL Parameter: ${urlParam}`);
-  console.log(`X Parameter: ${xParam}`);
-  console.log(`Y Parameter: ${yParam}`);
 
   const urlBase = urlParam || 'https://mframes.vercel.app/3.png';
   let xFloat: number;
@@ -58,7 +53,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   const postURL = 'https://mframes.vercel.app/api/masks/move?url=' + urlBase + '&x=' + x + '&y=' + y;
-  console.log("1.4", postURL);
+  console.log("2.3", postURL);
 
   return new NextResponse(
     getFrameHtmlResponse({

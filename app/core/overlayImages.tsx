@@ -59,8 +59,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     //Upload base image
     const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_PNG);
-    const baseUrl = await uploadToS3(bufferbase, crypto.randomBytes(7).toString('hex') + "b.png");
-    console.log('1.1.1 Base Image URL:', baseUrl);
+    const baseUrl = await uploadToS3(bufferbase, crypto.randomBytes(7).toString('hex') + ".png");
+    //console.log('1.1.1 Base Image URL:', baseUrl);
 
     // Resize and position the overlay image at the top inside of the circle
     const overlayDiameter = 250 / 3; // Sizing the overlay as 1/3 of the circle's diameter
@@ -78,7 +78,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     console.log('Calling final upload');
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + ".png");
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + "temp.png");
       return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);

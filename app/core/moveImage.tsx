@@ -22,7 +22,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
     // Calculate the position for the top overlay
     const overlayX = x;
     const overlayY = y;
-    console.log("1.3.1", x, y);
+    console.log("2.2.1", x, y);
     // Composite the overlay image onto the base image
     baseImage.composite(overlayImage, overlayX, overlayY);
 

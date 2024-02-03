@@ -30,7 +30,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       FID = message.fid ?? 3;
       //accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
       accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: process.env.NEYNAR_API_KEY });
-      console.log(accountAddress);
+      //console.log(accountAddress);
     } catch (err) {
       console.error(err);
     }
@@ -64,24 +64,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     lastimage: urlbase,
   };
 
-  // Add the user
-  async function checkUserAndPerformAction(username: string) {
-    try {
-      const totalLoads = await incrementUserTotalLoads(username);
-      if (totalLoads) {
-        console.log(`1.2 User exists.`);
-        // Perform actions based on the total loads
-      } else {
-        console.log('User does not exist.');
-        // Handle the case where the user does not exist
-        const newUser = await addUser(userData);
-        console.log('1.2 New User Added:', newUser);
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
+  // Add the user to db
+  try {
+    const totalLoads = await incrementUserTotalLoads(username);
+    if (totalLoads) {
+      console.log(`1.2 User exists.`, username);
+      // Perform actions based on the total loads
+    } else {
+      console.log('User does not exist.');
+      // Handle the case where the user does not exist
+      const newUser = await addUser(userData);
+      console.log('1.2 New User Added:', newUser);
     }
+  } catch (error) {
+    console.error('An error occurred:', error);
   }
-  checkUserAndPerformAction(userData.username);
+
   const postURL = 'https://mframes.vercel.app/api/masks/move?url=' + urlbase + '&x=' + x + '&y=' + y;
   console.log('1.3 return response', urlfinal, postURL);
   return new NextResponse(
