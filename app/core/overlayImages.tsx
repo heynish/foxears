@@ -75,7 +75,7 @@ croppedImage.mask(mask, 0, 0);
       console.log('Base Image URL:', baseUrl);
 
     // Resize and position the overlay image at the top inside of the circle
-    const overlayDiameter = diameter / 3; // Sizing the overlay as 1/3 of the circle's diameter
+    const overlayDiameter = 250 / 3; // Sizing the overlay as 1/3 of the circle's diameter
     overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
 
     // Calculate the position for the top overlay

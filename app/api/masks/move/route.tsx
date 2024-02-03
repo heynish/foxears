@@ -43,15 +43,15 @@ import {
   let yFloat: number;
 
   xFloat = parseFloat(xParam || '261.83333333333337');
-  yFloat = parseFloat(yParam || '100.83333333333337');
+  yFloat = parseFloat(yParam || '100.76666666666667');
 
   if (buttonId == 1){
     xFloat = xFloat - 5;
   } else if (buttonId == 2){
     xFloat = xFloat + 5;
-  } else if (buttonId == 1){
+  } else if (buttonId == 3){
     yFloat = yFloat - 5;
-  } else if (buttonId == 1){
+  } else if (buttonId == 4){
     yFloat = yFloat + 5;
   }
   
