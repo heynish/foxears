@@ -34,7 +34,7 @@ import {
       // Extract query parameters from the request
   const queryParams = req.nextUrl.searchParams;
 
-  console.log('imageUrl in move', imageUrl);
+  /*console.log('imageUrl in move', imageUrl);
   console.log('positionX in move', positionX);
   console.log('positionY in move', positionY);
 
@@ -44,7 +44,7 @@ import {
     x: positionX,
     y: positionY
   };
-  
+  */
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
