@@ -2,12 +2,6 @@ import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
-//import * as canvas from 'canvas';
-//import * as faceapi from 'face-api.js';
-//import * as tf from '@tensorflow/tfjs-node';
-
-//const { Canvas, Image, ImageData } = canvas
-//faceapi.env.monkeyPatch({ Canvas, Image, ImageData } as any)
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -21,14 +15,9 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const baseImage = await Jimp.read(baseImagePath);
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
-    // Load face-api models
-  //await faceapi.nets.tinyFaceDetector.loadFromDisk('/models');
-  //await faceapi.nets.tinyFaceDetector.loadFromUri('https://mframes.vercel.app/models');
-  //await faceapi.nets.faceLandmark68TinyNet.loadFromUri('https://mframes.vercel.app/models');
-  //await faceapi.nets.faceLandmark68Net.loadFromDisk('/models');
 
-  // Scale down the picture (example: scale to 100x100)
-  picture.resize(250, Jimp.AUTO);
+    // Scale down the picture (example: scale to 100x100)
+    picture.resize(250, Jimp.AUTO);
     // Determine the smallest dimension (width or height)
     const size = Math.min(picture.getWidth(), picture.getHeight());
 
@@ -36,26 +25,26 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const croppedImage = picture.crop(0, 0, size, size);
 
 
-  // Create a circle mask with full transparency
-const diameter = croppedImage.getWidth();
-const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
+    // Create a circle mask with full transparency
+    const diameter = croppedImage.getWidth();
+    const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
 
-// Draw a white circle on the mask
-mask.scan(0, 0, diameter, diameter, function(x, y, idx) {
-    const distance = Math.sqrt(
+    // Draw a white circle on the mask
+    mask.scan(0, 0, diameter, diameter, function (x, y, idx) {
+      const distance = Math.sqrt(
         Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
-    );
-    if (distance <= diameter / 2) {
+      );
+      if (distance <= diameter / 2) {
         // Paint the circle white
         this.bitmap.data[idx + 0] = 255; // Red channel
         this.bitmap.data[idx + 1] = 255; // Green channel
         this.bitmap.data[idx + 2] = 255; // Blue channel
         this.bitmap.data[idx + 3] = 255; // Alpha channel, 255 for full opacity
-    }
-});
+      }
+    });
 
-// Apply the circle mask onto the picture to cut out the circular area
-croppedImage.mask(mask, 0, 0);
+    // Apply the circle mask onto the picture to cut out the circular area
+    croppedImage.mask(mask, 0, 0);
 
     // Calculate the position to center the circle on the base image
     const x = (baseImage.bitmap.width / 2) - (diameter / 2);
@@ -69,10 +58,9 @@ croppedImage.mask(mask, 0, 0);
     });
 
     //Upload base image
-      console.log('Calling base upload');
-      const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_PNG);
-      const baseUrl = await uploadToS3(bufferbase, crypto.randomBytes(7).toString('hex')+"b.png");
-      console.log('Base Image URL:', baseUrl);
+    const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_PNG);
+    const baseUrl = await uploadToS3(bufferbase, crypto.randomBytes(7).toString('hex') + "b.png");
+    console.log('1.1.1 Base Image URL:', baseUrl);
 
     // Resize and position the overlay image at the top inside of the circle
     const overlayDiameter = 250 / 3; // Sizing the overlay as 1/3 of the circle's diameter
@@ -85,20 +73,17 @@ croppedImage.mask(mask, 0, 0);
     // Composite the overlay image onto the base image
     baseImage.composite(overlayImage, overlayX, overlayY);
 
-    console.log('Calling buffer');
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
     console.log('Calling final upload');
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
-      console.log('Image URL:', imageUrl);
-      return {urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY};
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + ".png");
+      return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);
     }
-    console.log('After calling uploadToS3');
-    return {urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl",  x: 0, y: 0};
+    return { urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl", x: 0, y: 0 };
   } catch (error) {
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
@@ -139,7 +124,7 @@ croppedImage.mask(mask, 0, 0);
     });*/
 
 
-   
+
 /*
     //Detection Mask
     // Load the original image and crown using Jimp

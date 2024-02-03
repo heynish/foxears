@@ -22,7 +22,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     }
   }
   const buttonId = message?.buttonIndex || 0;
-  console.log('buttonId', buttonId);
+  console.log('1.2 buttonId', buttonId);
 
   // Extracting individual query parameters
   const urlParam = searchParams.get('url');
@@ -58,7 +58,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   });
 
   const postURL = 'https://mframes.vercel.app/api/masks/move?url=' + urlBase + '&x=' + x + '&y=' + y;
-  console.log(postURL);
+  console.log("1.4", postURL);
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -82,11 +82,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       ],
       image: urlfinal,
       post_url: postURL,
-      refresh_period: 3,
+      refresh_period: 30,
     }),
   );
 }
-
 
 export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);

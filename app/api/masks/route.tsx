@@ -11,9 +11,6 @@ import { overlayImages } from '../../core/overlayImages';
 import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
-const imageUrl: string = 'http://example.com/image.jpg';
-const imageName: string = 'my-image.jpg';
-
 // Farcaster API
 //const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
@@ -52,13 +49,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const username = usernameData.data.userDataBody.value;
   const pfpData: UserData = await pfpRes.json();
   const pfp = pfpData.data.userDataBody.value;
-  console.log(pfp);
 
-  /*outputimage = await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
-    x: 50, // Set overlay position X-coordinate to 50
-    y: 50, // Set overlay position Y-coordinate to 50
-  });*/
-
+  console.log("1.1 Calling overlay", 'https://mframes.vercel.app/3.png', pfp + '.jpg', username + '.png');
   const { urlfinal, urlbase, x, y }: ImageDetails = await overlayImages('https://mframes.vercel.app/3.png', pfp + '.jpg', username + '.png', {
     x: 50, // Set overlay position X-coordinate to 50
     y: 50, // Set overlay position Y-coordinate to 50
@@ -77,13 +69,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
       const totalLoads = await incrementUserTotalLoads(username);
       if (totalLoads) {
-        console.log(`User exists.`);
+        console.log(`1.2 User exists.`);
         // Perform actions based on the total loads
       } else {
         console.log('User does not exist.');
         // Handle the case where the user does not exist
         const newUser = await addUser(userData);
-        console.log('New User Added:', newUser);
+        console.log('1.2 New User Added:', newUser);
       }
     } catch (error) {
       console.error('An error occurred:', error);
@@ -91,8 +83,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
   checkUserAndPerformAction(userData.username);
   const postURL = 'https://mframes.vercel.app/api/masks/move?url=' + urlbase + '&x=' + x + '&y=' + y;
-  console.log(postURL);
-  console.log('return response', postURL);
+  console.log('1.3 return response', urlfinal, postURL);
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
@@ -116,7 +107,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       //image: pfp+'.jpg',
       image: urlfinal,
       post_url: postURL,
-      refresh_period: 10,
+      refresh_period: 30,
     }),
   );
   /*

@@ -22,23 +22,20 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
     // Calculate the position for the top overlay
     const overlayX = x;
     const overlayY = y;
-
+    console.log("1.3.1", x, y);
     // Composite the overlay image onto the base image
     baseImage.composite(overlayImage, overlayX, overlayY);
 
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
-    console.log('Calling final upload');
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex')+".png");
-      console.log('Image URL:', imageUrl);
-      return {urlfinal: imageUrl, urlbase: "baseUrl", x: overlayX, y: overlayY};
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + ".png");
+      return { urlfinal: imageUrl, urlbase: "baseUrl", x: overlayX, y: overlayY };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);
     }
-    console.log('After calling uploadToS3');
-    return {urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl",  x: 0, y: 0};
+    return { urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl", x: 0, y: 0 };
   } catch (error) {
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
@@ -79,7 +76,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
     });*/
 
 
-   
+
 /*
     //Detection Mask
     // Load the original image and crown using Jimp
