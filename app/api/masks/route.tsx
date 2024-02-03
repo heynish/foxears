@@ -9,6 +9,7 @@ import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
 import ImageDetails from '../../core/imageData';
+import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
 const imageUrl: string = 'http://example.com/image.jpg';
 const imageName: string = 'my-image.jpg';
@@ -60,6 +61,32 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       y: 50, // Set overlay position Y-coordinate to 50
     });
 
+    //save to db
+    const userData = {
+      username: username,
+      address: accountAddress || "",
+      totalloads: 1,
+      lastimage: urlbase,
+    };
+    
+    // Add the user
+    async function checkUserAndPerformAction(username: string) {
+      try {
+        const totalLoads = await incrementUserTotalLoads(username);
+        if (totalLoads) {
+          console.log(`User exists.`);
+          // Perform actions based on the total loads
+        } else {
+          console.log('User does not exist.');
+          // Handle the case where the user does not exist
+          const newUser = await addUser(userData);
+          console.log('New User Added:', newUser);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    }
+    checkUserAndPerformAction(userData.username);
     const postURL = 'https://mframes.vercel.app/api/masks/move?url='+urlbase+'&x='+x+'&y='+y;
     console.log(postURL);
   console.log('return response', postURL);

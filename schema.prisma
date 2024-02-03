@@ -22,7 +22,7 @@ model User {
 model Masks {
   id         Int      @id @default(autoincrement())
   username   String
-  address    String   @unique
+  address    String
   totalloads Int
   lastimage  String
   lastupdate DateTime @default(now())
