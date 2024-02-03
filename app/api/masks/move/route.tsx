@@ -9,15 +9,8 @@ import {
   import ImageDetails from '../../../core/imageData';
   
   async function getResponse(req: NextRequest): Promise<NextResponse> {
-
-      // Parse the image URL and coordinates from the query params
-  /*const imageUrl = req.['imageUrl'];
-  const positionX = parseInt(queryParams.get('positionX') || '0', 10);
-  const positionY = parseInt(queryParams.get('positionY') || '0', 10);*/
-
-  console.log(req.json());
-
-    const body: FrameRequest = await req.json();
+    const response = await req.json();
+    const body: FrameRequest = response;
     const { isValid, message } = await getFrameMessage(body);
     if (isValid) {
       try {
@@ -32,9 +25,15 @@ import {
     const buttonId = message?.buttonIndex || 0;
     console.log('buttonId', buttonId);
       // Extract query parameters from the request
-  const queryParams = req.nextUrl.searchParams;
+      console.log(response);
+      console.log(body);
+  /*const queryParams = req.nextUrl.searchParams;
+  // Parse the image URL and coordinates from the query params
+  const imageUrl = req.['imageUrl'];
+  const positionX = parseInt(queryParams.get('positionX') || '0', 10);
+  const positionY = parseInt(queryParams.get('positionY') || '0', 10);
 
-  /*console.log('imageUrl in move', imageUrl);
+  console.log('imageUrl in move', imageUrl);
   console.log('positionX in move', positionX);
   console.log('positionY in move', positionY);
 
