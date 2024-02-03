@@ -71,7 +71,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       console.log(`1.2 User exists.`, username);
       // Perform actions based on the total loads
     } else {
-      console.log('User does not exist.');
       // Handle the case where the user does not exist
       const newUser = await addUser(userData);
       console.log('1.2 New User Added:', newUser);

@@ -76,7 +76,6 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
-    console.log('Calling final upload');
     try {
       const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + "temp.png");
       return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY };
