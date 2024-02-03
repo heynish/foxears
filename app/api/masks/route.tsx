@@ -8,6 +8,7 @@ import {
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
+import ImageDetails from '../../core/imageData';
 
 const imageUrl: string = 'http://example.com/image.jpg';
 const imageName: string = 'my-image.jpg';
@@ -49,12 +50,17 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfp = pfpData.data.userDataBody.value;
     console.log(pfp);
 
-    outputimage = await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
+    /*outputimage = await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
+      x: 50, // Set overlay position X-coordinate to 50
+      y: 50, // Set overlay position Y-coordinate to 50
+    });*/
+
+    const { url, x, y }: ImageDetails =  await overlayImages('https://mframes.vercel.app/3.png', pfp+'.jpg', username+'.png', {
       x: 50, // Set overlay position X-coordinate to 50
       y: 50, // Set overlay position Y-coordinate to 50
     });
 
-
+    const postURL = 'https://mframes.vercel.app/api/masks/move?'+'x='+x+'&y='+y;
   console.log(outputimage);
   console.log('return response');
   return new NextResponse(
@@ -78,8 +84,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       //image: pfp+'.jpg',
-      image: outputimage,
-      post_url: 'https://mframes.vercel.app/api/masks/',
+      image: url,
+      post_url: postURL,
     }),
   );
 /*
