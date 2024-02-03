@@ -9,6 +9,9 @@ import {
   import ImageDetails from '../../../core/imageData';
   
   async function getResponse(req: NextRequest): Promise<NextResponse> {
+    // Get the URL object from the request
+  const { searchParams } = req.nextUrl;
+
     const response = await req.json();
     const body: FrameRequest = response;
     const { isValid, message } = await getFrameMessage(body);
@@ -24,26 +27,17 @@ import {
     }
     const buttonId = message?.buttonIndex || 0;
     console.log('buttonId', buttonId);
-      // Extract query parameters from the request
-      console.log(response);
-      console.log(body);
-  /*const queryParams = req.nextUrl.searchParams;
-  // Parse the image URL and coordinates from the query params
-  const imageUrl = req.['imageUrl'];
-  const positionX = parseInt(queryParams.get('positionX') || '0', 10);
-  const positionY = parseInt(queryParams.get('positionY') || '0', 10);
+ 
+       // Extracting individual query parameters
+  const urlParam = searchParams.get('url');
+  const xParam = searchParams.get('x');
+  const yParam = searchParams.get('y');
 
-  console.log('imageUrl in move', imageUrl);
-  console.log('positionX in move', positionX);
-  console.log('positionY in move', positionY);
+  // Example usage of the extracted parameters
+  console.log(`URL Parameter: ${urlParam}`);
+  console.log(`X Parameter: ${xParam}`);
+  console.log(`Y Parameter: ${yParam}`);
 
-  // Construct the result object based on the extracted parameters
-  const result: ImageDetails = {
-    url: imageUrl || 'defaultImageUrl', // Provide a default or handle the absence of imageUrl appropriately
-    x: positionX,
-    y: positionY
-  };
-  */
     return new NextResponse(
       getFrameHtmlResponse({
         buttons: [
