@@ -13,9 +13,9 @@ const frameMetadata = getFrameMetadata({
 });
 
 export const metadata: Metadata = {
-  //metadataBase: new URL('https://mframes.vercel.app'),
-  //title: 'Fox Yourself',
-  //description: 'Get a mask',
+  metadataBase: new URL('https://mframes.vercel.app'),
+  title: 'Fox Yourself',
+  description: 'Get a mask',
   openGraph: {
     title: 'Fox Yourself',
     description: 'Get a mask',

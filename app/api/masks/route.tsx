@@ -39,19 +39,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     const overlayImageOptions = { x: 50, y: 50 }; // Overlay positions
     const { urlfinal, urlbase, x, y }: ImageDetails = await overlayImages('https://mframes.vercel.app/3.png', `${pfp}.jpg`, `${username}.png`, overlayImageOptions);
+
+    const userData = {
+      username,
+      address: accountAddress || "",
+      totalloads: 1,
+      following: follow,
+      image: urlbase,
+    };
+
+    let newUser = false;
+    const totalLoads = await incrementUserTotalLoads(username);
+    newUser = totalLoads ? false : await addUser(userData);
     /*
-        const userData = {
-          username,
-          address: accountAddress || "",
-          totalloads: 1,
-          following: follow,
-          image: urlbase,
-        };
-    
-        let newUser = false;
-        const totalLoads = await incrementUserTotalLoads(username);
-        newUser = totalLoads ? false : await addUser(userData);
-    
         const postURL = `https://mframes.vercel.app/api/masks/move?url=${urlbase}&x=${x}&y=${y}`;
     
         return new NextResponse(getFrameHtmlResponse({
