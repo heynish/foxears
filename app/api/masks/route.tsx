@@ -1,10 +1,8 @@
 import {
   FrameRequest,
-  //getFrameAccountAddress,
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
-//import { getFrameAccountPFP } from '../../core/getFrameAccountPFP';
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
@@ -30,7 +28,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       // Get the Farcaster ID from the message
       FID = message.interactor.fid ?? 3;
       follow = message.following;
-      //accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
       accountAddress = message.interactor.custody_address;
       console.log("verifiedAddress", message.interactor.verified_accounts);
     } catch (err) {
