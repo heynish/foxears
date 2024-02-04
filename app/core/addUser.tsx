@@ -10,8 +10,6 @@ interface UserData {
 }
 
 export async function addUser(userData: UserData) {
-    console.time('Create User From Supabase');
-    console.log(userData);
 
     const { data, error } = await supabase
         .from('masks') // Replace with your actual table name
@@ -24,8 +22,6 @@ export async function addUser(userData: UserData) {
             image: userData.image,
         }]);
 
-    console.timeEnd('Create User From Supabase');
-
     if (error) {
         console.error("Supabase insertion error:", error);
         return false; // Return false to indicate the operation failed
@@ -35,8 +31,6 @@ export async function addUser(userData: UserData) {
 }
 
 export async function incrementUserTotalLoads(username: string) {
-    console.time('Fetch and Update User From Supabase');
-    console.log(username);
 
     const { data, error } = await supabase
         .from('masks') // Replace with your actual table name
@@ -46,7 +40,6 @@ export async function incrementUserTotalLoads(username: string) {
 
     if (error) {
         console.log("Supabase select error:", error);
-        console.timeEnd('Fetch and Update User From Supabase');
         return false; // Return false to indicate the operation failed
     }
 
@@ -59,8 +52,6 @@ export async function incrementUserTotalLoads(username: string) {
             })
             .match({ id: data.id });
 
-        console.timeEnd('Fetch and Update User From Supabase');
-
         if (updateError) {
             console.log("Supabase update error:", updateError);
             return false; // Return false to indicate the operation failed
@@ -69,7 +60,6 @@ export async function incrementUserTotalLoads(username: string) {
         return true; // Return true to indicate the operation was successful
     } else {
         console.log("User not found for updating total loads");
-        console.timeEnd('Fetch and Update User From Supabase');
         return false; // Return false to indicate the user was not found
     }
 }
