@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import prisma from '../lib/prisma';
 
 export async function addUser(userData: {
+
     username: string;
     address: string;
     totalloads: number;
@@ -19,6 +20,7 @@ export async function addUser(userData: {
             image: userData.image,
         },
     });
+    await prisma.$disconnect();
     console.timeEnd('Create User From Postgres');
     return true;
 }
@@ -29,6 +31,7 @@ export async function incrementUserTotalLoads(username: string): Promise<boolean
             username: username,
         }
     });
+    await prisma.$disconnect();
     console.timeEnd('Fetch User From Postgres');
 
 
@@ -46,6 +49,7 @@ export async function incrementUserTotalLoads(username: string): Promise<boolean
                 lastupdate: new Date(),
             },
         });
+        await prisma.$disconnect();
         console.timeEnd('Update User From Postgres');
         return true; // Return true to indicate success
     }

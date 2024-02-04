@@ -9,6 +9,7 @@ datasource db {
   // Uses direct connection, ⚠️ make sure to keep this to `POSTGRES_URL_NON_POOLING`
   // or you'll have dangling databases from migrations
   directUrl = env("POSTGRES_URL_NON_POOLING")
+  poolSize = 10
 }
  
 model User {
