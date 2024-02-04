@@ -1,6 +1,7 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import prisma from './lib/prisma';
 
 const frameMetadata = getFrameMetadata({
   buttons: [

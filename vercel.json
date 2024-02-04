@@ -3,9 +3,9 @@
     "functions": {
         "api/**": {
             "runtime": "nodejs18.x",
-            "scale": {
-                "min": 1
-            }
+            "memory": 3008,
+            "maxDuration": 10,
+            "includeFiles": "api/api/**"
         }
     }
 }
