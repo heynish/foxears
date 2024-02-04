@@ -1,4 +1,61 @@
-import { PrismaClient } from '@prisma/client';
+import { createClient } from '@supabase/supabase-js'
+
+// Initialize the Supabase client
+const supabaseUrl = process.env.SUPABASE_URL!; // Replace with your Supabase URL
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!; // Replace with your Supabase anon/public key
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+interface UserData {
+    username: string;
+    address: string;
+    totalloads: number;
+    following: boolean;
+    image: string;
+}
+
+export async function addUser(userData: UserData) {
+    console.time('Create User From Supabase');
+    const { data, error } = await supabase
+        .from('masks') // Replace with your actual table name
+        .insert([{
+            username: userData.username,
+            address: userData.address,
+            totalloads: userData.totalloads,
+            following: userData.following,
+            image: userData.image,
+        }]);
+    console.timeEnd('Create User From Supabase');
+    return !error;
+}
+
+export async function incrementUserTotalLoads(username: string) {
+    console.time('Fetch and Update User From Supabase');
+
+    const { data, error } = await supabase
+        .from('masks') // Replace with your actual table name
+        .select('id, totalloads')
+        .eq('username', username)
+        .single();
+
+    if (data) {
+        const { error: updateError } = await supabase
+            .from('masks') // Replace with your actual table name
+            .update({
+                totalloads: data.totalloads + 1,
+                lastupdate: new Date(),
+            })
+            .match({ id: data.id });
+
+        console.timeEnd('Fetch and Update User From Supabase');
+        return !updateError;
+    }
+
+    console.timeEnd('Fetch and Update User From Supabase');
+    return false; // Return false to indicate the user was not found
+}
+
+
+/*import { PrismaClient } from '@prisma/client';
 //const prisma = new PrismaClient();
 import prisma from '../lib/prisma';
 
@@ -56,4 +113,4 @@ export async function incrementUserTotalLoads(username: string): Promise<boolean
 
 
     return false; // Return false to indicate the user was not found
-}
+}*/
