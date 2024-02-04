@@ -1,6 +1,6 @@
 import {
   FrameRequest,
-  getFrameAccountAddress,
+  //getFrameAccountAddress,
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
@@ -18,19 +18,21 @@ const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   let accountAddress: string | undefined = '';
-  let outputimage: string | undefined = 'https://mframes.vercel.app/2.png';
-  let accountPFP: string | undefined = '';
+  let follow: boolean | undefined = false;
   let FID: number | undefined = 3;
 
   const body: FrameRequest = await req.json();
-  const { isValid, message } = await getFrameMessage(body);
+  const { isValid, message } = await getFrameMessage(body, {
+    neynarApiKey: process.env.NEYNAR_API_KEY
+  });
   if (isValid) {
     try {
       // Get the Farcaster ID from the message
-      FID = message.fid ?? 3;
+      FID = message.interactor.fid ?? 3;
+      follow = message.following;
       //accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: 'NEYNAR_API_DOCS' });
-      accountAddress = await getFrameAccountAddress(message, { NEYNAR_API_KEY: process.env.NEYNAR_API_KEY });
-      //console.log(accountAddress);
+      accountAddress = message.interactor.custody_address;
+      console.log("verifiedAddress", message.interactor.verified_accounts);
     } catch (err) {
       console.error(err);
     }
@@ -61,7 +63,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     username: username,
     address: accountAddress || "",
     totalloads: 1,
-    lastimage: urlbase,
+    following: follow,
+    image: urlbase,
   };
 
   // Add the user to db

@@ -21,10 +21,11 @@ model User {
 
 model Masks {
   id         Int      @id @default(autoincrement())
-  username   String
+  username   String   @unique
   address    String
   totalloads Int
-  lastimage  String
+  following  Boolean
+  image      String
   lastupdate DateTime @default(now())
   createdAt  DateTime @default(now())
 }
