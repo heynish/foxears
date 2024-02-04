@@ -81,7 +81,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const userData = {
       username,
       address: accountAddress || "",
-      totalloads: 1,
+      loads: 1,
       following: follow,
       image: urlbase,
     };
