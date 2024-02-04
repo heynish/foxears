@@ -17,7 +17,7 @@ export async function addUser(userData: {
       image: userData.image,
     },
   });
-  return newUser;
+  return true;
 }
 
 export async function incrementUserTotalLoads(username: string): Promise<boolean> {
