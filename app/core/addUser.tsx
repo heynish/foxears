@@ -17,7 +17,7 @@ export async function addUser(userData: UserData) {
         .insert([{
             username: userData.username,
             address: userData.address,
-            totalloads: userData.totalloads,
+            loads: userData.totalloads,
             following: userData.following,
             image: userData.image,
         }]);
@@ -52,7 +52,7 @@ export async function incrementUserTotalLoads(username: string) {
         const { error: updateError } = await supabase
             .from('masks') // Again, replace with your actual table name
             .update({
-                totalloads: data.totalloads + 1,
+                loads: data.totalloads + 1,
                 lastupdate: new Date(),
             })
             .match({ id: data.id });
