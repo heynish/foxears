@@ -15,6 +15,7 @@ interface UserData {
 
 export async function addUser(userData: UserData) {
     console.time('Create User From Supabase');
+    console.log(userData);
     const { data, error } = await supabase
         .from('masks') // Replace with your actual table name
         .insert([{
@@ -30,7 +31,7 @@ export async function addUser(userData: UserData) {
 
 export async function incrementUserTotalLoads(username: string) {
     console.time('Fetch and Update User From Supabase');
-
+    console.log(username);
     const { data, error } = await supabase
         .from('masks') // Replace with your actual table name
         .select('id, totalloads')
