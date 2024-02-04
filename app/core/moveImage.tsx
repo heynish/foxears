@@ -28,9 +28,9 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
 
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
-
+    const newbuffer = Buffer.from(buffer);
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + "temp.png");
+      const imageUrl = await uploadToS3(newbuffer, crypto.randomBytes(16).toString('hex') + "temp.png");
       return { urlfinal: imageUrl, urlbase: "baseUrl", x: overlayX, y: overlayY };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);
