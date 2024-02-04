@@ -19,7 +19,7 @@
     "@mapbox/node-pre-gyp": "^1.0.11",
     "@prisma/client": "^5.9.1",
     "bufferutil": "^4.0.8",
-    "jimp": "^0.22.10",
+    "jimp": "^0.3.5",
     "next": "13.5.6",
     "react": "^18",
     "react-dom": "^18.2.0"

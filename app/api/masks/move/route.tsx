@@ -8,6 +8,87 @@ import { moveImage } from '../../../core/moveImage';
 import ImageDetails from '../../../core/imageData';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+  // Extract query parameters from the request URL
+  const { searchParams } = req.nextUrl;
+
+  let buttonId: number | undefined;
+
+  try {
+    const body: FrameRequest = await req.json();
+    const { isValid, message } = await getFrameMessage(body);
+
+    if (!isValid) {
+      throw new Error('Invalid message received.');
+    }
+
+    buttonId = message.button || 1;
+
+    const urlBase = searchParams.get('url') ?? 'https://mframes.vercel.app/3.png';
+    const xParam = searchParams.get('x') ?? '261.83333333333337';
+    const yParam = searchParams.get('y') ?? '100.76666666666667';
+
+    let xFloat = parseFloat(xParam);
+    let yFloat = parseFloat(yParam);
+
+    switch (buttonId) {
+      case 1:
+        xFloat -= 5;
+        break;
+      case 2:
+        xFloat += 5;
+        break;
+      case 3:
+        yFloat -= 5;
+        break;
+      case 4:
+        yFloat += 5;
+        break;
+      default:
+        throw new Error('Invalid button ID.');
+    }
+
+    const { urlfinal, x, y }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, {
+      x: 50, // Overlay position X-coordinate
+      y: 50, // Overlay position Y-coordinate
+    });
+
+    const postURL = `https://mframes.vercel.app/api/masks/move?url=${urlBase}&x=${x}&y=${y}`;
+
+    return new NextResponse(getFrameHtmlResponse({
+      buttons: [
+        { label: '◀️ Left' },
+        { label: 'Right ▶️' },
+        { label: '⬆ Up' },
+        { label: '⬇ Down' }
+      ],
+      image: urlfinal,
+      post_url: postURL,
+      refresh_period: 30,
+    }));
+
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return new NextResponse('An error occurred', { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  return getResponse(req);
+}
+
+export const dynamic = 'force-dynamic';
+
+/*
+import {
+  FrameRequest,
+  getFrameMessage,
+  getFrameHtmlResponse,
+} from '@coinbase/onchainkit';
+import { NextRequest, NextResponse } from 'next/server';
+import { moveImage } from '../../../core/moveImage';
+import ImageDetails from '../../../core/imageData';
+
+async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Get the URL object from the request
   const { searchParams } = req.nextUrl;
   let buttonId: number | undefined = 1;
@@ -87,4 +168,4 @@ export async function POST(req: NextRequest): Promise<Response> {
   return getResponse(req);
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';*/
