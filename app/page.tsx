@@ -8,7 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 const frameMetadata = getFrameMetadata({
   buttons: [
     {
-      label: 'Try Me 🦊',
+      label: '🦊 Lets go',
     },
   ],
   image: `https://mframes.vercel.app/1.png`,

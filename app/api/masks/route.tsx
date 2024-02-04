@@ -13,8 +13,25 @@ import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 // Define the HUBBLE_URL endpoint
 const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
 
+// Define a timeout function that returns a Promise
+function timeout(ms: number): Promise<NextResponse> {
+  return new Promise(resolve => setTimeout(() => {
+    resolve(new NextResponse(getFrameHtmlResponse({
+      buttons: [
+        {
+          label: '🔄 Refresh',
+        },
+      ],
+      image: `https://mframes.vercel.app/1.png`,
+      post_url: `https://mframes.vercel.app/api/masks`,
+    })));
+  }, ms));
+}
+
 // Async function to handle the GET response
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+
+
   console.time('Total Request Handling Time');
 
   let accountAddress: string | undefined = '';
@@ -102,7 +119,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
 // Export the POST function that routes to getResponse
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  return getResponse(req);
+  try {
+    return await Promise.race([
+      getResponse(req),
+      timeout(4990) // Set the timeout just under 5 seconds at 4.99 seconds
+    ]);
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return new NextResponse('An error occurred', { status: 500 });
+  }
 }
 
 // Force-dynamic export to ensure serverless function behavior

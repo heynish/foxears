@@ -17,7 +17,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
 
     // Scale down the picture (example: scale to 100x100)
-    picture.resize(250, Jimp.AUTO);
+    picture.resize(300, Jimp.AUTO);
     // Determine the smallest dimension (width or height)
     const size = Math.min(picture.getWidth(), picture.getHeight());
 
