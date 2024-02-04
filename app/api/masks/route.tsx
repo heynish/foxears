@@ -122,7 +122,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     return await Promise.race([
       getResponse(req),
-      timeout(499) // Set the timeout just under 5 seconds at 4.99 seconds
+      timeout(4990) // Set the timeout just under 5 seconds at 4.99 seconds
     ]);
   } catch (error) {
     console.error('An error occurred:', error);
