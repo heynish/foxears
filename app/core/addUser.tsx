@@ -1,9 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
 
-// Initialize the Supabase client
-const supabaseUrl = process.env.SUPABASE_URL!; // Replace with your Supabase URL
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!; // Replace with your Supabase anon/public key
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../lib/supabase';
 
 interface UserData {
     username: string;
