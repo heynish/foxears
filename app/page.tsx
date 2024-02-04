@@ -38,14 +38,25 @@ export default function Page() {
       </head>
       <body>
         {/* Existing content */}
-        <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+        <div style={{
+          position: 'relative',
+          width: '100vw',
+          height: '100vh', // Set the height to fill the viewport
+          display: 'flex', // Use flexbox for centering
+          justifyContent: 'center', // Center horizontally
+          alignItems: 'center', // Center vertically
+          overflow: 'hidden'
+        }}>
           <Image
             src='https://mframes.vercel.app/1.png'
             alt='Background Image'
-            layout='fill'
+            layout='intrinsic'
+            width={1920} // Actual width of the image
+            height={1080} // Actual height of the image
             objectFit='cover'
             quality={100}
           />
+          {/* Additional content that determines the height of the div */}
         </div>
       </body>
     </>
