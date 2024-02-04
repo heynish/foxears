@@ -1,4 +1,4 @@
-// Import required modules
+
 import {
   FrameRequest,
   getFrameMessage,

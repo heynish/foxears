@@ -9,6 +9,7 @@ export async function addUser(userData: {
     following: boolean;
     image: string;
 }) {
+    console.time('Create User From Postgres');
     const newUser = await prisma.masks.create({
         data: {
             username: userData.username,
@@ -18,17 +19,22 @@ export async function addUser(userData: {
             image: userData.image,
         },
     });
+    console.timeEnd('Create User From Postgres');
     return true;
 }
 export async function incrementUserTotalLoads(username: string): Promise<boolean> {
+    console.time('Fetch User From Postgres');
     const user = await prisma.masks.findFirst({
         where: {
             username: username,
         }
     });
+    console.timeEnd('Fetch User From Postgres');
+
 
     if (user) {
         // User found, increment totalloads
+        console.time('Update User From Postgres');
         await prisma.masks.update({
             where: {
                 id: user.id,
@@ -40,8 +46,10 @@ export async function incrementUserTotalLoads(username: string): Promise<boolean
                 lastupdate: new Date(),
             },
         });
+        console.timeEnd('Update User From Postgres');
         return true; // Return true to indicate success
     }
+
 
     return false; // Return false to indicate the user was not found
 }
