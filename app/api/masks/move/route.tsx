@@ -59,7 +59,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         { label: '◀️ Left' },
         { label: 'Right ▶️' },
         { label: '⬆ Up' },
-        //{ label: '⬇ Down' }
+        { label: '⬇ Down' }
       ],
       image: urlfinal,
       post_url: postURL,
