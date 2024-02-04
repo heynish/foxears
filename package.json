@@ -5,12 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "format": "prettier --log-level warn --write .",
-    "build": "rm -rf .next && next build && npx prisma db push && npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postbuild": "prisma generate",
-    "postinstall": "prisma generate"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "https://twitter.com/heynmodi",
   "dependencies": {
