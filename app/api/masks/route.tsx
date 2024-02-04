@@ -51,20 +51,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     let newUser = false;
     const totalLoads = await incrementUserTotalLoads(username);
     newUser = totalLoads ? false : await addUser(userData);
-    /*
-        const postURL = `https://mframes.vercel.app/api/masks/move?url=${urlbase}&x=${x}&y=${y}`;
-    
-        return new NextResponse(getFrameHtmlResponse({
-          buttons: [
-            { label: `◀️ Left` },
-            { label: `Right ▶️` },
-            { label: '⬆ Up' },
-            { label: '⬇ Down' }
-          ],
-          image: urlfinal,
-          post_url: postURL,
-          refresh_period: 30,
-        }));*/
+
+    const postURL = `https://mframes.vercel.app/api/masks/move?url=${urlbase}&x=${x}&y=${y}`;
+
+    return new NextResponse(getFrameHtmlResponse({
+      buttons: [
+        { label: `◀️ Left` },
+        { label: `Right ▶️` },
+        { label: '⬆ Up' },
+        { label: '⬇ Down' }
+      ],
+      image: urlfinal,
+      post_url: postURL,
+      refresh_period: 30,
+    }));
 
     return new NextResponse(getFrameHtmlResponse({
       buttons: [
