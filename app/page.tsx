@@ -1,6 +1,7 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Head from 'next/head';
 import s3Client from './core/uploadToS3';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -31,31 +32,27 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <head>
+      <Head>
         <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon" />
         {/* Add any other meta tags, title, or links needed here */}
-      </head>
+      </Head>
       <body>
         {/* Existing content */}
         <div style={{
-          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           width: '100vw',
-          height: '100vh', // Set the height to fill the viewport
-          display: 'flex', // Use flexbox for centering
-          justifyContent: 'center', // Center horizontally
-          alignItems: 'center', // Center vertically
-          overflow: 'hidden'
+          height: '100vh',
+          overflow: 'hidden',
+          position: 'relative' // Needed for next/image to work properly
         }}>
           <Image
             src='https://mframes.vercel.app/1.png'
             alt='Background Image'
-            layout='intrinsic'
-            width={1920} // Actual width of the image
-            height={1080} // Actual height of the image
-            objectFit='cover'
-            quality={100}
+            layout='intrinsic'  // This ensures the image maintains its natural width and height
           />
-          {/* Additional content that determines the height of the div */}
+          {/* Additional content */}
         </div>
       </body>
     </>

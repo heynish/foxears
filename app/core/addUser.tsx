@@ -45,7 +45,7 @@ export async function incrementUserTotalLoads(username: string) {
         .single();
 
     if (error) {
-        console.error("Supabase select error:", error);
+        console.log("Supabase select error:", error);
         console.timeEnd('Fetch and Update User From Supabase');
         return false; // Return false to indicate the operation failed
     }
@@ -62,13 +62,13 @@ export async function incrementUserTotalLoads(username: string) {
         console.timeEnd('Fetch and Update User From Supabase');
 
         if (updateError) {
-            console.error("Supabase update error:", updateError);
+            console.log("Supabase update error:", updateError);
             return false; // Return false to indicate the operation failed
         }
 
         return true; // Return true to indicate the operation was successful
     } else {
-        console.error("User not found for updating total loads");
+        console.log("User not found for updating total loads");
         console.timeEnd('Fetch and Update User From Supabase');
         return false; // Return false to indicate the user was not found
     }
