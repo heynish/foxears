@@ -26,7 +26,7 @@ export async function addUser(userData: {
 }
 export async function incrementUserTotalLoads(username: string): Promise<boolean> {
     console.time('Fetch User From Postgres');
-    const user = await prisma.masks.findFirst({
+    const user = await prisma.masks.findUnique({
         where: {
             username: username,
         }
