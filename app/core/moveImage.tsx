@@ -22,7 +22,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
 
     // Optimization: Use constants for fixed values
     const CIRCLE_DIAMETER_RATIO = 1 / 3;
-    const overlayDiameter = 250 * CIRCLE_DIAMETER_RATIO; // Sizing the overlay as 1/3 of the circle's diameter
+    const overlayDiameter = 300 * CIRCLE_DIAMETER_RATIO; // Sizing the overlay as 1/3 of the circle's diameter
 
     // Resize and position the overlay image
     overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio

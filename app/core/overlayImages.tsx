@@ -64,7 +64,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     //console.log('1.1.1 Base Image URL:', baseUrl);
 
     // Resize and position the overlay image at the top inside of the circle
-    const overlayDiameter = 250 / 3; // Sizing the overlay as 1/3 of the circle's diameter
+    const overlayDiameter = 300 / 3; // Sizing the overlay as 1/3 of the circle's diameter
     overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
 
     // Calculate the position for the top overlay
