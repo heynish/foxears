@@ -1,5 +1,6 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 
 const frameMetadata = getFrameMetadata({
   buttons: [
@@ -34,18 +35,15 @@ export default function Page() {
       </head>
       <body>
         {/* Existing content */}
-        <img
-          src='https://mframes.vercel.app/1.png'
-          style={{
-            height: '100vh', // Viewport height
-            width: '100vw', // Viewport width
-            objectFit: 'cover', // Cover the viewport
-            position: 'absolute', // Position it over the page content
-            top: 0,
-            left: 0,
-            zIndex: -1 // Keep it behind other content
-          }}
-        />
+        <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+          <Image
+            src='https://mframes.vercel.app/1.png'
+            alt='Background Image'
+            layout='fill'
+            objectFit='cover'
+            quality={100}
+          />
+        </div>
       </body>
     </>
   );
