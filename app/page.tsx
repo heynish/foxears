@@ -1,7 +1,6 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import prisma from './lib/prisma';
 import s3Client from './core/uploadToS3';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 

@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 interface UserData {
     username: string;
     address: string;
-    totalloads: number;
+    loads: number;
     following: boolean;
     image: string;
 }
@@ -17,7 +17,7 @@ export async function addUser(userData: UserData) {
         .insert([{
             username: userData.username,
             address: userData.address,
-            loads: userData.totalloads,
+            loads: userData.loads,
             following: userData.following,
             image: userData.image,
         }]);
@@ -38,7 +38,7 @@ export async function incrementUserTotalLoads(username: string) {
 
     const { data, error } = await supabase
         .from('masks') // Replace with your actual table name
-        .select('id, totalloads')
+        .select('id, loads')
         .eq('username', username)
         .single();
 
@@ -52,7 +52,7 @@ export async function incrementUserTotalLoads(username: string) {
         const { error: updateError } = await supabase
             .from('masks') // Again, replace with your actual table name
             .update({
-                loads: data.totalloads + 1,
+                loads: data.loads + 1,
                 lastupdate: new Date(),
             })
             .match({ id: data.id });
@@ -71,64 +71,3 @@ export async function incrementUserTotalLoads(username: string) {
         return false; // Return false to indicate the user was not found
     }
 }
-
-
-/*import { PrismaClient } from '@prisma/client';
-//const prisma = new PrismaClient();
-import prisma from '../lib/prisma';
-
-export async function addUser(userData: {
-
-    username: string;
-    address: string;
-    totalloads: number;
-    following: boolean;
-    image: string;
-}) {
-    console.time('Create User From Postgres');
-    const newUser = await prisma.masks.create({
-        data: {
-            username: userData.username,
-            address: userData.address,
-            totalloads: userData.totalloads,
-            following: userData.following,
-            image: userData.image,
-        },
-    });
-    await prisma.$disconnect();
-    console.timeEnd('Create User From Postgres');
-    return true;
-}
-export async function incrementUserTotalLoads(username: string): Promise<boolean> {
-    console.time('Fetch User From Postgres');
-    const user = await prisma.masks.findUnique({
-        where: {
-            username: username,
-        }
-    });
-    await prisma.$disconnect();
-    console.timeEnd('Fetch User From Postgres');
-
-
-    if (user) {
-        // User found, increment totalloads
-        console.time('Update User From Postgres');
-        await prisma.masks.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                totalloads: {
-                    increment: 1, // This uses Prisma's increment feature
-                },
-                lastupdate: new Date(),
-            },
-        });
-        await prisma.$disconnect();
-        console.timeEnd('Update User From Postgres');
-        return true; // Return true to indicate success
-    }
-
-
-    return false; // Return false to indicate the user was not found
-}*/
