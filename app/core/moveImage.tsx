@@ -30,7 +30,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
 
     try {
-      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + ".png");
+      const imageUrl = await uploadToS3(buffer, crypto.randomBytes(16).toString('hex') + "temp.png");
       return { urlfinal: imageUrl, urlbase: "baseUrl", x: overlayX, y: overlayY };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);

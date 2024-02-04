@@ -1,6 +1,5 @@
 import {
   FrameRequest,
-  getFrameAccountAddress,
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
@@ -11,17 +10,19 @@ import ImageDetails from '../../../core/imageData';
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Get the URL object from the request
   const { searchParams } = req.nextUrl;
+  let buttonId: number | undefined = 1;
 
   const response = await req.json();
   const body: FrameRequest = response;
   const { isValid, message } = await getFrameMessage(body);
   if (isValid) {
     try {
+      buttonId = message.button || 0;
     } catch (err) {
       console.error(err);
     }
   }
-  const buttonId = message?.buttonIndex || 0;
+
   console.log('2.1 buttonId', buttonId);
 
   // Extracting individual query parameters
