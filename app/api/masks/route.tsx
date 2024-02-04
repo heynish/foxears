@@ -36,6 +36,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   let accountAddress: string | undefined = '';
   let follow: boolean | undefined = false;
+  let recast: boolean | undefined = false;
   let FID: number | undefined = 3;
 
   // Parse the JSON body from the request
@@ -48,6 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (isValid) {
     FID = message.interactor.fid ?? 3;
     follow = message.following;
+    recast = message.recasted;
     accountAddress = message.interactor.verified_accounts[0];
   }
 
@@ -83,6 +85,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       address: accountAddress || "",
       loads: 1,
       following: follow,
+      recasted: recast,
       image: urlbase,
     };
 

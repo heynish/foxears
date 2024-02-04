@@ -5,6 +5,7 @@ interface UserData {
     address: string;
     loads: number;
     following: boolean;
+    recasted: boolean;
     image: string;
 }
 
@@ -19,6 +20,7 @@ export async function addUser(userData: UserData) {
             address: userData.address,
             loads: userData.loads,
             following: userData.following,
+            recasted: userData.recasted,
             image: userData.image,
         }]);
 
