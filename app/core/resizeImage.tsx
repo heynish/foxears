@@ -2,6 +2,7 @@ import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
+import path from 'path';
 
 export interface OverlayOptions {
     x?: number; // X-coordinate of the overlay position (default: 0)
@@ -13,7 +14,7 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
     try {
         // Load base and overlay images using Jimp
         const baseImage = await Jimp.read(baseImagePath);
-        const overlayUrl = 'https://mframes.vercel.app/ears.png';
+        const overlayUrl = path.resolve('public/ears.png');
 
         // Optimization: Load the overlay image only if the URL is provided
         if (!overlayUrl) throw new Error('Overlay URL not provided');
