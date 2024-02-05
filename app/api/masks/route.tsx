@@ -71,7 +71,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     console.time('Overlay Image Processing Time');
     // Overlay images and get the details
-    const { urlfinal, urlbase, x, y, width }: ImageDetails = await overlayImages(
+    const { urlfinal, urlbase, x, y, w }: ImageDetails = await overlayImages(
       'https://mframes.vercel.app/3.png',
       `${pfp}.jpg`,
       `${username}.png`,
@@ -97,7 +97,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.timeEnd('User Data Update Time');
 
     // Generate the post URL
-    const postURL = `https://mframes.vercel.app/api/masks/choice?urlfinal=${urlfinal}&url=${urlbase}&x=${x}&y=${y}&width=${width}`;
+    const postURL = `https://mframes.vercel.app/api/masks/choice?urlfinal=${urlfinal}&url=${urlbase}&x=${x}&y=${y}&width=${w}`;
 
     // Prepare and return the HTML response
     console.timeEnd('Total Request Handling Time');

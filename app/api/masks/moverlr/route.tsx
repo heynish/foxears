@@ -58,14 +58,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 throw new Error('Invalid button ID.');
         }
 
-        const { urlfinal, x, y }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, iWidth, {
+        const { urlfinal, x, y, w }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, iWidth, {
             x: 50, // Overlay position X-coordinate
             y: 50, // Overlay position Y-coordinate
         });
         urlFinal = urlfinal;
         xFloat = x;
         yFloat = y;
-        const postURLLeft = `https://mframes.vercel.app/api/masks/movelr?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${width}`;
+        iWidth = w;
+        const postURLLeft = `https://mframes.vercel.app/api/masks/movelr?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [
