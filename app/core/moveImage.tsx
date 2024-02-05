@@ -9,7 +9,7 @@ export interface OverlayOptions {
 }
 
 
-export async function moveImage(baseImagePath: string, x: number, y: number, options: OverlayOptions = {}): Promise<ImageDetails> {
+export async function moveImage(baseImagePath: string, x: number, y: number, w: number, options: OverlayOptions = {}): Promise<ImageDetails> {
   try {
     // Load base and overlay images using Jimp
     const baseImage = await Jimp.read(baseImagePath);
@@ -20,12 +20,13 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
 
     const overlayImage = await Jimp.read(overlayUrl);
 
+    /*
     // Optimization: Use constants for fixed values
     const CIRCLE_DIAMETER_RATIO = 1 / 3;
     const overlayDiameter = 300 * CIRCLE_DIAMETER_RATIO; // Sizing the overlay as 1/3 of the circle's diameter
-
+*/
     // Resize and position the overlay image
-    overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
+    overlayImage.resize(w, Jimp.AUTO); // Maintain aspect ratio
 
     // Optimization: Removed redundant object property assignments
     // Composite the overlay image onto the base image
@@ -40,7 +41,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, opt
         throw error; // Re-throw to be caught by the outer catch block
       });
 
-    return { urlfinal: imageUrl, urlbase: "baseUrl", x, y };
+    return { urlfinal: imageUrl, urlbase: "baseUrl", x, y, w };
 
   } catch (error) {
     console.error('Error overlaying images:', error);

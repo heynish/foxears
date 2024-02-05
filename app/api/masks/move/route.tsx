@@ -24,12 +24,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     buttonId = message.button || 1;
 
+    let urlFinal = searchParams.get('urlfinal') ?? 'https://mframes.vercel.app/3.png';
     const urlBase = searchParams.get('url') ?? 'https://mframes.vercel.app/3.png';
     const xParam = searchParams.get('x') ?? '261.83333333333337';
     const yParam = searchParams.get('y') ?? '100.76666666666667';
+    const width = searchParams.get('width') ?? '125';
 
     let xFloat = parseFloat(xParam);
     let yFloat = parseFloat(yParam);
+    let iWidth = parseFloat(width);
+
 
     switch (buttonId) {
       case 1:
@@ -48,7 +52,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         throw new Error('Invalid button ID.');
     }
 
-    const { urlfinal, x, y }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, {
+    const { urlfinal, x, y }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, iWidth, {
       x: 50, // Overlay position X-coordinate
       y: 50, // Overlay position Y-coordinate
     });
