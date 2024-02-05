@@ -47,7 +47,7 @@ export async function overlayImages(
     const overlayDiameter = Math.min(overlayMetadata.width!, overlayMetadata.height!);
 
     // Create a circle mask for the overlay
-    const circleMaskPath = 'https://mframes.vercel.app/circle.png'; // Replace with the path to your mask image
+    const circleMaskPath = '/circle.png'; // Replace with the path to your mask image
     const circleMaskBuffer = await sharp(circleMaskPath).toBuffer();
 
     const maskedOverlayImageBuffer = await overlayImage

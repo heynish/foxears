@@ -103,7 +103,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       buttons: [
         { label: '↔️ Left/Right' },
         { label: '↕️ Up/Down' },
-        { label: '🔳 Resize' },
+        { label: '🫧 Resize' },
       ],
       image: urlfinal,
       post_url: postURL,
