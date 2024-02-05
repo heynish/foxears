@@ -50,7 +50,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 break;
             case 2:
                 iWidth -= 5;
-                xFloat -= 2.5;
+                xFloat += 2.5;
                 break;
             case 3:
                 iWidth += 5;
