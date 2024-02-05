@@ -19,9 +19,9 @@ export async function overlayImages(
 
     const response = await axios.get(overlayImagePath, { responseType: 'stream' });
 
-    const baseImage = sharp(baseImagePath);
+    const baseImage = sharp('/3.png');
     //const overlayImage = sharp(overlayImagePath);
-    const earsImage = sharp('https://mframes.vercel.app/ears.png');
+    const earsImage = sharp('/ears.png');
 
     const overlayImage = sharp();
     response.data.pipe(overlayImage);
