@@ -19,9 +19,9 @@ export async function overlayImages(
 
     const response = await axios.get(overlayImagePath, { responseType: 'stream' });
 
-    const baseImage = sharp('/3.png');
+    const baseImage = sharp(process.env.NEXT_PUBLIC_IMAGE + '3.png');
     //const overlayImage = sharp(overlayImagePath);
-    const earsImage = sharp('/ears.png');
+    const earsImage = sharp(process.env.NEXT_PUBLIC_IMAGE + 'ears.png');
 
     const overlayImage = sharp();
     response.data.pipe(overlayImage);
@@ -48,7 +48,7 @@ export async function overlayImages(
 
     // Create a circle mask for the overlay
     const circleMaskPath = '/circle.png'; // Replace with the path to your mask image
-    const circleMaskBuffer = await sharp('/circle.png').toBuffer();
+    const circleMaskBuffer = await sharp(process.env.NEXT_PUBLIC_IMAGE + 'circle.png').toBuffer();
 
     const maskedOverlayImageBuffer = await overlayImage
       .composite([{
