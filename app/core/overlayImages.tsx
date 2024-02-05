@@ -48,7 +48,7 @@ export async function overlayImages(
 
     // Create a circle mask for the overlay
     const circleMaskPath = '/circle.png'; // Replace with the path to your mask image
-    const circleMaskBuffer = await sharp(circleMaskPath).toBuffer();
+    const circleMaskBuffer = await sharp('/circle.png').toBuffer();
 
     const maskedOverlayImageBuffer = await overlayImage
       .composite([{
