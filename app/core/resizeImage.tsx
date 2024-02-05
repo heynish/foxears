@@ -26,7 +26,7 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
 
 
         // Calculate the horizontal shift to maintain the center
-        const shiftAmount = x + (((w + 5) - w) / 2);
+        const shiftAmount = x + 2.5;
 
         // Composite the overlay image onto the base image
         //baseImage.composite(overlayImage, x+shiftAmount, y);
