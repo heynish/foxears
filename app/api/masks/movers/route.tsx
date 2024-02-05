@@ -64,7 +64,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         });
         urlFinal = urlfinal;
         iWidth = w;
-        const postURLSmall = `https://mframes.vercel.app/api/masks/movers?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+        const postURLSmall = `https://mframes.vercel.app/api/masks/movers?urlfinal=${urlFinal}&url=${urlBase}&x=${x}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [

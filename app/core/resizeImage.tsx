@@ -24,8 +24,13 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
         // Resize and position the overlay image
         overlayImage.resize(w, Jimp.AUTO); // Maintain aspect ratio
 
+
+        // Calculate the horizontal shift to maintain the center
+        const shiftAmount = x + (((w + 5) - w) / 2);
+
         // Composite the overlay image onto the base image
-        baseImage.composite(overlayImage, x, y);
+        //baseImage.composite(overlayImage, x+shiftAmount, y);
+        baseImage.composite(overlayImage, shiftAmount, y);
 
         // Save the composite image to a buffer and upload directly to S3
         const filename = crypto.randomBytes(16).toString('hex') + "temp.png";
@@ -36,7 +41,7 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
                 throw error; // Re-throw to be caught by the outer catch block
             });
 
-        return { urlfinal: imageUrl, urlbase: "baseUrl", x, y, w };
+        return { urlfinal: imageUrl, urlbase: "baseUrl", x: shiftAmount, y, w };
 
     } catch (error) {
         console.error('Error overlaying images:', error);
