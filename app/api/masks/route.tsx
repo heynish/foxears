@@ -72,7 +72,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // Overlay images and get the details
     const { urlfinal, urlbase, x, y, w }: ImageDetails = await overlayImages(
       'https://mframes.vercel.app/3.png',
-      `${pfp}.jpg`,
+      `${pfp}`,
       `${username}.png`,
     );
     console.timeEnd('Overlay Image Processing Time');
