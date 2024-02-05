@@ -42,7 +42,7 @@ export async function overlayImages(
         }
 
         return overlayImage
-          .resize({ width: 300 })
+          .resize({ height: 300 })
           .toBuffer();
       })
       .then(resizedImageBuffer => {
