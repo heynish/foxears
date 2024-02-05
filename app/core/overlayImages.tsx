@@ -3,6 +3,7 @@ import axios from 'axios';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
+import path from 'path';
 
 export interface OverlayOptions {
   top?: number; // Y-coordinate of the overlay position (optional)
@@ -19,9 +20,9 @@ export async function overlayImages(
 
     const response = await axios.get(overlayImagePath, { responseType: 'stream' });
 
-    const baseImage = sharp(process.env.NEXT_PUBLIC_IMAGE + '3.png');
+    const baseImage = sharp(path.resolve('public/3.png'));
     //const overlayImage = sharp(overlayImagePath);
-    const earsImage = sharp(process.env.NEXT_PUBLIC_IMAGE + 'ears.png');
+    const earsImage = sharp(path.resolve('public/ears.png'));
 
     const overlayImage = sharp();
     response.data.pipe(overlayImage);
@@ -48,7 +49,7 @@ export async function overlayImages(
 
     // Create a circle mask for the overlay
     const circleMaskPath = '/circle.png'; // Replace with the path to your mask image
-    const circleMaskBuffer = await sharp(process.env.NEXT_PUBLIC_IMAGE + 'circle.png').toBuffer();
+    const circleMaskBuffer = await sharp(path.resolve('public/circle.png')).toBuffer();
 
     const maskedOverlayImageBuffer = await overlayImage
       .composite([{
