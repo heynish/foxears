@@ -17,7 +17,7 @@ export async function overlayImages(
   options: OverlayOptions = {}
 ): Promise<ImageDetails> {
   try {
-
+    console.log(overlayImagePath);
     const response = await axios.get(overlayImagePath, { responseType: 'stream' });
 
     const baseImage = sharp(path.resolve('public/3.png'));
@@ -32,6 +32,8 @@ export async function overlayImages(
       .then(metadata => {
         // @ts-ignore
         const aspectRatio = metadata.height / metadata.width;
+        console.log(metadata.height);
+        console.log(metadata.width);
         const resizeHeight = Math.round(aspectRatio * 300);
 
         // Resize image only if the height after resizing is >= 300 pixels
