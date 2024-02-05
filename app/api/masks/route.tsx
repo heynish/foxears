@@ -1,4 +1,3 @@
-
 import {
   FrameRequest,
   getFrameMessage,
@@ -75,7 +74,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       'https://mframes.vercel.app/3.png',
       `${pfp}.jpg`,
       `${username}.png`,
-      overlayImageOptions
     );
     console.timeEnd('Overlay Image Processing Time');
 
