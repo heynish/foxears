@@ -1,170 +1,8 @@
-import sharp from 'sharp';
-import axios from 'axios';
-import { uploadToS3 } from './uploadToS3';
-import crypto from 'crypto';
-import ImageDetails from '../core/imageData';
-import path from 'path';
-
-export interface OverlayOptions {
-  top?: number; // Y-coordinate of the overlay position (optional)
-  left?: number; // X-coordinate of the overlay position (optional)
-}
-
-export async function overlayImages(
-  baseImagePath: string,
-  overlayImagePath: string,
-  outputFileName: string,
-  options: OverlayOptions = {}
-): Promise<ImageDetails> {
-  try {
-    console.log(overlayImagePath);
-    const response = await axios.get(overlayImagePath, { responseType: 'stream' });
-
-    const baseImage = sharp(path.resolve('public/3.png'));
-    //const overlayImage = sharp(overlayImagePath);
-    const earsImage = sharp(path.resolve('public/ears.png'));
-
-    const overlayImage = sharp();
-    response.data.pipe(overlayImage);
-
-    overlayImage
-      .metadata()
-      .then(metadata => {
-        // @ts-ignore
-        const aspectRatio = metadata.width / metadata.height;
-        console.log(metadata.height);
-        console.log(metadata.width);
-        const resizeHeight = Math.round(aspectRatio * 300);
-
-        // Resize image only if the height after resizing is >= 300 pixels
-        if (resizeHeight < 300) {
-          throw new Error('Resized image height is less than 300 pixels, cannot crop to a 300x300 area.');
-        }
-
-        return overlayImage
-          .resize({ height: 300 })
-          .toBuffer();
-      })
-      .then(resizedImageBuffer => {
-        return sharp(resizedImageBuffer)
-          .extract({ left: 0, top: 0, width: 300, height: 300 }) // Crop to get a 300x300 square image
-          .toBuffer();
-      })
-      .then(croppedImageBuffer => {
-        console.log('Successfully resized and cropped the image. Buffer is ready to use.');
-        // croppedImageBuffer contains the resized and cropped image data
-        // Here you can write it to a file or do whatever else you need to with it
-        // Example: writing to a file
-        sharp(croppedImageBuffer).toFile('path/to/outputfile.png', (err, info) => {
-          if (err) {
-            throw err;
-          }
-          console.log('File saved:', info);
-        });
-      })
-      .catch(error => {
-        console.error('Error during image processing:', error.message);
-      });
-
-    /* overlayImage
-      .resize({ width: 300 }) // Resize the image to a width of 300 pixels, maintaining aspect ratio
-      .toBuffer()
-      .then(resizedImageBuffer => {
-        sharp(resizedImageBuffer)
-          .extract({ left: 0, top: 0, width: 300, height: 300 }) // Crop the top square portion
-          .toBuffer()
-          .then(croppedImageBuffer => {
-            // At this point, croppedImageBuffer contains the resized and cropped image data.
-            // You can use this buffer however you need to in your application.
-            console.log('Successfully resized and cropped the image. Buffer is ready to use.');
-          })
-          .catch(cropErr => console.error('Error during cropping:', cropErr));
-      })
-      .catch(resizeErr => console.error('Error during resizing:', resizeErr)); */
-
-    // Retrieve metadata for overlay image
-    const overlayMetadata = await overlayImage.metadata();
-    const overlayDiameter = Math.min(overlayMetadata.width!, overlayMetadata.height!);
-
-    // Create a circle mask for the overlay
-    const circleMaskPath = '/circle.png'; // Replace with the path to your mask image
-    const circleMaskBuffer = await sharp(path.resolve('public/circle.png')).toBuffer();
-
-    const maskedOverlayImageBuffer = await overlayImage
-      .composite([{
-        input: circleMaskBuffer,
-        blend: 'dest-in'
-      }])
-      .toBuffer();
-
-    // Retrieve metadata for base image to position overlays correctly
-    const metadata = await baseImage.metadata();
-
-    // Default positions for overlay if none provided
-    const defaultTopOverlay = options.top ?? Math.round((metadata.height ?? 0) - overlayDiameter) / 2;
-    const defaultLeftOverlay = options.left ?? Math.round((metadata.width ?? 0) - overlayDiameter) / 2;
-
-    // Composite the overlay images onto the base image
-    const baseImageBuffer = await baseImage
-      .composite([
-        {
-          input: maskedOverlayImageBuffer,
-          top: defaultTopOverlay,
-          left: defaultLeftOverlay,
-        },
-      ])
-      .toBuffer();
-
-    // Generate a random file name for the output image
-    const outputbaseImagePath = `${crypto.randomUUID()}-base.png`;
-
-    // Upload the composed image to S3 and get the URL
-    const baseS3Url = await uploadToS3(baseImageBuffer, outputbaseImagePath);
-
-    // Resize and position the overlay image at the top inside of the circle
-    const maskOverlayDiameter = 300 / 2.5; // Sizing the overlay as 1/3 of the circle's diameter
-    earsImage.resize(overlayDiameter, null); // Maintain aspect ratio
-    const earsImageBuffer = await earsImage.toBuffer();
-    // Calculate the position for the top overlay
-    const overlayX = defaultLeftOverlay + (300 - maskOverlayDiameter) / 2; // Horizontally centered within the circle
-    const overlayY = defaultTopOverlay + (300 / 15); // A little bit down from the top of the circle
-
-    const composedImageBuffer = await baseImage
-      .composite([
-        // Positioning the ears image, you can modify the top and left values as needed
-        {
-          input: earsImageBuffer,
-          top: overlayX, // for example
-          left: overlayY, // for example
-        }
-      ])
-      .toBuffer();
-
-    // Generate a random file name for the output image
-    const outputImagePath = `${crypto.randomUUID()}-temp.png`;
-
-    // Upload the composed image to S3 and get the URL
-    const finalImageS3Url = await uploadToS3(composedImageBuffer, outputImagePath);
-
-    // Return image details including the composed image URL and mask details
-    return {
-      urlfinal: finalImageS3Url,
-      urlbase: baseS3Url,
-      x: overlayY,
-      y: overlayX,
-      w: maskOverlayDiameter, // The width of the overlay
-    };
-  } catch (error) {
-    console.error('An error occurred during image processing:', error);
-    throw error;
-  }
-}
-
-/*
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
+import path from 'path';
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
@@ -175,9 +13,9 @@ export interface OverlayOptions {
 export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<ImageDetails> {
   try {
     // Load base and overlay images using Jimp
-    const baseImage = await Jimp.read(baseImagePath);
+    const baseImage = await Jimp.read(path.resolve('public/3.png'));
     const picture = await Jimp.read(overlayImagePath);
-    const overlayImage = await Jimp.read('https://mframes.vercel.app/ears.png');
+    const overlayImage = await Jimp.read(path.resolve('public/ears.png'));
 
     // Scale down the picture (example: scale to 100x100)
     picture.resize(300, Jimp.AUTO);
@@ -252,7 +90,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
   }
-} * /
+}
 
 /*
 // Scale down the picture (example: scale to 100x100)
