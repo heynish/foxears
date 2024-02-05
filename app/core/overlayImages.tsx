@@ -31,7 +31,7 @@ export async function overlayImages(
       .metadata()
       .then(metadata => {
         // @ts-ignore
-        const aspectRatio = metadata.height / metadata.width;
+        const aspectRatio = metadata.width / metadata.height;
         console.log(metadata.height);
         console.log(metadata.width);
         const resizeHeight = Math.round(aspectRatio * 300);
