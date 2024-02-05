@@ -17,6 +17,7 @@
     "@next/bundle-analyzer": "^14.1.0",
     "@supabase/supabase-js": "^2.39.3",
     "@vercel/speed-insights": "^1.0.9",
+    "axios": "^1.6.7",
     "bufferutil": "^4.0.8",
     "jimp": "^0.22.10",
     "next": "13.5.6",

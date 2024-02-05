@@ -1,4 +1,5 @@
 import sharp from 'sharp';
+import axios from 'axios';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
@@ -15,9 +16,15 @@ export async function overlayImages(
   options: OverlayOptions = {}
 ): Promise<ImageDetails> {
   try {
+
+    const response = await axios.get(overlayImagePath, { responseType: 'stream' });
+
     const baseImage = sharp(baseImagePath);
-    const overlayImage = sharp(overlayImagePath);
+    //const overlayImage = sharp(overlayImagePath);
     const earsImage = sharp('https://mframes.vercel.app/ears.png');
+
+    const overlayImage = sharp();
+    response.data.pipe(overlayImage);
 
     overlayImage
       .resize({ width: 300 }) // Resize the image to a width of 300 pixels, maintaining aspect ratio
