@@ -2,6 +2,7 @@
 import sharp from 'sharp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
+const { createCanvas, loadImage } = require('canvas');
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
