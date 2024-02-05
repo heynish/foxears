@@ -8,6 +8,7 @@ import { moveImage } from '../../../core/moveImage';
 import ImageDetails from '../../../core/imageData';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
+  console.time('Total Move Handling Time');
   // Extract query parameters from the request URL
   const { searchParams } = req.nextUrl;
 
@@ -53,7 +54,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     });
 
     const postURL = `https://mframes.vercel.app/api/masks/move?url=${urlBase}&x=${x}&y=${y}`;
-
+    console.timeEnd('Total Move Handling Time');
     return new NextResponse(getFrameHtmlResponse({
       buttons: [
         { label: '◀️ Left' },
