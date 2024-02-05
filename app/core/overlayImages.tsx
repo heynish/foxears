@@ -58,7 +58,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     });
 
     //Upload base image
-    const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_PNG);
+    const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_JPEG);
     const newbufferbase = Buffer.from(bufferbase);
     const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
     //console.log('1.1.1 Base Image URL:', baseUrl);

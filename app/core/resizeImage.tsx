@@ -34,7 +34,7 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
 
         // Save the composite image to a buffer and upload directly to S3
         const filename = crypto.randomBytes(16).toString('hex') + "temp.png";
-        const imageUrl = await baseImage.getBufferAsync(Jimp.MIME_PNG)
+        const imageUrl = await baseImage.getBufferAsync(Jimp.MIME_JPEG)
             .then(buffer => uploadToS3(buffer, filename))
             .catch(error => {
                 console.error('Error calling uploadToS3:', error);
