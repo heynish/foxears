@@ -28,6 +28,43 @@ export async function overlayImages(
     response.data.pipe(overlayImage);
 
     overlayImage
+      .metadata()
+      .then(metadata => {
+        // @ts-ignore
+        const aspectRatio = metadata.height / metadata.width;
+        const resizeHeight = Math.round(aspectRatio * 300);
+
+        // Resize image only if the height after resizing is >= 300 pixels
+        if (resizeHeight < 300) {
+          throw new Error('Resized image height is less than 300 pixels, cannot crop to a 300x300 area.');
+        }
+
+        return overlayImage
+          .resize({ width: 300 })
+          .toBuffer();
+      })
+      .then(resizedImageBuffer => {
+        return sharp(resizedImageBuffer)
+          .extract({ left: 0, top: 0, width: 300, height: 300 }) // Crop to get a 300x300 square image
+          .toBuffer();
+      })
+      .then(croppedImageBuffer => {
+        console.log('Successfully resized and cropped the image. Buffer is ready to use.');
+        // croppedImageBuffer contains the resized and cropped image data
+        // Here you can write it to a file or do whatever else you need to with it
+        // Example: writing to a file
+        sharp(croppedImageBuffer).toFile('path/to/outputfile.png', (err, info) => {
+          if (err) {
+            throw err;
+          }
+          console.log('File saved:', info);
+        });
+      })
+      .catch(error => {
+        console.error('Error during image processing:', error.message);
+      });
+
+    /* overlayImage
       .resize({ width: 300 }) // Resize the image to a width of 300 pixels, maintaining aspect ratio
       .toBuffer()
       .then(resizedImageBuffer => {
@@ -41,7 +78,7 @@ export async function overlayImages(
           })
           .catch(cropErr => console.error('Error during cropping:', cropErr));
       })
-      .catch(resizeErr => console.error('Error during resizing:', resizeErr));
+      .catch(resizeErr => console.error('Error during resizing:', resizeErr)); */
 
     // Retrieve metadata for overlay image
     const overlayMetadata = await overlayImage.metadata();
