@@ -20,15 +20,9 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
 
         const overlayImage = await Jimp.read(overlayUrl);
 
-        /*
-        // Optimization: Use constants for fixed values
-        const CIRCLE_DIAMETER_RATIO = 1 / 3;
-        const overlayDiameter = 300 * CIRCLE_DIAMETER_RATIO; // Sizing the overlay as 1/3 of the circle's diameter
-    */
         // Resize and position the overlay image
         overlayImage.resize(w, Jimp.AUTO); // Maintain aspect ratio
 
-        // Optimization: Removed redundant object property assignments
         // Composite the overlay image onto the base image
         baseImage.composite(overlayImage, x, y);
 

@@ -1,4 +1,75 @@
-import Jimp from 'jimp';
+
+import sharp from 'sharp';
+import { uploadToS3 } from './uploadToS3';
+import crypto from 'crypto';
+
+export interface OverlayOptions {
+  x?: number; // X-coordinate of the overlay position (default: 0)
+  y?: number; // Y-coordinate of the overlay position (default: 0)
+}
+
+export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<any> {
+  try {
+    // Read base and overlay images using Sharp
+    const baseImage = sharp(baseImagePath);
+    const overlayImage = sharp('https://mframes.vercel.app/ears.png');
+    let picture = sharp(overlayImagePath);
+
+    // Resize the picture (example: scale to max width 300px)
+    picture = picture.resize(300);
+
+    // Extract metadata from the resized picture for further processing
+    const metadata = await picture.metadata();
+    const size = Math.min(300, 300);
+
+    // Crop the image to make it square
+    picture = picture.extract({ left: 0, top: 0, width: size, height: size });
+
+    // Convert the picture to PNG and composite a circular mask to it using composite() function and create a circular cutout
+    const diameter = size;
+    const circleBuffer = await createCircularMask(diameter);
+
+    // Composite the cropped picture onto the circular mask
+    picture = picture.composite([{ input: circleBuffer, blend: 'dest-in' }]);
+
+    // Get positions for compositing images based on options or defaults
+    const { x = 0, y = 0 } = options;
+
+    // Extract final picture buffer
+    const finalPictureBuffer = await picture.toBuffer();
+
+    // Composite the picture onto the base image at the calculated position
+    const compositeRes = await baseImage.composite([{ input: finalPictureBuffer, left: x, top: y }]).toBuffer();
+
+    // Upload the resulting image buffer to S3
+    const uniqueName = crypto.randomBytes(16).toString('hex') + '.png';
+    const imageUrl = await uploadToS3(compositeRes, uniqueName);
+
+    return { url: imageUrl };
+  } catch (error) {
+    console.error('Error overlaying images:', error);
+    throw new Error('Image overlay failed');
+  }
+}
+
+async function createCircularMask(diameter: number): Promise<Buffer> {
+  // Create a circular mask using the canvas module
+  const { createCanvas, loadImage } = require('canvas');
+  const canvas = createCanvas(diameter, diameter);
+  const ctx = canvas.getContext('2d');
+
+  // Draw a white circle on the mask
+  ctx.beginPath();
+  ctx.arc(diameter / 2, diameter / 2, diameter / 2, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+
+  // Convert canvas to a buffer
+  return canvas.toBuffer();
+}
+
+/* import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
@@ -89,7 +160,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
   }
-}
+} */
 
 /*
 // Scale down the picture (example: scale to 100x100)
