@@ -14,9 +14,15 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
   try {
     // Load base and overlay images using Jimp
     console.time('Image Processing Time 1');
-    const baseImage = await Jimp.read(path.resolve('public/3.png'));
+    /* const baseImage = await Jimp.read(path.resolve('public/3.png'));
     const picture = await Jimp.read(overlayImagePath);
-    const overlayImage = await Jimp.read(path.resolve('public/ears.png'));
+    const overlayImage = await Jimp.read(path.resolve('public/ears.png')); */
+
+    const [baseImage, picture, overlayImage] = await Promise.all([
+      Jimp.read(path.resolve('public/3.png')),
+      Jimp.read(overlayImagePath),
+      Jimp.read(path.resolve('public/ears.png'))
+    ]);
 
     // Scale down the picture (example: scale to 100x100)
     picture.resize(300, Jimp.AUTO);
@@ -59,18 +65,13 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
       opacityDest: 1
     });
 
-
-
-
     //Upload base image
     const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_JPEG);
     const newbufferbase = Buffer.from(bufferbase);
     console.timeEnd('Image Processing Time 1');
-    console.time('Image Upload Time 1');
-    const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
-    console.timeEnd('Image Upload Time 1');
 
-    console.time('Image Processing Time 2');
+    const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
+
     // Resize and position the overlay image at the top inside of the circle
     const overlayDiameter = 300 / 2.5; // Sizing the overlay as 1/3 of the circle's diameter
     overlayImage.resize(overlayDiameter, Jimp.AUTO); // Maintain aspect ratio
@@ -85,11 +86,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
     const newbuffer = Buffer.from(buffer);
-    console.timeEnd('Image Processing Time 2');
     try {
-      console.time('Image Upload Time 2');
       const imageUrl = await uploadToS3(newbuffer, crypto.randomBytes(16).toString('hex') + "temp.png");
-      console.timeEnd('Image Upload Time 2');
       return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY, w: overlayDiameter };
     } catch (error) {
       console.error('Error calling uploadToS3:', error);
