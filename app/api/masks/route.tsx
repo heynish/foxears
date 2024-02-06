@@ -30,9 +30,6 @@ function timeout(ms: number): Promise<NextResponse> {
 // Async function to handle the GET response
 async function getResponse(req: NextRequest): Promise<NextResponse> {
 
-
-  console.time('Total Request Handling Time');
-
   let accountAddress: string | undefined = '';
   let follow: boolean | undefined = false;
   let recast: boolean | undefined = false;
@@ -51,7 +48,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     recast = message.recasted;
     accountAddress = message.interactor.verified_accounts[0];
   }
-
+  console.log("Message Valid");
   try {
     console.time('Fetch User Data Time');
     // Fetch user data using parallel API calls
@@ -60,7 +57,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
     ]);
     console.timeEnd('Fetch User Data Time');
-
+    console.log("User Fetched");
     // Extract username and profile picture (pfp)
     const username = usernameData.data.userDataBody.value;
     const pfp = pfpData.data.userDataBody.value;
@@ -76,7 +73,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       `${username}.png`,
     );
     console.timeEnd('Overlay Image Processing Time');
-
+    console.log("Image Created");
     // Prepare user data for adding/updating user records
     const userData = {
       username,
@@ -93,12 +90,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const totalLoads = await incrementUserTotalLoads(username);
     newUser = totalLoads ? false : await addUser(userData);
     console.timeEnd('User Data Update Time');
-
+    console.log("Database updated");
     // Generate the post URL
     const postURL = `https://mframes.vercel.app/api/masks/choice?urlfinal=${urlfinal}&url=${urlbase}&x=${x}&y=${y}&width=${w}`;
 
     // Prepare and return the HTML response
-    console.timeEnd('Total Request Handling Time');
+    console.log("Sending response");
     return new NextResponse(getFrameHtmlResponse({
       buttons: [
         { label: '↔️ Left/Right' },
