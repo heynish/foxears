@@ -31,7 +31,7 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
         // Composite the overlay image onto the base image
         //baseImage.composite(overlayImage, x+shiftAmount, y);
         baseImage.composite(overlayImage, x, y);
-
+        baseImage.quality(50);
         // Save the composite image to a buffer and upload directly to S3
         const filename = crypto.randomBytes(16).toString('hex') + "temp.png";
         const imageUrl = await baseImage.getBufferAsync(Jimp.MIME_JPEG)

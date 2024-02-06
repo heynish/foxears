@@ -36,7 +36,7 @@ export async function moveImage(baseImagePath: string, x: number, y: number, w: 
 
     // Composite the overlay image onto the base image
     baseImage.composite(overlayImage, x, y);
-
+    baseImage.quality(50);
     // Generate a random filename
     const filename = crypto.randomBytes(16).toString('hex') + ".png";
 

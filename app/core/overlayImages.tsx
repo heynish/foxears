@@ -89,7 +89,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Composite the overlay image onto the base image
     baseImage.composite(overlayImage, overlayX, overlayY);
-
+    baseImage.quality(50);
     // Save the composite image to a buffer
     const buffer = await baseImage.getBufferAsync(Jimp.MIME_PNG);
     const newbuffer = Buffer.from(buffer);
