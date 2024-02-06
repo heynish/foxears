@@ -49,10 +49,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 }));
                 break;
             case 2:
-                xFloat -= 5;
+                xFloat -= 10;
                 break;
             case 3:
-                xFloat += 5;
+                xFloat += 10;
                 break;
             default:
                 throw new Error('Invalid button ID.');

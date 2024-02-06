@@ -49,12 +49,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 }));
                 break;
             case 2:
-                iWidth -= 5;
-                xFloat += 2.5;
+                iWidth -= 10;
+                xFloat += 5;
                 break;
             case 3:
-                iWidth += 5;
-                xFloat -= 2.5;
+                iWidth += 10;
+                xFloat -= 5;
                 break;
             default:
                 throw new Error('Invalid button ID.');
