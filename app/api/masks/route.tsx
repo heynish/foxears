@@ -51,20 +51,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
   console.log("Message Valid");
   try {
-    try {
-      console.time('Fetch User Data Time');
-      // Fetch user data using parallel API calls
-      const [usernameData, pfpData] = await Promise.all([
-        fetch(`${HUBBLE_URLN}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.USERNAME}`).then(res => res.json()),
-        fetch(`${HUBBLE_URLN}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
-      ]);
-      console.timeEnd('Fetch User Data Time');
-      console.log("User Fetched");
-    } catch (error) {
-      // Log and return an error response if an exception occurs
-      console.timeEnd('Fetch User Data Time');
-      console.error('An error occurred:', error);
-    }
 
     console.time('Fetch User Data Time');
     // Fetch user data using parallel API calls
