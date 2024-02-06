@@ -59,16 +59,18 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Calculate the position to center the circle on the base image
     const x = (baseImage.bitmap.width / 2) - (diameter / 2);
     const y = (baseImage.bitmap.height / 2) - (diameter / 2);
-
+    console.time('Image Composite Time');
     // Composite the picture onto the base image at the calculated position
     baseImage.composite(croppedImage, x, y, {
       mode: Jimp.BLEND_SOURCE_OVER,
       opacitySource: 1,
       opacityDest: 1
     });
-
+    console.timeEnd('Image Composite Time');
     //Upload base image
+    console.time('Image Buffer Time');
     const bufferbase = await baseImage.getBufferAsync(Jimp.MIME_JPEG);
+    console.timeEnd('Image Buffer Time');
     const newbufferbase = Buffer.from(bufferbase);
     console.timeEnd('Image Processing Time 1');
 
