@@ -10,7 +10,8 @@ import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
 // Define the HUBBLE_URL endpoint
-const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
+//const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
+const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
 // Define a timeout function that returns a Promise
 function timeout(ms: number): Promise<NextResponse> {
