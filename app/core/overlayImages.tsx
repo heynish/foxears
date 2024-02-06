@@ -18,11 +18,13 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const picture = await Jimp.read(overlayImagePath);
     const overlayImage = await Jimp.read(path.resolve('public/ears.png')); */
 
+    console.time('Image loading Time All');
     const [baseImage, picture, overlayImage] = await Promise.all([
       Jimp.read(path.resolve('public/3.png')),
       Jimp.read(overlayImagePath),
       Jimp.read(path.resolve('public/ears.png'))
     ]);
+    console.timeEnd('Image loading Time All');
 
     console.time('Image Resize Time');
     // Scale down the picture (example: scale to 100x100)
