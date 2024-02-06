@@ -68,6 +68,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
       opacitySource: 1,
       opacityDest: 1
     });
+    baseImage.quality(50);
     console.timeEnd('Image Composite Time');
     //Upload base image
     console.time('Image Buffer Time');
