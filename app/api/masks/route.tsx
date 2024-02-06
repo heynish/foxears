@@ -10,7 +10,7 @@ import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
 // Define the HUBBLE_URL endpoint
-//const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
+const HUBBLE_URLN = "https://846697.hubs.neynar.com:2281/v1";
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
 // Define a timeout function that returns a Promise
@@ -30,7 +30,7 @@ function timeout(ms: number): Promise<NextResponse> {
 
 // Async function to handle the GET response
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-
+  console.time('Total Response Time');
   let accountAddress: string | undefined = '';
   let follow: boolean | undefined = false;
   let recast: boolean | undefined = false;
@@ -51,6 +51,21 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
   console.log("Message Valid");
   try {
+    try {
+      console.time('Fetch User Data Time');
+      // Fetch user data using parallel API calls
+      const [usernameData, pfpData] = await Promise.all([
+        fetch(`${HUBBLE_URLN}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.USERNAME}`).then(res => res.json()),
+        fetch(`${HUBBLE_URLN}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
+      ]);
+      console.timeEnd('Fetch User Data Time');
+      console.log("User Fetched");
+    } catch (error) {
+      // Log and return an error response if an exception occurs
+      console.timeEnd('Fetch User Data Time');
+      console.error('An error occurred:', error);
+    }
+
     console.time('Fetch User Data Time');
     // Fetch user data using parallel API calls
     const [usernameData, pfpData] = await Promise.all([
@@ -97,6 +112,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     // Prepare and return the HTML response
     console.log("Sending response");
+    console.timeEnd('Total Response Time');
     return new NextResponse(getFrameHtmlResponse({
       buttons: [
         { label: '↔️ Left/Right' },
@@ -109,6 +125,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   } catch (error) {
     // Log and return an error response if an exception occurs
+    console.timeEnd('Total Response Time');
     console.error('An error occurred:', error);
     return new NextResponse('An error occurred', { status: 500 });
   }
