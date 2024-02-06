@@ -24,6 +24,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
       Jimp.read(path.resolve('public/ears.png'))
     ]);
 
+    console.time('Image Resize Time');
     // Scale down the picture (example: scale to 100x100)
     picture.resize(300, Jimp.AUTO);
     // Determine the smallest dimension (width or height)
@@ -31,8 +32,9 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Crop the image to make it square from the top
     const croppedImage = picture.crop(0, 0, size, size);
+    console.timeEnd('Image Resize Time');
 
-
+    console.time('Image Masking Time');
     // Create a circle mask with full transparency
     const diameter = croppedImage.getWidth();
     const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
@@ -53,7 +55,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Apply the circle mask onto the picture to cut out the circular area
     croppedImage.mask(mask, 0, 0);
-
+    console.timeEnd('Image Masking Time');
     // Calculate the position to center the circle on the base image
     const x = (baseImage.bitmap.width / 2) - (diameter / 2);
     const y = (baseImage.bitmap.height / 2) - (diameter / 2);
