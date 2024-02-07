@@ -49,11 +49,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     recast = message.recasted;
     accountAddress = message.interactor.verified_accounts[0];
   }
-  console.log("Message Valid");
+  console.log("Message Valid", FID, follow, recast, accountAddress);
   try {
 
     console.time('Fetch User Data Time');
     // Fetch user data using parallel API calls
+    console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.USERNAME);
+    console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.PFP);
     const [usernameData, pfpData] = await Promise.all([
       fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.USERNAME}`).then(res => res.json()),
       fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
@@ -63,6 +65,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // Extract username and profile picture (pfp)
     const username = usernameData.data.userDataBody.value;
     const pfp = pfpData.data.userDataBody.value;
+    console.log(username, pfp);
 
     // Set the overlay image options
     const overlayImageOptions = { x: 50, y: 50 };
