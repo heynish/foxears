@@ -56,26 +56,30 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     const sdk = require('api')('@neynar/v2.0#66h3glq5brsni');
 
-    const data = await sdk.user({ fid: FID, viewerFid: FID, api_key: process.env.NEYNAR_API_KEY })
-      // @ts-ignore
-      .then(({ data }) => console.log(data))
-      // @ts-ignore
-      .catch(err => console.error(err));
+    const data = await sdk.user({ fid: FID, viewerFid: FID, api_key: process.env.NEYNAR_API_KEY });
+    console.log(data);
+    /*
+          // @ts-ignore
+          .then(({ data }) => console.log(data))
+          // @ts-ignore
+          .catch(err => console.error(err));
+    
+    
+        // Fetch user data using parallel API calls
+        /*console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.USERNAME);
+        console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.PFP);
+        const [usernameData, pfpData] = await Promise.all([
+          fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.USERNAME}`).then(res => res.json()),
+          fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
+        ]);
+        console.timeEnd('Fetch User Data Time');
+        console.log("User Fetched");
+        // Extract username and profile picture (pfp)
+        const username = usernameData.data.userDataBody.value;
+        const pfp = pfpData.data.userDataBody.value;
+        console.log(username, pfp);*/
 
-
-    // Fetch user data using parallel API calls
-    /*console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.USERNAME);
-    console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.PFP);
-    const [usernameData, pfpData] = await Promise.all([
-      fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.USERNAME}`).then(res => res.json()),
-      fetch(`${HUBBLE_URL}/userDataByFid?fid=${FID}&user_data_type=${USER_DATA_TYPE.PFP}`).then(res => res.json())
-    ]);
-    console.timeEnd('Fetch User Data Time');
-    console.log("User Fetched");
-    // Extract username and profile picture (pfp)
-    const username = usernameData.data.userDataBody.value;
-    const pfp = pfpData.data.userDataBody.value;
-    console.log(username, pfp);*/
+    console.log(data.result, data.result.user.pfp);
 
     const username = data.result.user.username;
     const pfp = data.result.user.pfp.url;
