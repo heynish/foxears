@@ -8,16 +8,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
 import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
-import {
-  Frame,
-  getFrameHtml,
-  getFrameMessageFromRequestBody,
-  validateFrameMessage,
-} from "frames.js";
 
 // Define the HUBBLE_URL endpoint
-const HUBBLE_URLN = "https://846697.hubs.neynar.com:2281/v1";
-const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
+const HUBBLE_URL = "https://846697.hubs.neynar.com:2281/v1";
+const HUBBLE_URLF = "https://nemes.farcaster.xyz:2281/v1";
 
 // Define a timeout function that returns a Promise
 function timeout(ms: number): Promise<NextResponse> {
