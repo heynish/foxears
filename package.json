@@ -12,7 +12,7 @@
   "author": "https://twitter.com/heynmodi",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.504.0",
-    "@coinbase/onchainkit": "^0.5.2",
+    "@coinbase/onchainkit": "^0.5.1",
     "@supabase/supabase-js": "^2.39.3",
     "@vercel/speed-insights": "^1.0.9",
     "api": "^6.1.1",

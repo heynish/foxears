@@ -671,10 +671,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@coinbase/onchainkit@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.npmjs.org/@coinbase/onchainkit/-/onchainkit-0.5.2.tgz"
-  integrity sha512-YY7Fi3ar2abgZQVXuNX9+l56n2Vqm93ZyKnHJuaJqFKQpjwRY9+a7kx8xh8tPrRWFH3Kj1chYmeJQ0rrfEVKeQ==
+"@coinbase/onchainkit@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/@coinbase/onchainkit/-/onchainkit-0.5.1.tgz"
+  integrity sha512-hAadKsVNT+QIGqS8ftDc3zb1pDk5ZOr8jI/XCFdQb8bjZTdbjAQHRI/WoAwJzkRtd9vo+8PWTSzb32eIgRtOng==
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
@@ -5601,7 +5601,7 @@ validate.io-number@^1.0.3:
   resolved "https://registry.npmjs.org/validate.io-number/-/validate.io-number-1.0.3.tgz"
   integrity sha512-kRAyotcbNaSYoDnXvb4MHg/0a1egJdLwS6oJ38TJY7aw9n93Fl/3blIXdyYvPOp55CNxywooG/3BcrwNrBpcSg==
 
-viem@^2.7.0:
+viem@^2.5.0:
   version "2.7.6"
   resolved "https://registry.npmjs.org/viem/-/viem-2.7.6.tgz"
   integrity sha512-43TF0VYcTeNef9dax1/BhqlRLXpAo6HAiQ68hrJ8XRhDOou73nHZEjeFl8Eai4UFFodKhu+PbRUFzuuoixOUfg==
