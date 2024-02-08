@@ -62,7 +62,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       // @ts-ignore
       .then(({ data }) => {
         username = data.result.user.username;
-        pfp = data.result.user.pfp;
+        pfp = data.result.user.pfp.url;
         console.log(username, pfp);
       })
       // @ts-ignore
