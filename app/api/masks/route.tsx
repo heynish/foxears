@@ -61,18 +61,24 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   // Parse and validate the frame message
   const body = await req.json();
   console.log(body);
-  const { isValid, message } = await validateFrameMessage(body);
-  if (!isValid || !message) {
-    return new NextResponse("Invalid message", { status: 400 });
-  }
-  console.log("is valid");
-  const frameMessage = await getFrameMessage(body);
-  console.log(frameMessage);
+  try {
+    const { isValid, message } = await validateFrameMessage(body);
+    if (!isValid || !message) {
+      return new NextResponse("Invalid message", { status: 400 });
+    }
+    console.log("is valid");
+    const frameMessage = await getFrameMessage(body);
+    console.log(frameMessage);
 
-  FID = message.data.fid ?? 3;
-  follow = frameMessage.message?.following;
-  recast = frameMessage.message?.recasted;
-  accountAddress = frameMessage.message?.interactor.verified_accounts[0];
+    FID = message.data.fid ?? 3;
+    follow = frameMessage.message?.following;
+    recast = frameMessage.message?.recasted;
+    accountAddress = frameMessage.message?.interactor.verified_accounts[0];
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+
+
 
 
   console.log("Message Valid", FID, follow, recast, accountAddress);
