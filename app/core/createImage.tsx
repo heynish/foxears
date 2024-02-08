@@ -10,11 +10,12 @@ export async function createImage(name: string, description: string, category: s
     const image = await Jimp.read(path.resolve('public/linea-base.png'));
     const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
 
+    // Print the text on the image
     image.print(font, 0, 0, name)
       .print(font, 0, 50, description)
       .print(font, 0, 100, category)
-      .writeAsync('public/output.jpg');
-    image.quality(50);
+      .quality(50); // Set the image quality
+
     // Save the composite image to a buffer
     const buffer = await image.getBufferAsync(Jimp.MIME_JPEG);
     const newbuffer = Buffer.from(buffer);
