@@ -1,13 +1,13 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
-
+import path from 'path';
 
 export async function createImage(name: string, description: string, category: string): Promise<String> {
   try {
     // Load base and overlay images using Jimp
     console.time('Image Processing Time');
-    const image = await Jimp.read('public/linea-base.png');
+    const image = await Jimp.read(path.resolve('public/linea-base.png'));
     const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
 
     image.print(font, 0, 0, name)
