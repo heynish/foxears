@@ -67,23 +67,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         const fs = require('fs');
         const csv = require('csv-parser');
 
-        // @ts-ignore
-        const data = [];
-        try {
-            fs.createReadStream(path.resolve('public/dapps.csv'))
-                .pipe(csv())
-                // @ts-ignore
-                .on('data', (row) => {
-                    console.log(row)
-                    data.push(row);
-                })
-                .on('end', () => {
-                    console.log('CSV file successfully processed');
-                });
-        } catch (error) {
-            console.log(error);
+        console.log(path.resolve('public/dapps.csv'));
 
-        }
+        const data: string[] = [];
+        fs.createReadStream(path.resolve('public/dapps.csv'))
+            .on('error', console.error)
+            .pipe(csv())
+            .on('data', (row: any) => {
+                console.log(row)
+                data.push(row);
+            })
+            .on('end', () => {
+                console.log('CSV file successfully processed');
+            });
 
 
         const randomIndex = Math.floor(Math.random() * data.length);
