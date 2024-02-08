@@ -6,6 +6,7 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 import { createImage } from '../../../core/createImage';
 import { addDappUser, incrementUserTotalLoads } from '../../../core/addDappUser';
+import path from 'path';
 
 // Define a timeout function that returns a Promise
 function timeout(ms: number): Promise<NextResponse> {
@@ -69,7 +70,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         const data = [];
 
-        fs.createReadStream('public/dapps.csv')
+        fs.createReadStream(path.resolve('public/dapps.csv'))
             .pipe(csv())
             // @ts-ignore
             .on('data', (row) => {
