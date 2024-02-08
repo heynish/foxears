@@ -69,31 +69,50 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         console.log(path.resolve('public/dapps.csv'));
 
-        const data: string[] = [];
-        await fs.createReadStream(path.resolve('public/dapps.csv'))
-            .on('error', console.error)
-            .pipe(csv())
-            .on('data', (row: any) => {
-                console.log('row', row)
-                data.push(row);
-            })
-            .on('end', () => {
-                console.log('CSV file successfully processed');
+        const processData = (): Promise<any[]> => {
+            return new Promise((resolve, reject) => {
+                const data: any[] = [];
+                fs.createReadStream(path.resolve('public/dapps.csv'))
+                    .on('error', (err: any) => {
+                        console.error(err);
+                        reject(err);
+                    })
+                    .pipe(csv())
+                    .on('data', (row: any) => {
+                        console.log('row', row)
+                        data.push(row);
+                    })
+                    .on('end', () => {
+                        console.log('CSV file successfully processed');
+                        resolve(data);
+                    });
             });
+        };
 
-        console.log('Data', data);
-        const randomIndex = Math.floor(Math.random() * data.length);
-        console.log('randomIndex', randomIndex);
-        const randomRow = data[randomIndex];
-        console.log('randomRow', randomRow);
-        const values = Object.values(randomRow);
-        console.log('values', values);
-        const name = values[0];
-        const desc = values[1];
-        const category = values[2];
-        const url = values[3];
+        let name: string;
+        let desc: string;
+        let category: string;
+        let url: string;
 
-        console.log(name, desc, category, url);
+        // Use the function
+        processData().then((data) => {
+            console.log('Data', data);
+
+            const randomIndex = Math.floor(Math.random() * data.length);
+            console.log('randomIndex', randomIndex);
+            const randomRow = data[randomIndex];
+            console.log('randomRow', randomRow);
+            const values = Object.values(randomRow);
+            console.log('values', values);
+            name = values[0] as string;
+            desc = values[1] as string;
+            category = values[2] as string;
+            url = values[3] as string;
+            console.log(name, desc, category, url);
+        }).catch((err) => {
+            console.error('Error processing data:', err);
+        });
+
 
         console.time('Overlay Image Processing Time');
         // Overlay images and get the details
