@@ -13,7 +13,7 @@ export async function addDappUser(userData: UserData) {
     const { data, error } = await supabase
         .from('dapps') // Replace with your actual table name
         .insert([{
-            username: userData.fid,
+            fid: userData.fid,
             address: userData.address,
             loads: userData.loads,
             following: userData.following,
