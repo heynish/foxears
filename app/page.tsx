@@ -50,6 +50,8 @@ export default function Page() {
           <Image
             src='https://mframes.vercel.app/1.png'
             alt='Background Image'
+            width={500}  // replace with the actual image width
+            height={300} // replace with the actual image height
             layout='intrinsic'  // This ensures the image maintains its natural width and height
           />
           {/* Additional content */}
