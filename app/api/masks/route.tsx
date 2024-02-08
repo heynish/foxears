@@ -67,7 +67,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       })
       // @ts-ignore
       .catch(err => console.error(err));
-
+    console.timeEnd('Fetch User Data Time');
 
     // Fetch user data using parallel API calls
     /*console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.USERNAME);
