@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
+import React, { Suspense } from 'react';
 
 export default function RedirectPage() {
     const router = useRouter();
@@ -21,8 +22,10 @@ export default function RedirectPage() {
     }, [page, router]);
 
     return (
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
+        </Suspense>
+        /*<div>
             <p>Redirecting...</p>
-        </div>
+        </div>*/
     );
 }
