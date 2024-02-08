@@ -64,7 +64,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (!isValid || !message) {
     return new NextResponse("Invalid message", { status: 400 });
   }
-
+  console.log("is valid");
   const frameMessage = await getFrameMessage(body);
   console.log(frameMessage);
 
