@@ -74,20 +74,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             .on('error', console.error)
             .pipe(csv())
             .on('data', (row: any) => {
-                console.log(row)
+                console.log('row', row)
                 data.push(row);
             })
             .on('end', () => {
                 console.log('CSV file successfully processed');
             });
 
-        console.log(data);
+        console.log('Data', data);
         const randomIndex = Math.floor(Math.random() * data.length);
-        console.log(randomIndex);
+        console.log('randomIndex', randomIndex);
         const randomRow = data[randomIndex];
-
+        console.log('randomRow', randomRow);
         const values = Object.values(randomRow);
-
+        console.log('values', values);
         const name = values[0];
         const desc = values[1];
         const category = values[2];
