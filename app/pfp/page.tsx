@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 
 export default function RedirectPage() {
-    const router = useRouter();
+    /*const router = useRouter();
     const searchParams = useSearchParams();
     let page: string;
 
@@ -20,7 +20,7 @@ export default function RedirectPage() {
         // Or use Next.js router for client-side redirect (comment out the line above if using this)
         // router.push(youtubeUrl);
     }, [page, router]);
-
+*/
     return (
         <Suspense fallback={<div>Loading...</div>}>
         </Suspense>
