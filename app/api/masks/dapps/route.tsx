@@ -81,9 +81,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 console.log('CSV file successfully processed');
             });
 
-
+        console.log(data);
         const randomIndex = Math.floor(Math.random() * data.length);
-        // @ts-ignore
+        console.log(randomIndex);
         const randomRow = data[randomIndex];
 
         const values = Object.values(randomRow);
