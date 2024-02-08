@@ -77,8 +77,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const pfp = pfpData.data.userDataBody.value;
     console.log(username, pfp);*/
 
-    const username = data.user.username.value;
-    const pfp = data.user.pfp.url.value;
+    const username = data.result.user.username;
+    const pfp = data.result.user.pfp.url;
     console.log(username, pfp);
 
     // Set the overlay image options
