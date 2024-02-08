@@ -60,6 +60,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   // Parse and validate the frame message
   const body = await req.json();
+  console.log(body);
   const { isValid, message } = await validateFrameMessage(body);
   if (!isValid || !message) {
     return new NextResponse("Invalid message", { status: 400 });
