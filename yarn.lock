@@ -5601,7 +5601,7 @@ validate.io-number@^1.0.3:
   resolved "https://registry.npmjs.org/validate.io-number/-/validate.io-number-1.0.3.tgz"
   integrity sha512-kRAyotcbNaSYoDnXvb4MHg/0a1egJdLwS6oJ38TJY7aw9n93Fl/3blIXdyYvPOp55CNxywooG/3BcrwNrBpcSg==
 
-viem@^2.5.0:
+viem@^2.5.0, viem@^2.7.6:
   version "2.7.6"
   resolved "https://registry.npmjs.org/viem/-/viem-2.7.6.tgz"
   integrity sha512-43TF0VYcTeNef9dax1/BhqlRLXpAo6HAiQ68hrJ8XRhDOou73nHZEjeFl8Eai4UFFodKhu+PbRUFzuuoixOUfg==

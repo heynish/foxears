@@ -24,7 +24,8 @@
     "react-dom": "^18.2.0",
     "satori": "^0.10.13",
     "swr": "^2.2.4",
-    "utf-8-validate": "^6.0.3"
+    "utf-8-validate": "^6.0.3",
+    "viem": "^2.7.6"
   },
   "devDependencies": {
     "@types/node": "^20.11.8",
