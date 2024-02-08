@@ -25,7 +25,6 @@ function timeout(ms: number): Promise<NextResponse> {
 // Async function to handle the GET response
 async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.time('Total Response Time');
-
     let accountAddress: string | undefined = '';
     let follow: boolean | undefined = false;
     let recast: boolean | undefined = false;
@@ -101,7 +100,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         switch (buttonId) {
             case 1:
-                const postURLBack = `https://mframes.vercel.app/api/masks/dapps`;
                 console.timeEnd('Total Response Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
