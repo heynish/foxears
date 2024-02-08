@@ -44,7 +44,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   let FID: number | undefined = 3;
 
   // Parse the JSON body from the request
-  /*const body: FrameRequest = await req.json();
+  const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, {
     neynarApiKey: process.env.NEYNAR_API_KEY
   });
@@ -55,11 +55,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     recast = message.recasted;
     accountAddress = message.interactor.verified_accounts[0];
   }
-  
-  */
 
   // Parse and validate the frame message
-  const body = await req.json();
+  /*const body = await req.json();
   console.log(body);
   try {
     const { isValid, message } = await validateFrameMessage(body);
@@ -76,7 +74,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     accountAddress = frameMessage.message?.interactor.verified_accounts[0];
   } catch (error) {
     console.error('An error occurred:', error);
-  }
+  }*/
 
 
 
