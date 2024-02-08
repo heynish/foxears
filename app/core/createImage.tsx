@@ -9,14 +9,14 @@ export async function createImage(name: string, description: string, category: s
     console.time('Image Processing Time');
     const image = await Jimp.read(path.resolve('public/linea-base.png'));
 
-    let font64 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-64-white/open-sans-64-white.fnt')); // Built-in font
-    let font32 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-32-white/open-sans-32-white.fnt')); // Built-in font
-
+    //let font64 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-64-white/open-sans-64-white.fnt')); // Built-in font
+    //let font32 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-32-white/open-sans-32-white.fnt')); // Built-in font
+    let font64 = await Jimp.loadFont(path.join(process.cwd(), "public/fonts/open-sans-64-white/"));
 
     // Print the text on the image
     image.print(font64, 0, 0, name)
-      .print(font32, 0, 50, description)
-      .print(font32, 0, 100, category)
+      .print(font64, 0, 50, description)
+      .print(font64, 0, 100, category)
       .quality(50); // Set the image quality
 
     // Save the composite image to a buffer
