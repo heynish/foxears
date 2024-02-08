@@ -69,16 +69,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         // @ts-ignore
         const data = [];
+        try {
+            fs.createReadStream(path.resolve('public/dapps.csv'))
+                .pipe(csv())
+                // @ts-ignore
+                .on('data', (row) => {
+                    console.log(row)
+                    data.push(row);
+                })
+                .on('end', () => {
+                    console.log('CSV file successfully processed');
+                });
+        } catch (error) {
+            console.log(error);
 
-        fs.createReadStream(path.resolve('public/dapps.csv'))
-            .pipe(csv())
-            // @ts-ignore
-            .on('data', (row) => {
-                data.push(row);
-            })
-            .on('end', () => {
-                console.log('CSV file successfully processed');
-            });
+        }
+
 
         const randomIndex = Math.floor(Math.random() * data.length);
         // @ts-ignore
