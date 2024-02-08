@@ -70,7 +70,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.log(path.resolve('public/dapps.csv'));
 
         const data: string[] = [];
-        fs.createReadStream(path.resolve('public/dapps.csv'))
+        await fs.createReadStream(path.resolve('public/dapps.csv'))
             .on('error', console.error)
             .pipe(csv())
             .on('data', (row: any) => {
