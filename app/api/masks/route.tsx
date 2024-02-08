@@ -3,7 +3,6 @@ import {
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
-import { Name } from '@coinbase/onchainkit';
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
