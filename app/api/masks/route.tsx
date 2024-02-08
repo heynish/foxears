@@ -3,6 +3,7 @@ import {
   getFrameMessage,
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
+import { Name } from '@coinbase/onchainkit';
 import { USER_DATA_TYPE, UserData } from "../../farcaster/user";
 import { NextRequest, NextResponse } from 'next/server';
 import { overlayImages } from '../../core/overlayImages';
@@ -50,32 +51,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     accountAddress = message.interactor.verified_accounts[0];
   }
 
-  // Parse and validate the frame message
-  /*const body = await req.json();
-  console.log(body);
-  try {
-    const { isValid, message } = await validateFrameMessage(body);
-    if (!isValid || !message) {
-      return new NextResponse("Invalid message", { status: 400 });
-    }
-    console.log("is valid");
-    const frameMessage = await getFrameMessage(body);
-    console.log(frameMessage);
+  const sdk = require('api')('@neynar/v2.0#66h3glq5brsni');
 
-    FID = message.data.fid ?? 3;
-    follow = frameMessage.message?.following;
-    recast = frameMessage.message?.recasted;
-    accountAddress = frameMessage.message?.interactor.verified_accounts[0];
-  } catch (error) {
-    console.error('An error occurred:', error);
-  }*/
-
-
-
+  sdk.user({ fid: FID, viewerFid: FID, api_key: process.env.NEYNAR_API_KEY })
+    // @ts-ignore
+    .then(({ data }) => console.log(data))
+    // @ts-ignore
+    .catch(err => console.error(err));
 
   console.log("Message Valid", FID, follow, recast, accountAddress);
   try {
-
     console.time('Fetch User Data Time');
     // Fetch user data using parallel API calls
     console.log(HUBBLE_URL + '/userDataByFid?fid=' + FID + '&user_data_type=' + USER_DATA_TYPE.USERNAME);
