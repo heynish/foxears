@@ -671,10 +671,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@coinbase/onchainkit@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.npmjs.org/@coinbase/onchainkit/-/onchainkit-0.5.1.tgz"
-  integrity sha512-hAadKsVNT+QIGqS8ftDc3zb1pDk5ZOr8jI/XCFdQb8bjZTdbjAQHRI/WoAwJzkRtd9vo+8PWTSzb32eIgRtOng==
+"@coinbase/onchainkit@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.npmjs.org/@coinbase/onchainkit/-/onchainkit-0.4.5.tgz"
+  integrity sha512-kqyVQ0G07rqJz1zIc0BnJWOmA+ZWS87Zl1MEsZyqkiRhrJdA4E5E9ERP6Qe2s9K7XCRcdJ3jeUXc9okp6injRQ==
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
