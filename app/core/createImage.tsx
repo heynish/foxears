@@ -8,12 +8,15 @@ export async function createImage(name: string, description: string, category: s
     // Load base and overlay images using Jimp
     console.time('Image Processing Time');
     const image = await Jimp.read(path.resolve('public/linea-base.png'));
-    const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+
+    let font64 = await Jimp.loadFont(Jimp.FONT_SANS_64_WHITE); // Built-in font
+    let font32 = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE); // Built-in font
+
 
     // Print the text on the image
-    image.print(font, 0, 0, name)
-      .print(font, 0, 50, description)
-      .print(font, 0, 100, category)
+    image.print(font64, 0, 0, name)
+      .print(font32, 0, 50, description)
+      .print(font32, 0, 100, category)
       .quality(50); // Set the image quality
 
     // Save the composite image to a buffer
