@@ -9,8 +9,8 @@ export async function createImage(name: string, description: string, category: s
     console.time('Image Processing Time');
     const image = await Jimp.read(path.resolve('public/linea-base.png'));
 
-    let font64 = await Jimp.loadFont(Jimp.FONT_SANS_64_WHITE); // Built-in font
-    let font32 = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE); // Built-in font
+    let font64 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-64-white')); // Built-in font
+    let font32 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-32-white')); // Built-in font
 
 
     // Print the text on the image
