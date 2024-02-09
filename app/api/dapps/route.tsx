@@ -123,7 +123,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `https://mframes.vercel.app/dapps/image?name=${randomRow.name}`;
+        const imageUrl = `https://mframes.vercel.app/dapps/image?name=${randomRow.Name}`;
         console.log('imageUrl', imageUrl);
 
         switch (buttonId) {
