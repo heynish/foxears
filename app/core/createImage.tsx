@@ -11,7 +11,7 @@ export async function createImage(name: string, description: string, category: s
 
     //let font64 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-64-white/open-sans-64-white.fnt')); // Built-in font
     //let font32 = await Jimp.loadFont(path.resolve('public/fonts/open-sans-32-white/open-sans-32-white.fnt')); // Built-in font
-    let font64 = await Jimp.loadFont(path.join(process.cwd(), "public/fonts/open-sans-64-white/open-sans-64-white.fnt"));
+    let font64 = await Jimp.loadFont(path.join(process.cwd(), "public/fonts/open-sans/open-sans-64-white/open-sans-64-white.fnt"));
 
     // Print the text on the image
     image.print(font64, 0, 0, name)
