@@ -123,8 +123,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`;
-        console.log('imageUrl', imageUrl);
         const label = `Visit ${randomRow.Name}`;
         const urlR = `${randomRow.url}`;
         console.log('urlR', urlR);
