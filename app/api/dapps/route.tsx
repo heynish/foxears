@@ -126,7 +126,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`;
         console.log('imageUrl', imageUrl);
         const label = `Visit ${randomRow.Name}`;
-        const urlR = `Visit ${randomRow.url}`;
+        const urlR = `${randomRow.url}`;
         console.log('urlR', urlR);
 
         switch (buttonId) {
@@ -137,7 +137,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: 'Find Another' },
                         { action: 'post_redirect', label: label },
                     ],
-                    image: imageUrl,
+                    image: `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`,
                     post_url: 'https://mframes.vercel.app/api/dapps',
                 }));
                 break;
