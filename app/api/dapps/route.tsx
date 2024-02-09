@@ -123,8 +123,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `https://mframes.vercel.app/dapps/image?name=${randomRow.Name}`;
+        const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`;
         console.log('imageUrl', imageUrl);
+        const label = `Visit ${randomRow.Name}`;
 
         switch (buttonId) {
             case 1:
@@ -132,7 +133,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
                         { label: 'Find Another' },
-                        { action: 'post_redirect', label: 'Visit dapp' },
+                        { action: 'post_redirect', label: label },
                     ],
                     image: imageUrl,
                     post_url: 'https://mframes.vercel.app/api/dapps',
