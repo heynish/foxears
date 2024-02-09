@@ -14,7 +14,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.504.0",
     "@coinbase/onchainkit": "^0.4.5",
-    "@img/sharp-linux-x64": "^0.33.2",
     "@supabase/supabase-js": "^2.39.3",
     "api": "^6.1.1",
     "axios": "^1.6.7",
@@ -25,7 +24,7 @@
     "react": "^18",
     "react-dom": "^18.2.0",
     "satori": "^0.10.13",
-    "sharp": "^0.33.2",
+    "sharp": "^0.32.6",
     "swr": "^2.2.4",
     "utf-8-validate": "^6.0.3",
     "viem": "^2.7.6"
