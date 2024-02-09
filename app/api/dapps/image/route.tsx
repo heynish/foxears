@@ -16,6 +16,8 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const name = searchParams.get('name') ?? "";
 
+    console.log('image params', name);
+
 
     const svg = await satori(
         <div
@@ -81,6 +83,8 @@ export async function GET(req: NextRequest) {
         .resize(1200)
         .toFormat("png")
         .toBuffer();*/
+
+    console.log('buffer', buffer);
     // @ts-ignore
     return new NextResponse(buffer, {
         status: 200,
