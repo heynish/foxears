@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
         status: 200,
         headers: {
             "Content-Type": "image/png",
-            "Cache-Control": "max-age=2",
+            "Cache-Control": "no-store",
         },
     });
 }
