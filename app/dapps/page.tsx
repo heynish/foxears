@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Try a dapp',
         description: 'Try a dapp',
-        images: ['https://mframes.vercel.app/dapps/main.png'],
+        images: ['https://mframes.vercel.app/dappsimage/main.png'],
     },
     other: {
         ...frameMetadata,
@@ -46,7 +46,7 @@ export default function Page() {
                     position: 'relative' // Needed for next/image to work properly
                 }}>
                     <Image
-                        src='https://mframes.vercel.app/dapps/main.png'
+                        src='https://mframes.vercel.app/dappsimage/main.png'
                         alt='Background Image'
                         width={500}  // replace with the actual image width
                         height={300} // replace with the actual image height

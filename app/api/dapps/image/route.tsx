@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
                 padding: 50,
                 lineHeight: 1.2,
                 color: "white",
-                backgroundImage: `url(https://mframes.vercel.app/dapps/bg.png'))`,
+                backgroundImage: `url(https://mframes.vercel.app/dappsimage/bg.png)`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             }}
