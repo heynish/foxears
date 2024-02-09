@@ -15,6 +15,7 @@ let interBold = fs.readFileSync(interBoldPath);
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const name = searchParams.get('name') ?? "";
+    const desc = searchParams.get('desc') ?? "";
 
 
     const svg = await satori(
@@ -29,7 +30,7 @@ export async function GET(req: NextRequest) {
                 backgroundColor: "black",
                 padding: 50,
                 lineHeight: 1.2,
-                fontSize: 24,
+                fontSize: 40,
                 color: "white",
             }}
         >
@@ -43,6 +44,16 @@ export async function GET(req: NextRequest) {
                 }}
             >
                 {name}
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 8
+                }}
+            >
+                {desc}
             </div>
         </div>,
         {
