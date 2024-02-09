@@ -57,71 +57,72 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     console.log("Message Valid", buttonId);
     try {
-        // Prepare user data for adding/updating user records
-        const userData = {
-            fid: FID,
-            address: accountAddress || "",
-            loads: 1,
-            following: follow || false,
-            recasted: recast || false,
-        };
-        // Increment user total loads and add user if new
-        let newUser = false;
-        const totalLoads = await incrementUserTotalLoads(FID);
-        newUser = totalLoads ? false : await addDappUser(userData);
-        console.log("Database updated");
 
-        const processData = (): Promise<CsvRow[]> => {
-            return new Promise((resolve, reject) => {
-                const data: CsvRow[] = [];
-                fs.createReadStream(path.resolve('public/dapps.csv'))
-                    .on('error', (err: any) => {
-                        console.error(err);
-                        reject(err);
-                    })
-                    .pipe(csv())
-                    .on('data', (row: CsvRow) => {
-                        data.push(row);
-                    })
-                    .on('end', () => {
-                        console.log('CSV file successfully processed');
-                        resolve(data);
-                    });
-            });
-        };
-
-        // Use the function
-        const fetchData = async (): Promise<CsvRow> => {
-            try {
-                const data = await processData();
-
-                const randomIndex = Math.floor(Math.random() * data.length);
-                console.log('randomIndex', randomIndex);
-                const randomRow = data[randomIndex];
-                const { Name: name, Desc: desc, Category: category, url } = randomRow;
-                console.log(name, desc, category, url);
-
-                return randomRow;
-            } catch (err) {
-                console.error('Error processing data:', err);
-                throw err;  // Ensure error is propagated if you want to handle it outside
-            }
-        }
-
-        const randomRow = await fetchData();
-
-        //console.time('Overlay Image Processing Time');
-        // Overlay images and get the details
-        // @ts-ignore
-        //const image = await createImage(name, desc, category);
-        //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}&desc=${randomRow.Desc}`;
-        const label = `Visit ${randomRow.Name}`;
-        const urlR = `${randomRow.url}`;
-        console.log('urlR', urlR);
 
         switch (buttonId) {
             case 1:
+                // Prepare user data for adding/updating user records
+                const userData = {
+                    fid: FID,
+                    address: accountAddress || "",
+                    loads: 1,
+                    following: follow || false,
+                    recasted: recast || false,
+                };
+                // Increment user total loads and add user if new
+                let newUser = false;
+                const totalLoads = await incrementUserTotalLoads(FID);
+                newUser = totalLoads ? false : await addDappUser(userData);
+                console.log("Database updated");
+
+                const processData = (): Promise<CsvRow[]> => {
+                    return new Promise((resolve, reject) => {
+                        const data: CsvRow[] = [];
+                        fs.createReadStream(path.resolve('public/dapps.csv'))
+                            .on('error', (err: any) => {
+                                console.error(err);
+                                reject(err);
+                            })
+                            .pipe(csv())
+                            .on('data', (row: CsvRow) => {
+                                data.push(row);
+                            })
+                            .on('end', () => {
+                                console.log('CSV file successfully processed');
+                                resolve(data);
+                            });
+                    });
+                };
+
+                // Use the function
+                const fetchData = async (): Promise<CsvRow> => {
+                    try {
+                        const data = await processData();
+
+                        const randomIndex = Math.floor(Math.random() * data.length);
+                        console.log('randomIndex', randomIndex);
+                        const randomRow = data[randomIndex];
+                        const { Name: name, Desc: desc, Category: category, url } = randomRow;
+                        console.log(name, desc, category, url);
+
+                        return randomRow;
+                    } catch (err) {
+                        console.error('Error processing data:', err);
+                        throw err;  // Ensure error is propagated if you want to handle it outside
+                    }
+                }
+
+                const randomRow = await fetchData();
+
+                //console.time('Overlay Image Processing Time');
+                // Overlay images and get the details
+                // @ts-ignore
+                //const image = await createImage(name, desc, category);
+                //console.timeEnd('Overlay Image Processing Time');
+                const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}&desc=${randomRow.Desc}`;
+                const label = `Visit ${randomRow.Name}`;
+                const urlR = `${randomRow.url}`;
+                console.log('urlR', urlR);
                 console.timeEnd('Total Response Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
