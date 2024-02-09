@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import satori from "satori";
-import Jimp from 'jimp';
+import sharp from 'sharp';
 import { join } from "path";
 import * as fs from "fs";
 
@@ -68,28 +68,13 @@ export async function GET(req: NextRequest) {
 
     console.log('SVG:', svg);
 
-    let img = await Jimp.read(Buffer.from(svg));
-    console.log('Buffer:', Buffer.from(svg));
-
-    // resize image
-    img = img.resize(1200, Jimp.AUTO);
-
-    // convert to PNG and get buffer
-    const buffer = await new Promise((resolve, reject) => {
-        img.getBuffer(Jimp.MIME_PNG, (err, buffer) => {
-            if (err) reject(err);
-            else resolve(buffer);
-        });
-    });
-
-    /*const img = await sharp(Buffer.from(svg))
+    const img = await sharp(Buffer.from(svg))
         .resize(1200)
         .toFormat("png")
-        .toBuffer();*/
+        .toBuffer();
 
-    console.log('buffer', buffer);
-    // @ts-ignore
-    return new NextResponse(buffer, {
+    console.log('buffer', img);
+    return new NextResponse(img, {
         status: 200,
         headers: {
             "Content-Type": "image/png",
