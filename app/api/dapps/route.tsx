@@ -130,14 +130,17 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { action: 'post_redirect', label: label },
                     ],
                     image: imageUrl,
-                    post_url: 'https://mframes.vercel.app/api/dapps',
+                    post_url: 'https://mframes.vercel.app/api/dapps?' + 'urlR=' + urlR,
                 })
                 );
                 break;
             case 2:
+                const searchParams = req.nextUrl.searchParams
+                const url = searchParams.get('urlR') ?? "";
+                console.log('urlR', url);
                 console.timeEnd('Total Response Time');
                 // @ts-ignore
-                return NextResponse.redirect(urlR, { status: 302 });
+                return NextResponse.redirect(url, { status: 302 });
                 break;
             default:
                 throw new Error('Invalid button ID.');
