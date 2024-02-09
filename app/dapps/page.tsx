@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Try a dapp',
         description: 'Try a dapp',
-        images: ['https://mframes.vercel.app/linea.png'],
+        images: ['https://mframes.vercel.app/dapps/main.png'],
     },
     other: {
         ...frameMetadata,
