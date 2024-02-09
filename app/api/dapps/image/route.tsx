@@ -6,11 +6,11 @@ import * as fs from "fs";
 
 export const dynamic = "force-dynamic";
 
-const interRegPath = join(process.cwd(), "public/Inter-Regular.ttf");
-let interReg = fs.readFileSync(interRegPath);
+const regPath = join(process.cwd(), "public/dappsimage/AtypDisplay-Regular.ttf");
+let reg = fs.readFileSync(regPath);
 
-const interBoldPath = join(process.cwd(), "public/Inter-Bold.ttf");
-let interBold = fs.readFileSync(interBoldPath);
+const boldPath = join(process.cwd(), "public/dappsimage/AtypDisplay-Semibold.ttf");
+let bold = fs.readFileSync(boldPath);
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
@@ -42,19 +42,7 @@ export async function GET(req: NextRequest) {
                     justifyContent: "center",
                     alignItems: "center",
                     fontWeight: "bold",
-                    fontSize: 48,
-                }}
-            >
-                Linea Ecosystem Dapps
-            </div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontWeight: "bold",
-                    fontSize: 32,
-                    marginTop: 12
+                    fontSize: 60,
                 }}
             >
                 {name}
@@ -64,8 +52,8 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    textAlign: "center",
-                    fontSize: 16,
+                    fontWeight: "bold",
+                    fontSize: 28,
                     marginTop: 12
                 }}
             >
@@ -77,14 +65,14 @@ export async function GET(req: NextRequest) {
             height: 418,
             fonts: [
                 {
-                    name: "Inter",
-                    data: interReg,
+                    name: "Atyp",
+                    data: reg,
                     weight: 400,
                     style: "normal",
                 },
                 {
-                    name: "Inter",
-                    data: interBold,
+                    name: "Atyp",
+                    data: bold,
                     weight: 800,
                     style: "normal",
                 },

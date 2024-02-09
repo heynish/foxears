@@ -9,7 +9,7 @@ const frameMetadata = getFrameMetadata({
             label: 'Find me a dapp to try',
         },
     ],
-    image: `https://mframes.vercel.app/linea.png`,
+    image: `https://mframes.vercel.app/dappsimage/main.png`,
     post_url: `https://mframes.vercel.app/api/dapps`,
 });
 
