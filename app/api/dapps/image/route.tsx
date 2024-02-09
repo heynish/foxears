@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
                 color: "white",
             }}
         >
-            <h1>Linea Ecosystem Dapps</h1>
+            Linea Ecosystem Dapps
             <div
                 style={{
                     display: "flex",
@@ -46,8 +46,8 @@ export async function GET(req: NextRequest) {
             </div>
         </div>,
         {
-            width: 600,
-            height: 400,
+            width: 800,
+            height: 418,
             fonts: [
                 {
                     name: "Inter",
