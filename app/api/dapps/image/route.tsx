@@ -16,8 +16,6 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const name = searchParams.get('name') ?? "";
 
-    console.log('image params', name);
-
 
     const svg = await satori(
         <div
@@ -71,11 +69,12 @@ export async function GET(req: NextRequest) {
         .resize(1200)
         .toFormat("png")
         .toBuffer();
+    console.log('Image Created');
     return new NextResponse(img, {
         status: 200,
         headers: {
             "Content-Type": "image/png",
-            "Cache-Control": "max-age=10",
+            "Cache-Control": "max-age=2",
         },
     });
 }

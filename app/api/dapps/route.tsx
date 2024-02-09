@@ -124,36 +124,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         switch (buttonId) {
             case 1:
                 console.timeEnd('Total Response Time');
-                return new NextResponse(
-                    `<!DOCTYPE html>
-        <html>
-          <head>
-            <title>Linea Dapps</title>
-            <meta property="og:title" content="Linea Dapps" />
-            <meta property="og:image" content="${imageUrl}" />
-            <meta name="fc:frame" content="vNext" />
-            <meta name="fc:frame:image" content="${imageUrl}" />
-            <meta name="fc:frame:button:1" content="Find Another" />
-            <meta name="fc:frame:button:2" content="${label}" />
-            <meta name="fc:frame:button:2:action": "post_redirect" />,
-          </head>
-          <body>Linea</body>
-        </html>`,
-                    {
-                        status: 200,
-                        headers: {
-                            "Content-Type": "text/html",
-                        },
-                    }
-
-                    /* getFrameHtmlResponse({
-                        buttons: [
-                            { label: 'Find Another' },
-                            { action: 'post_redirect', label: label },
-                        ],
-                        image: imageUrl,
-                        post_url: 'https://mframes.vercel.app/api/dapps',
-                    }) */
+                return new NextResponse(getFrameHtmlResponse({
+                    buttons: [
+                        { label: 'Find Another' },
+                        { action: 'post_redirect', label: label },
+                    ],
+                    image: imageUrl,
+                    post_url: 'https://mframes.vercel.app/api/dapps',
+                })
                 );
                 break;
             case 2:
