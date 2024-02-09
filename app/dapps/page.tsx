@@ -46,7 +46,7 @@ export default function Page() {
                     position: 'relative' // Needed for next/image to work properly
                 }}>
                     <Image
-                        src='https://mframes.vercel.app/linea.png'
+                        src='https://mframes.vercel.app/dapps/main.png'
                         alt='Background Image'
                         width={500}  // replace with the actual image width
                         height={300} // replace with the actual image height

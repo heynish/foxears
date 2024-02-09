@@ -31,6 +31,9 @@ export async function GET(req: NextRequest) {
                 padding: 50,
                 lineHeight: 1.2,
                 color: "white",
+                backgroundImage: `url(/dapps/bg.png'))`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
             }}
         >
             <div
