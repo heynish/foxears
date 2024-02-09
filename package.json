@@ -24,7 +24,7 @@
     "react": "^18",
     "react-dom": "^18.2.0",
     "satori": "^0.10.13",
-    "sharp": "^0.33.2",
+    "sharp": "@img/sharp-linux-x64@0.33.2",
     "swr": "^2.2.4",
     "utf-8-validate": "^6.0.3",
     "viem": "^2.7.6"
