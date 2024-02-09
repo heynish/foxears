@@ -126,6 +126,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`;
         console.log('imageUrl', imageUrl);
         const label = `Visit ${randomRow.Name}`;
+        const urlR = `Visit ${randomRow.url}`;
+        console.log('urlR', urlR);
 
         switch (buttonId) {
             case 1:
@@ -142,7 +144,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             case 2:
                 console.timeEnd('Total Response Time');
                 // @ts-ignore
-                return NextResponse.redirect(url, { status: 302 });
+                return NextResponse.redirect(urlR, { status: 302 });
                 break;
             default:
                 throw new Error('Invalid button ID.');

@@ -28,23 +28,24 @@ export async function GET(req: NextRequest) {
                 flexDirection: "column",
                 width: "100%",
                 height: "100%",
-                backgroundColor: "white",
+                backgroundColor: "black",
                 padding: 50,
                 lineHeight: 1.2,
                 fontSize: 24,
-                color: "black",
+                color: "white",
             }}
         >
             <h1>Linea Ecosystem Dapps</h1>
-            <div style={{ display: "flex" }}>
-                You have the flag{" "}
-                <img
-                    width="32"
-                    height="32"
-                    src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/15.0.3/72x72/1f6a9.png"
-                />
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 12
+                }}
+            >
+                {name}
             </div>
-            <div style={{ display: "flex", marginTop: 12 }}>{name}</div>
         </div>,
         {
             width: 600,
