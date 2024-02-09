@@ -42,58 +42,59 @@ export async function GET(req: NextRequest) {
                 }}
             >
                 Linea Ecosystem Dapps
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontSize: 24,
-                        marginTop: 12
-                    }}
-                >
-                    {name}
-                </div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontSize: 12,
-                        marginTop: 12
-                    }}
-                >
-                    {desc}
-                </div>
-            </div>,
-            {
-                width: 800,
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: 24,
+                    marginTop: 12
+                }}
+            >
+                {name}
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: 12,
+                    marginTop: 12
+                }}
+            >
+                {desc}
+            </div>
+        </div>,
+        {
+            width: 800,
             height: 418,
             fonts: [
-            {
-                name: "Inter",
-            data: interReg,
-            weight: 400,
-            style: "normal",
+                {
+                    name: "Inter",
+                    data: interReg,
+                    weight: 400,
+                    style: "normal",
                 },
-            {
-                name: "Inter",
-            data: interBold,
-            weight: 800,
-            style: "normal",
+                {
+                    name: "Inter",
+                    data: interBold,
+                    weight: 800,
+                    style: "normal",
                 },
             ],
         },
-            );
+    );
 
-            const img = await sharp(Buffer.from(svg))
-            .resize(1200)
-            .toFormat("png")
-            .toBuffer();
-            console.log('Image Created');
-            return new NextResponse(img, {
-                status: 200,
-            headers: {
-                "Content-Type": "image/png",
+    const img = await sharp(Buffer.from(svg))
+        .resize(1200)
+        .toFormat("png")
+        .toBuffer();
+    console.log('Image Created');
+    return new NextResponse(img, {
+        status: 200,
+        headers: {
+            "Content-Type": "image/png",
             "Cache-Control": "no-store",
         },
     });
