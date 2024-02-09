@@ -10,11 +10,11 @@ const frameMetadata = getFrameMetadata({
         },
     ],
     image: `https://mframes.vercel.app/linea.png`,
-    post_url: `https://mframes.vercel.app/api/masks/dapps`,
+    post_url: `https://mframes.vercel.app/api/dapps`,
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://mframes.vercel.app/masks/dapps'),
+    metadataBase: new URL('https://mframes.vercel.app/dapps'),
     title: 'Try a dapp',
     description: 'Try a dapp',
     openGraph: {

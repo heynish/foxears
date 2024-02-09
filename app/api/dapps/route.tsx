@@ -4,8 +4,8 @@ import {
     getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { createImage } from '../../../core/createImage';
-import { addDappUser, incrementUserTotalLoads } from '../../../core/addDappUser';
+import { createImage } from '../../core/createImage';
+import { addDappUser, incrementUserTotalLoads } from '../../core/addDappUser';
 import path from 'path';
 
 // Define a timeout function that returns a Promise
@@ -18,7 +18,7 @@ function timeout(ms: number): Promise<NextResponse> {
                 },
             ],
             image: `https://mframes.vercel.app/linea.png`,
-            post_url: `https://mframes.vercel.app/api/masks/dapps`,
+            post_url: `https://mframes.vercel.app/api/dapps`,
         })));
     }, ms));
 }
@@ -114,11 +114,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         });
 
 
-        console.time('Overlay Image Processing Time');
+        //console.time('Overlay Image Processing Time');
         // Overlay images and get the details
         // @ts-ignore
-        const image = await createImage(name, desc, category);
-        console.timeEnd('Overlay Image Processing Time');
+        //const image = await createImage(name, desc, category);
+        //console.timeEnd('Overlay Image Processing Time');
+        const imageUrl = `${process.env["HOST"]}/api/dapps/image?name=${name}`;
 
         switch (buttonId) {
             case 1:
@@ -128,8 +129,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: 'Find Another' },
                         { action: 'post_redirect', label: 'Visit dapp' },
                     ],
-                    image: image.toString(),
-                    post_url: 'https://mframes.vercel.app/api/masks/dapps',
+                    image: imageUrl,
+                    post_url: 'https://mframes.vercel.app/api/dapps',
                 }));
                 break;
             case 2:
