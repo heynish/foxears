@@ -136,13 +136,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                     `<!DOCTYPE html>
         <html>
           <head>
-            <title>Yoinked!</title>
-            <meta property="og:title" content="Find Another" />
+            <title>Linea Dapps</title>
+            <meta property="og:title" content="Linea Dapps" />
             <meta property="og:image" content="${imageUrl}" />
             <meta name="fc:frame" content="vNext" />
             <meta name="fc:frame:image" content="${imageUrl}" />
+            <meta name="fc:frame:button:1" content="Find Another" />
+            <meta name="fc:frame:button:2" content="${label}" />
+            "fc:frame:button:2:action": "post_redirect",
           </head>
-          <body>Yoink</body>
+          <body>Linea</body>
         </html>`,
                     {
                         status: 200,
