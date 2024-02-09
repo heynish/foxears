@@ -55,7 +55,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         buttonId = message.button || 1;
     }
 
-    console.log("Message Valid", FID, follow, recast, accountAddress, buttonId);
+    console.log("Message Valid", buttonId);
     try {
         // Prepare user data for adding/updating user records
         const userData = {
@@ -65,15 +65,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             following: follow || false,
             recasted: recast || false,
         };
-        console.time('User Data Update Time');
         // Increment user total loads and add user if new
         let newUser = false;
         const totalLoads = await incrementUserTotalLoads(FID);
         newUser = totalLoads ? false : await addDappUser(userData);
-        console.timeEnd('User Data Update Time');
         console.log("Database updated");
-
-        console.log(path.resolve('public/dapps.csv'));
 
         const processData = (): Promise<CsvRow[]> => {
             return new Promise((resolve, reject) => {
@@ -85,7 +81,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                     })
                     .pipe(csv())
                     .on('data', (row: CsvRow) => {
-                        console.log('row', row)
                         data.push(row);
                     })
                     .on('end', () => {
@@ -99,13 +94,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         const fetchData = async (): Promise<CsvRow> => {
             try {
                 const data = await processData();
-                console.log('Data', data);
 
                 const randomIndex = Math.floor(Math.random() * data.length);
                 console.log('randomIndex', randomIndex);
                 const randomRow = data[randomIndex];
-                console.log('randomRow', randomRow);
-
                 const { Name: name, Desc: desc, Category: category, url } = randomRow;
                 console.log(name, desc, category, url);
 
@@ -143,7 +135,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             <meta name="fc:frame:image" content="${imageUrl}" />
             <meta name="fc:frame:button:1" content="Find Another" />
             <meta name="fc:frame:button:2" content="${label}" />
-            "fc:frame:button:2:action": "post_redirect",
+            <meta name="fc:frame:button:2:action": "post_redirect" />,
           </head>
           <body>Linea</body>
         </html>`,

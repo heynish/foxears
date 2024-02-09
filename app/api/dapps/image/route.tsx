@@ -67,14 +67,10 @@ export async function GET(req: NextRequest) {
         },
     );
 
-    console.log('SVG:', svg);
-
     const img = await sharp(Buffer.from(svg))
         .resize(1200)
         .toFormat("png")
         .toBuffer();
-
-    console.log('buffer', img);
     return new NextResponse(img, {
         status: 200,
         headers: {
