@@ -11,9 +11,9 @@ import path from 'path';
 import fs from 'fs';
 
 interface CsvRow {
-    name: string;
-    desc: string;
-    category: string;
+    Name: string;
+    Desc: string;
+    Category: string;
     url: string;
 }
 
@@ -106,7 +106,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 const randomRow = data[randomIndex];
                 console.log('randomRow', randomRow);
 
-                const { name, desc, category, url } = randomRow;
+                const { Name: name, Desc: desc, Category: category, url } = randomRow;
                 console.log(name, desc, category, url);
 
                 return randomRow;
@@ -123,7 +123,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `${process.env["HOST"]}/api/dapps/image?name=${randomRow.name}`;
+        const imageUrl = `https://mframes.vercel.app/dapps/image?name=${randomRow.name}`;
         console.log('imageUrl', imageUrl);
 
         switch (buttonId) {
