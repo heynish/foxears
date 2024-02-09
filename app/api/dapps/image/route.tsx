@@ -66,7 +66,10 @@ export async function GET(req: NextRequest) {
         },
     );
 
+    console.log('SVG:', svg);
+
     let img = await Jimp.read(Buffer.from(svg));
+    console.log('Buffer:', Buffer.from(svg));
 
     // resize image
     img = img.resize(1200, Jimp.AUTO);
