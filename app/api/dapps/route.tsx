@@ -96,7 +96,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         };
 
         // Use the function
-        const useData = async (): Promise<CsvRow> => {
+        const fetchData = async (): Promise<CsvRow> => {
             try {
                 const data = await processData();
                 console.log('Data', data);
@@ -116,7 +116,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             }
         }
 
-        const randomRow = await useData();
+        const randomRow = await fetchData();
 
         //console.time('Overlay Image Processing Time');
         // Overlay images and get the details
