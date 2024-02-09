@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --log-level warn --write .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "npm rebuild sharp && npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "https://twitter.com/heynmodi",
   "dependencies": {
