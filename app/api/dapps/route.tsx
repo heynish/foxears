@@ -6,7 +6,16 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 import { createImage } from '../../core/createImage';
 import { addDappUser, incrementUserTotalLoads } from '../../core/addDappUser';
+import csv from 'csv-parser';
 import path from 'path';
+import fs from 'fs';
+
+interface CsvRow {
+    name: string;
+    desc: string;
+    category: string;
+    url: string;
+}
 
 // Define a timeout function that returns a Promise
 function timeout(ms: number): Promise<NextResponse> {
@@ -46,7 +55,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         buttonId = message.button || 1;
     }
 
-    console.log("Message Valid", FID, follow, recast, accountAddress);
+    console.log("Message Valid", FID, follow, recast, accountAddress, buttonId);
     try {
         // Prepare user data for adding/updating user records
         const userData = {
@@ -64,21 +73,18 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.timeEnd('User Data Update Time');
         console.log("Database updated");
 
-        const fs = require('fs');
-        const csv = require('csv-parser');
-
         console.log(path.resolve('public/dapps.csv'));
 
-        const processData = (): Promise<any[]> => {
+        const processData = (): Promise<CsvRow[]> => {
             return new Promise((resolve, reject) => {
-                const data: any[] = [];
+                const data: CsvRow[] = [];
                 fs.createReadStream(path.resolve('public/dapps.csv'))
                     .on('error', (err: any) => {
                         console.error(err);
                         reject(err);
                     })
                     .pipe(csv())
-                    .on('data', (row: any) => {
+                    .on('data', (row: CsvRow) => {
                         console.log('row', row)
                         data.push(row);
                     })
@@ -89,37 +95,36 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             });
         };
 
-        let name: string;
-        let desc: string;
-        let category: string;
-        let url: string;
-
         // Use the function
-        processData().then((data) => {
-            console.log('Data', data);
+        const useData = async (): Promise<CsvRow> => {
+            try {
+                const data = await processData();
+                console.log('Data', data);
 
-            const randomIndex = Math.floor(Math.random() * data.length);
-            console.log('randomIndex', randomIndex);
-            const randomRow = data[randomIndex];
-            console.log('randomRow', randomRow);
-            const values = Object.values(randomRow);
-            console.log('values', values);
-            name = values[0] as string;
-            desc = values[1] as string;
-            category = values[2] as string;
-            url = values[3] as string;
-            console.log(name, desc, category, url);
-        }).catch((err) => {
-            console.error('Error processing data:', err);
-        });
+                const randomIndex = Math.floor(Math.random() * data.length);
+                console.log('randomIndex', randomIndex);
+                const randomRow = data[randomIndex];
+                console.log('randomRow', randomRow);
 
+                const { name, desc, category, url } = randomRow;
+                console.log(name, desc, category, url);
+
+                return randomRow;
+            } catch (err) {
+                console.error('Error processing data:', err);
+                throw err;  // Ensure error is propagated if you want to handle it outside
+            }
+        }
+
+        const randomRow = await useData();
 
         //console.time('Overlay Image Processing Time');
         // Overlay images and get the details
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
-        const imageUrl = `${process.env["HOST"]}/api/dapps/image?name=${name}`;
+        const imageUrl = `${process.env["HOST"]}/api/dapps/image?name=${randomRow.name}`;
+        console.log('imageUrl', imageUrl);
 
         switch (buttonId) {
             case 1:
