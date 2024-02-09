@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontWeight: "bold",
+                    fontFamily: 'Atyp',
                     fontSize: 60,
                 }}
             >
@@ -52,7 +52,8 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontFamily: 'Atyp',
                     fontSize: 28,
                     marginTop: 12
                 }}
