@@ -123,6 +123,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         // @ts-ignore
         //const image = await createImage(name, desc, category);
         //console.timeEnd('Overlay Image Processing Time');
+        const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`;
+        console.log('imageUrl', imageUrl);
         const label = `Visit ${randomRow.Name}`;
         const urlR = `${randomRow.url}`;
         console.log('urlR', urlR);
@@ -130,14 +132,34 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         switch (buttonId) {
             case 1:
                 console.timeEnd('Total Response Time');
-                return new NextResponse(getFrameHtmlResponse({
-                    buttons: [
-                        { label: 'Find Another' },
-                        { action: 'post_redirect', label: label },
-                    ],
-                    image: `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}`,
-                    post_url: 'https://mframes.vercel.app/api/dapps',
-                }));
+                return new NextResponse(
+                    `<!DOCTYPE html>
+        <html>
+          <head>
+            <title>Yoinked!</title>
+            <meta property="og:title" content="Find Another" />
+            <meta property="og:image" content="${imageUrl}" />
+            <meta name="fc:frame" content="vNext" />
+            <meta name="fc:frame:image" content="${imageUrl}" />
+          </head>
+          <body>Yoink</body>
+        </html>`,
+                    {
+                        status: 200,
+                        headers: {
+                            "Content-Type": "text/html",
+                        },
+                    }
+
+                    /* getFrameHtmlResponse({
+                        buttons: [
+                            { label: 'Find Another' },
+                            { action: 'post_redirect', label: label },
+                        ],
+                        image: imageUrl,
+                        post_url: 'https://mframes.vercel.app/api/dapps',
+                    }) */
+                );
                 break;
             case 2:
                 console.timeEnd('Total Response Time');
