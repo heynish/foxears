@@ -38,7 +38,8 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontSize: 32,
+                    fontWeight: "bold",
+                    fontSize: 48,
                 }}
             >
                 Linea Ecosystem Dapps
@@ -48,7 +49,8 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontSize: 24,
+                    fontWeight: "bold",
+                    fontSize: 32,
                     marginTop: 12
                 }}
             >
@@ -59,7 +61,8 @@ export async function GET(req: NextRequest) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    fontSize: 12,
+                    textAlign: "center",
+                    fontSize: 16,
                     marginTop: 12
                 }}
             >
