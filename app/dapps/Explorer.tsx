@@ -17,7 +17,7 @@ export default function Explorer() {
 
     useEffect(() => {
         const getStats = async () => {
-            let res = await fetch("/api/dapps/stats", { next: { revalidate: 1800 } });
+            let res = await fetch("/api/dapps/stats", { next: { revalidate: 10 } });
             const _stats = await res.json();
             setStats(_stats);
         };
@@ -28,7 +28,7 @@ export default function Explorer() {
 
     return (
         <div className="space-y-4">
-            <h1 className="text-8xl font-bold">Yoink!</h1>
+            <h1 className="text-8xl font-bold">Dapp Explorer</h1>
             {<p className="text-2xl">{username} is the top explorer.</p>}
             {<p className="text-2xl">The dapps have been explored {totalloads} times.</p>}
             <div className="mt-4 text-xl">
