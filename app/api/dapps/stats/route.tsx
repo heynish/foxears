@@ -5,6 +5,11 @@ export const revalidate = 1800;
 
 export async function GET() {
 
+    const { data: tUser, error: error4 } = await supabase.rpc('get_top_user');
+
+    if (error4) throw error4;
+    console.log('tUser', tUser);
+
     const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
     if (error2) throw error2;
     let totalLoads;
