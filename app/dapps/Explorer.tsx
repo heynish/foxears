@@ -40,25 +40,24 @@ export default function Explorer() {
     return (
         <>
             <div className="space-y-4 text-center">
-                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto" />
+                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto w-128 mb-60" />
 
                 <h1 className="text-8xl" style={{ fontFamily: 'Atyp' }}>Dapp Explorer</h1>
 
-                <p className="text-2xl" style={{ fontFamily: 'Atyp' }}>
-                    The dapps have been explored {totalloads} times.
+                <p className="text-2xl mb-30" style={{ fontFamily: 'Atyp' }}>
+                    Explored {totalloads} times.
                 </p>
 
-                <div className="mt-4 text-xl" style={{ fontFamily: 'Atyp' }}>
+                <div className="mt-4 text-xl mb-30" style={{ fontFamily: 'Atyp' }}>
                     <p>
-                        Explore{" "}
+                        Explore dapps on{" "}
                         <a
                             className="text-red-500 underline"
                             href="https://warpcast.com/"
                             target="_blank"
                         >
-                            here
-                        </a>{" "}
-                        on Warpcast.
+                            Warpcast.
+                        </a>
                     </p>
                 </div>
 
