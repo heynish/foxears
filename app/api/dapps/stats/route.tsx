@@ -13,6 +13,7 @@ export async function GET() {
         console.log('totalLoadsData[0]', totalLoadsData[0]);
         totalLoads = totalLoadsData[0].get_sum_loads;
     } else {
+        console.error('Error calling get_sum_loads:', error2);
         console.error('No data returned from get_sum_loads');
     }
 

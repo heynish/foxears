@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Leaderboard from "./Leaderboard";
 
 interface Stats {
-    username?: string;
+    topuser?: string;
     totalloads?: string;
     leaderboard?: [string, number][];
 }
@@ -24,7 +24,8 @@ export default function Explorer() {
         getStats();
     }, []);
 
-    const { username, totalloads, leaderboard } = stats;
+    const { topuser, totalloads, leaderboard } = stats;
+    console.log(topuser, totalloads, leaderboard);
 
     return (
         <div className="space-y-4 text-center">
