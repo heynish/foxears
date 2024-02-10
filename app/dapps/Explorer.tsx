@@ -18,7 +18,7 @@ export default function Explorer() {
 
     useEffect(() => {
         const getStats = async () => {
-            let res = await fetch("/api/dapps/stats", { next: { revalidate: 10 } });
+            let res = await fetch("/api/dapps/stats", { cache: "no-cache" });
             const _stats = await res.json();
             setStats(_stats);
         };

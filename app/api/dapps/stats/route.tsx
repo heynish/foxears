@@ -5,7 +5,7 @@ export const revalidate = 1800;
 
 export async function GET() {
 
-    const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads', undefined);
+    const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
     if (error2) throw error2;
     let totalLoads;
     if (totalLoadsData[0]) {
