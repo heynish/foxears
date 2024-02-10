@@ -16,14 +16,7 @@ export default function Explorer() {
         const getStats = async () => {
             const { data: totalLoadsData, error: error2 } = await supabase.rpc("count_loads");
             if (error2) throw error2;
-            let totalLoads;
-            if (totalLoadsData[0]) {
-                console.log('totalLoadsData[0]', totalLoadsData[0]);
-                totalLoads = totalLoadsData[0].get_sum_loads;
-            } else {
-                console.error('Error calling get_sum_loads:', error2);
-                console.error('No data returned from get_sum_loads');
-            }
+            const totalLoads = totalLoadsData;
 
             const { data: leaderboardData, error } = await supabase
                 .from('dapps')
@@ -39,7 +32,7 @@ export default function Explorer() {
         };
 
         getStats();
-    }, []); // Empty dependency array ensures this runs on component mount
+    }, [stats]); // Empty dependency array ensures this runs on component mount
 
     const { totalloads, leaderboard } = stats;
     console.log(totalloads, leaderboard);
