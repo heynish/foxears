@@ -15,8 +15,12 @@ export async function GET() {
 
     const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
     if (error2) throw error2;
-    console.log(totalLoadsData);
-    const totalLoads = totalLoadsData[0].get_sum_loads;
+    let totalLoads;
+    if (totalLoadsData[0]) {
+        totalLoads = totalLoadsData[0].get_sum_loads;
+    } else {
+        console.error('No data returned from get_sum_loads');
+    }
 
 
     const { data: leaderboardData, error } = await supabase
