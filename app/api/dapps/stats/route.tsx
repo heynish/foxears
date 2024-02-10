@@ -4,6 +4,18 @@ import { supabase } from '../../../lib/supabase';
 export const revalidate = 1800;
 
 export async function GET() {
+
+
+    const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
+    if (error2) throw error2;
+    let totalLoads;
+    if (totalLoadsData[0]) {
+        console.log('totalLoadsData[0]', totalLoadsData[0]);
+        totalLoads = totalLoadsData[0].get_sum_loads;
+    } else {
+        console.error('No data returned from get_sum_loads');
+    }
+
     const { data: topUserData, error: error1 } = await supabase
         .from('dapps')
         .select('username') // select the username column
@@ -11,17 +23,8 @@ export async function GET() {
         .limit(1) // limit to the first record
 
     if (error1) throw error1;
+    console.log('topUserData[0]', topUserData[0]);
     const topUser = topUserData[0].username; // get the username of the user with the highest loads
-
-    const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
-    if (error2) throw error2;
-    let totalLoads;
-    if (totalLoadsData[0]) {
-        totalLoads = totalLoadsData[0].get_sum_loads;
-    } else {
-        console.error('No data returned from get_sum_loads');
-    }
-
 
     const { data: leaderboardData, error } = await supabase
         .from('dapps')
