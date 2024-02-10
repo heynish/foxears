@@ -59,7 +59,12 @@ export const metadata: Metadata = {
 
 export default function Home() {
     return (
+
         <main className="flex flex-col text-center lg:p-16">
+            <Head>
+                <link rel="shortcut icon" href="/dappsimage/favicon.ico" type="image/x-icon" />
+                {/* Add any other meta tags, title, or links needed here */}
+            </Head>
             <Explorer />
         </main>
     );
