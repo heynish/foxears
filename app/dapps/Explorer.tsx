@@ -1,16 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { supabase } from '../lib/supabase';
 import Leaderboard from "./Leaderboard";
 
 
 interface Stats {
-    topuser?: string;
     totalloads?: string;
     leaderboard?: [string, number][];
-}
-
-interface Flag {
-    username?: string;
 }
 
 export default function Explorer() {
@@ -18,15 +14,35 @@ export default function Explorer() {
 
     useEffect(() => {
         const getStats = async () => {
-            let res = await fetch("/api/dapps/stats", { cache: "no-cache" });
-            const _stats = await res.json();
-            setStats(_stats);
-        };
-        getStats();
-    }, []);
+            const { data: totalLoadsData, error: error2 } = await supabase.rpc("count_loads");
+            if (error2) throw error2;
+            let totalLoads;
+            if (totalLoadsData[0]) {
+                console.log('totalLoadsData[0]', totalLoadsData[0]);
+                totalLoads = totalLoadsData[0].get_sum_loads;
+            } else {
+                console.error('Error calling get_sum_loads:', error2);
+                console.error('No data returned from get_sum_loads');
+            }
 
-    const { topuser, totalloads, leaderboard } = stats;
-    console.log(topuser, totalloads, leaderboard);
+            const { data: leaderboardData, error } = await supabase
+                .from('dapps')
+                .select('username, loads') // assuming 'username' and 'loads' are your actual column names
+                .order('loads', { ascending: false })
+                .limit(100);
+
+            if (error) throw error;
+
+            const leaderboard = leaderboardData.map(({ username, loads }) => [username, loads] as [string, number]);
+
+            setStats({ totalloads, leaderboard });
+        };
+
+        getStats();
+    }, []); // Empty dependency array ensures this runs on component mount
+
+    const { totalloads, leaderboard } = stats;
+    console.log(totalloads, leaderboard);
 
     return (
         <>
