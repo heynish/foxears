@@ -1,6 +1,7 @@
 import { supabase } from '../lib/supabase';
 
 interface UserData {
+    username: string;
     fid: number;
     address: string;
     loads: number;
@@ -13,6 +14,7 @@ export async function addDappUser(userData: UserData) {
     const { data, error } = await supabase
         .from('dapps') // Replace with your actual table name
         .insert([{
+            username: userData.username,
             fid: userData.fid,
             address: userData.address,
             loads: userData.loads,

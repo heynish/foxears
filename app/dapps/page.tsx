@@ -2,6 +2,7 @@ import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
+import Explorer from './Explorer';
 
 const frameMetadata = getFrameMetadata({
     buttons: [
@@ -27,15 +28,13 @@ export const metadata: Metadata = {
     },
 };
 
-export default function Page() {
+/* export default function Page() {
     return (
         <>
             <Head>
                 <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon" />
-                {/* Add any other meta tags, title, or links needed here */}
             </Head>
             <body>
-                {/* Existing content */}
                 <div style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -52,9 +51,16 @@ export default function Page() {
                         height={300} // replace with the actual image height
                         layout='intrinsic'  // This ensures the image maintains its natural width and height
                     />
-                    {/* Additional content */}
                 </div>
             </body>
         </>
+    );
+} */
+
+export default function Home() {
+    return (
+        <main className="flex flex-col text-center lg:p-16">
+            <Explorer />
+        </main>
     );
 }

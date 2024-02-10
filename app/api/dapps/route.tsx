@@ -40,6 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     let recast: boolean | undefined = false;
     let FID: number | undefined = 3;
     let buttonId: number | undefined;
+    let username: string | undefined = '';
 
     // Parse the JSON body from the request
     const body: FrameRequest = await req.json();
@@ -59,10 +60,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
 
 
+        console.time('Fetch User Data Time');
+
+        const sdk = require('api')('@neynar/v2.0#66h3glq5brsni');
+
+        let username: string | undefined = '';
+        let pfp: string | undefined = '';
+        await sdk.user({ fid: FID, viewerFid: FID, api_key: process.env.NEYNAR_API_KEY })
+            // @ts-ignore
+            .then(({ data }) => {
+                username = data.result.user.username;
+            })
+            // @ts-ignore
+            .catch(err => console.error(err));
+        console.timeEnd('Fetch User Data Time');
+
         switch (buttonId) {
             case 1:
                 // Prepare user data for adding/updating user records
                 const userData = {
+                    username,
                     fid: FID,
                     address: accountAddress || "",
                     loads: 1,
