@@ -40,15 +40,15 @@ export default function Explorer() {
     return (
         <>
             <div className="space-y-4 text-center">
-                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto mb-60" style={{ width: '200px', height: '200px' }} />
+                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto" style={{ width: '200px', height: '200px' }} />
 
-                <h1 className="text-8xl" style={{ fontFamily: 'Atyp' }}>Dapp Explorer</h1>
+                <h1 className="text-8xl" style={{ fontFamily: 'DM Sans', marginBottom: '30px' }}>Dapp Explorer</h1>
 
-                <p className="text-2xl mb-30" style={{ fontFamily: 'Atyp' }}>
+                <p className="text-2xl mb-30" style={{ fontFamily: 'DM Sans', marginBottom: '30px' }}>
                     Explored {totalloads} times.
                 </p>
 
-                <div className="mt-4 text-xl mb-30" style={{ fontFamily: 'Atyp' }}>
+                <div className="mt-4 text-xl mb-30" style={{ fontFamily: 'DM Sans' }}>
                     <p>
                         Explore dapps on{" "}
                         <a
