@@ -40,7 +40,7 @@ export default function Explorer() {
     return (
         <>
             <div className="space-y-4 text-center">
-                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto w-128 mb-60" />
+                <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto mb-60" style={{ width: '200px', height: '200px' }} />
 
                 <h1 className="text-8xl" style={{ fontFamily: 'Atyp' }}>Dapp Explorer</h1>
 

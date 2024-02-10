@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
 import Explorer from './Explorer';
+import favicon from './dappsimage/favicon.ico';
 
 const frameMetadata = getFrameMetadata({
     buttons: [
