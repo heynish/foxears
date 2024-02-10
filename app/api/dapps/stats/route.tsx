@@ -23,7 +23,7 @@ export async function GET() {
 
 
     const { data: leaderboardData, error } = await supabase
-        .from('leaderboard')
+        .from('dapps')
         .select('username, loads') // assuming 'username' and 'loads' are your actual column names
         .order('loads', { ascending: false })
         .limit(100);
