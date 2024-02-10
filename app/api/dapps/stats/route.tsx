@@ -13,13 +13,9 @@ export async function GET() {
     if (error1) throw error1;
     const topUser = topUserData[0].username; // get the username of the user with the highest loads
 
-    const { data: totalLoadsData, error: error2 } = await supabase
-        .from('dapps')
-        .select('sum(loads)') // sum all 'loads' and alias it as 'total'
-
+    const { data: totalLoadsData, error: error2 } = await supabase.rpc('get_sum_loads');
     if (error2) throw error2;
-
-    const totalLoads = totalLoadsData[0].sum; // get the username of the user with the highest loads
+    const totalLoads = totalLoadsData[0].get_sum_loads;
 
 
     const { data: leaderboardData, error } = await supabase
