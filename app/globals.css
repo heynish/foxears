@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Atyp';
-  src: url('dappimage//AtypDisplay-Regular.ttf') format('truetype');
+  src: url('public/dappimage//AtypDisplay-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
