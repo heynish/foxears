@@ -16,7 +16,7 @@ export default function Explorer() {
         const getStats = async () => {
             const { data: totalLoadsData, error: error2 } = await supabase.rpc("count_loads");
             if (error2) throw error2;
-            const totalLoads = totalLoadsData;
+            const totalloads = totalLoadsData;
 
             const { data: leaderboardData, error } = await supabase
                 .from('dapps')
