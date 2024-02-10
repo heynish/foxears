@@ -1,9 +1,13 @@
 import { getFrameMetadata } from '@coinbase/onchainkit';
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Head from 'next/head';
 import Explorer from './Explorer';
-import favicon from './dappsimage/favicon.ico';
+import { DM_Sans } from '@next/font/google'
+
+const dmsans = DM_Sans({
+    subsets: ['latin'],
+    weight: ['300', '400', '700'],
+});
 
 const frameMetadata = getFrameMetadata({
     buttons: [
@@ -32,11 +36,31 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
 
-        <main className="flex flex-col text-center lg:p-16">
+        <main className={dmsans.className}
+            style={{
+                backgroundColor: '#121212',
+                padding: '60px',
+                height: '100vh',
+                position: 'relative', // this is needed for absolute positioning of child elements
+            }}
+        >
             <Head>
                 <link rel="shortcut icon" href="/dappsimage/favicon.ico" type="image/x-icon" />
-                {/* Add any other meta tags, title, or links needed here */}
             </Head>
+            <img src="/dappsimage/overlay.webp"
+                style={{
+                    position: 'absolute',
+                    top: 30,
+                    right: 0
+                }}
+            />
+            <img src="/dappsimage/overlay2.webp"
+                style={{
+                    position: 'absolute',
+                    bottom: 60,
+                    left: 0
+                }}
+            />
             <Explorer />
         </main>
     );
