@@ -36,10 +36,9 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
 
-        <main className={dmsans.className}
+        <main className={`${dmsans.className} responsivePadding`}
             style={{
                 backgroundColor: '#121212',
-                padding: '60px',
                 height: '100vh',
                 position: 'relative', // this is needed for absolute positioning of child elements
             }}
@@ -50,7 +49,7 @@ export default function Home() {
             <img src="/dappsimage/overlay.webp"
                 style={{
                     position: 'absolute',
-                    top: 30,
+                    top: 0,
                     right: 0
                 }}
             />
@@ -62,6 +61,19 @@ export default function Home() {
                 }}
             />
             <Explorer />
+
+            <style jsx>{`
+        .responsivePadding {
+            padding: 60px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .responsivePadding {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+    `}</style>
         </main>
     );
 }
