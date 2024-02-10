@@ -28,35 +28,6 @@ export const metadata: Metadata = {
     },
 };
 
-/* export default function Page() {
-    return (
-        <>
-            <Head>
-                <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon" />
-            </Head>
-            <body>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100vw',
-                    height: '100vh',
-                    overflow: 'hidden',
-                    position: 'relative' // Needed for next/image to work properly
-                }}>
-                    <Image
-                        src='https://mframes.vercel.app/dappsimage/main.png'
-                        alt='Background Image'
-                        width={500}  // replace with the actual image width
-                        height={300} // replace with the actual image height
-                        layout='intrinsic'  // This ensures the image maintains its natural width and height
-                    />
-                </div>
-            </body>
-        </>
-    );
-} */
-
 export default function Home() {
     return (
 

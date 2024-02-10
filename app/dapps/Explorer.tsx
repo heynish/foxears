@@ -57,23 +57,5 @@ export default function Explorer() {
             </div>
 
         </>
-        /*  <div className="space-y-4">
-             <h1 className="text-8xl font-bold">Dapp Explorer</h1>
-             {<p className="text-2xl">The dapps have been explored {totalloads} times.</p>}
-             <div className="mt-4 text-xl">
-                 <p>
-                     Explore{" "}
-                     <a
-                         className="text-red-500 underline"
-                         href="https://warpcast.com/"
-                         target="_blank"
-                     >
-                         here
-                     </a>{" "}
-                     on Warpcast.
-                 </p>
-             </div>
-             {leaderboard && <Leaderboard leaderboard={leaderboard ?? []} />}
-         </div> */
     );
 }
