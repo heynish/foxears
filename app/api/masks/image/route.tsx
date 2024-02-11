@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
         }}>
-
+            <img src={overlayImage} style={{ position: 'absolute', left: '${x}px', top: '${y}px', width: '${w}px' }} />
         </div>,
         {
             width: 800,
