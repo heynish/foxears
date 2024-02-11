@@ -9,18 +9,18 @@ const frameMetadata = getFrameMetadata({
       label: '🦊 Lets go',
     },
   ],
-  image: `https://mframes.vercel.app/1.png`,
-  post_url: `https://mframes.vercel.app/api/masks`,
+  image: `${process.env.HOST}/1.png`,
+  post_url: `${process.env.HOST}/api/masks`,
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mframes.vercel.app'),
+  metadataBase: new URL(`${process.env.HOST}`),
   title: 'Fox Yourself',
   description: 'Get a mask',
   openGraph: {
     title: 'Fox Yourself',
     description: 'Get a mask',
-    images: ['https://mframes.vercel.app/1.png'],
+    images: `${process.env.HOST}/1.png`,
   },
   other: {
     ...frameMetadata,
@@ -46,7 +46,7 @@ export default function Page() {
           position: 'relative' // Needed for next/image to work properly
         }}>
           <Image
-            src='https://mframes.vercel.app/1.png'
+            src={`${process.env.HOST}/1.png`}
             alt='Background Image'
             width={500}  // replace with the actual image width
             height={300} // replace with the actual image height

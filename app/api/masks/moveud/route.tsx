@@ -36,7 +36,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         switch (buttonId) {
             case 1:
-                const postURLBack = `https://mframes.vercel.app/api/masks/choice?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+                const postURLBack = `${process.env.HOST}/api/masks/choice?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
                 console.timeEnd('Total Move Handling Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
@@ -66,7 +66,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         xFloat = x;
         yFloat = y;
         iWidth = w;
-        const postURLLeft = `https://mframes.vercel.app/api/masks/moveud?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+        const postURLLeft = `${process.env.HOST}/api/masks/moveud?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [

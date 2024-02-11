@@ -22,15 +22,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         buttonId = message.button || 1;
 
-        const urlFinal = searchParams.get('urlfinal') ?? 'https://mframes.vercel.app/3.png';
-        const urlBase = searchParams.get('url') ?? 'https://mframes.vercel.app/3.png';
+        const urlFinal = searchParams.get('urlfinal') ?? `${process.env.HOST}/3.png`;
+        const urlBase = searchParams.get('url') ?? `${process.env.HOST}/3.png`;
         const xParam = searchParams.get('x') ?? '261.83333333333337';
         const yParam = searchParams.get('y') ?? '100.76666666666667';
         const width = searchParams.get('width') ?? '125';
 
-        const postLRURL = `https://mframes.vercel.app/api/masks/movelr?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
-        const postUDURL = `https://mframes.vercel.app/api/masks/moveud?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
-        const postRSURL = `https://mframes.vercel.app/api/masks/movers?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
+        const postLRURL = `${process.env.HOST}/api/masks/movelr?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
+        const postUDURL = `${process.env.HOST}/api/masks/moveud?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
+        const postRSURL = `${process.env.HOST}/api/masks/movers?urlfinal=${urlFinal}&url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
         console.timeEnd('Total Choice Handling Time');
 
         switch (buttonId) {

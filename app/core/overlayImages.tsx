@@ -69,6 +69,9 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
 
+    // Convert overlayImage to a buffer
+    let overlayBuffer = await overlayImage.getBufferAsync(Jimp.MIME_PNG);
+
     // Resize and position the overlay image at the top inside of the circle
     const overlayDiameter = 300 / 2.5; // Sizing the overlay as 1/3 of the circle's diameter
 
@@ -76,7 +79,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
     const overlayY = y + (diameter / 15); // A little bit down from the top of the circle
 
-    let overlayBuffer = await sharp(overlayImagePath)
+    // Resize overlayBuffer using Sharp
+    overlayBuffer = await sharp(overlayBuffer)
       .resize({ width: overlayDiameter })
       .png()
       .toBuffer();
@@ -92,7 +96,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     } catch (error) {
       console.error('Error calling uploadToS3:', error);
     }
-    return { urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl", x: overlayX, y: overlayY, w: overlayDiameter };
+    return { urlfinal: "https://foxears.vercel.app/2.png", urlbase: "baseUrl", x: overlayX, y: overlayY, w: overlayDiameter };
   } catch (error) {
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
