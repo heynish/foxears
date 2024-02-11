@@ -11,7 +11,7 @@ export async function createBase(overlayImagePath: string): Promise<string> {
         picture.resize(300, Jimp.AUTO);
         const size = Math.min(picture.getWidth(), picture.getHeight());
         const croppedImage = picture.crop(0, 0, size, size);
-        const diameter = croppedImage.getWidth();
+        const diameter = 300;
         const mask = new Jimp(diameter, diameter, 0x00000000);
 
         // Draw a white circle on the mask
@@ -37,8 +37,8 @@ export async function createBase(overlayImagePath: string): Promise<string> {
         );
 
         // Calculate the position to center the circle on the base image
-        const x = (background.bitmap.width / 2) - (diameter / 2);
-        const y = (background.bitmap.height / 2) - (diameter / 2);
+        const x = (800 / 2) - (diameter / 2);
+        const y = (418 / 2) - (diameter / 2);
 
         // Composite the picture onto the base image at the calculated position
         background.composite(croppedImage, x, y, {
@@ -46,7 +46,6 @@ export async function createBase(overlayImagePath: string): Promise<string> {
             opacitySource: 1,
             opacityDest: 1
         });
-        background.quality(50);
 
         const bufferbase = await background.getBufferAsync(Jimp.MIME_JPEG);
         return await uploadToS3(bufferbase, crypto.randomBytes(7).toString('hex') + ".png");

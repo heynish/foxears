@@ -10,21 +10,6 @@ import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 // Define the HUBBLE_URL endpoint
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
 
-// Define a timeout function that returns a Promise
-function timeout(ms: number): Promise<NextResponse> {
-  return new Promise(resolve => setTimeout(() => {
-    resolve(new NextResponse(getFrameHtmlResponse({
-      buttons: [
-        {
-          label: '🔄 Refresh',
-        },
-      ],
-      image: `https://mframes.vercel.app/1.png`,
-      post_url: `https://mframes.vercel.app/api/masks`,
-    })));
-  }, ms));
-}
-
 // Async function to handle the GET response
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   console.time('Total Response Time');
@@ -47,7 +32,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     accountAddress = message.interactor.verified_accounts[0];
   }
 
-  console.log("Message Valid", FID, follow, recast, accountAddress);
   try {
     console.time('Fetch User Data Time');
 
@@ -60,17 +44,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       .then(({ data }) => {
         username = data.result.user.username;
         pfp = data.result.user.pfp.url;
-        console.log(username, pfp);
       })
       // @ts-ignore
       .catch(err => console.error(err));
     console.timeEnd('Fetch User Data Time');
 
     console.time('Overlay Image Processing Time');
-    // Overlay images and get the details
     const urlbase = await createBase(`${pfp}.jpg`);
     console.timeEnd('Overlay Image Processing Time');
-    console.log("Image Created");
 
     // Prepare user data for adding/updating user records
     const userData = {
@@ -119,15 +100,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
 // Export the POST function that routes to getResponse
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  try {
-    return await Promise.race([
-      getResponse(req),
-      timeout(4990) // Set the timeout just under 5 seconds at 4.99 seconds
-    ]);
-  } catch (error) {
-    console.error('An error occurred:', error);
-    return new NextResponse('An error occurred', { status: 500 });
-  }
+  return getResponse(req);
 }
 
 // Force-dynamic export to ensure serverless function behavior
