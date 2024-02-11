@@ -24,7 +24,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         buttonId = message.button || 1;
 
-        let urlFinal = searchParams.get('urlfinal') ?? 'https://mframes.vercel.app/3.png';
         const urlBase = searchParams.get('url') ?? 'https://mframes.vercel.app/3.png';
         const xParam = searchParams.get('x') ?? '261.83333333333337';
         const yParam = searchParams.get('y') ?? '100.76666666666667';
@@ -36,7 +35,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         switch (buttonId) {
             case 1:
-                const postURLBack = `${process.env.HOST}/api/masks/choice?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+                const postURLBack = `${process.env.HOST}/api/masks/choice?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
                 console.timeEnd('Total Move Handling Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
@@ -44,7 +43,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: '↕️ Up/Down' },
                         { label: '🫧 Resize' },
                     ],
-                    image: urlFinal,
+                    image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
                     post_url: postURLBack,
                 }));
                 break;
@@ -58,15 +57,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 throw new Error('Invalid button ID.');
         }
 
-        const { urlfinal, x, y, w }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, iWidth, {
-            x: 50, // Overlay position X-coordinate
-            y: 50, // Overlay position Y-coordinate
-        });
-        urlFinal = urlfinal;
-        xFloat = x;
-        yFloat = y;
-        iWidth = w;
-        const postURLLeft = `${process.env.HOST}/api/masks/moveud?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+        const postURLLeft = `${process.env.HOST}/api/masks/moveud?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [
@@ -74,7 +65,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 { label: '⬆ Up' },
                 { label: '⬇ Down' }
             ],
-            image: urlFinal,
+            image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
             post_url: postURLLeft,
         }));
 

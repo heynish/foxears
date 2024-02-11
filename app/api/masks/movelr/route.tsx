@@ -57,13 +57,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 throw new Error('Invalid button ID.');
         }
 
-        /* const { urlfinal, x, y, w }: ImageDetails = await moveImage(urlBase, xFloat, yFloat, iWidth, {
-            x: 50, // Overlay position X-coordinate
-            y: 50, // Overlay position Y-coordinate
-        });
-        xFloat = x;
-        yFloat = y;
-        iWidth = w; */
         const postURLLeft = `${process.env.HOST}/api/masks/movelr?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
