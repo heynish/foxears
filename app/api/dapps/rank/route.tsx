@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const username = searchParams.get('user') ?? "";
 
-    const { data: rank, error } = await supabase.rpc('get_rank', { username })
+    const { data: rank, error } = await supabase.rpc('get_rank', { p_username: username })
 
     if (error) {
         console.error(error)
