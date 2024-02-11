@@ -4,6 +4,6 @@ module.exports = {
 
 module.exports = {
   images: {
-    domains: ['mframes.vercel.app'],
+    domains: ['foxears.vercel.app'],
   },
 };

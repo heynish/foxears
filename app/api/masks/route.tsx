@@ -4,7 +4,7 @@ import {
   getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { overlayImages } from '../../core/overlayImages';
+import { createBase } from '../../core/createBase';
 import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
@@ -67,18 +67,12 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       .catch(err => console.error(err));
     console.timeEnd('Fetch User Data Time');
 
-    // Set the overlay image options
-    const overlayImageOptions = { x: 50, y: 50 };
-
     console.time('Overlay Image Processing Time');
     // Overlay images and get the details
-    const { urlfinal, urlbase, x, y, w }: ImageDetails = await overlayImages(
-      'https://mframes.vercel.app/3.png',
-      `${pfp}.jpg`,
-      `${username}.png`,
-    );
+    const urlbase = await createBase(`${pfp}.jpg`);
     console.timeEnd('Overlay Image Processing Time');
     console.log("Image Created");
+
     // Prepare user data for adding/updating user records
     const userData = {
       username,
@@ -96,8 +90,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     newUser = totalLoads ? false : await addUser(userData);
     console.timeEnd('User Data Update Time');
     console.log("Database updated");
+
+    const x = 50;
+    const y = 50;
+    const w = 50;
+
     // Generate the post URL
-    const postURL = `https://mframes.vercel.app/api/masks/choice?urlfinal=${urlfinal}&url=${urlbase}&x=${x}&y=${y}&width=${w}`;
+    const postURL = `${process.env.HOST}/api/masks/choice?url=${urlbase}&x=${x}&y=${y}&width=${w}`;
 
     // Prepare and return the HTML response
     console.log("Sending response");
@@ -108,7 +107,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         { label: '↕️ Up/Down' },
         { label: '🫧 Resize' },
       ],
-      image: urlfinal,
+      image: `${process.env.HOST}/api/masks/image?url=${urlbase}&x=${x}&y=${y}&width=${w}`;,
       post_url: postURL,
     }));
 
