@@ -12,7 +12,7 @@ const dmsans = DM_Sans({
 const frameMetadata = getFrameMetadata({
     buttons: [
         {
-            label: 'Find me a dapp to try',
+            label: 'Explore a dapp',
         },
     ],
     image: `https://mframes.vercel.app/dappsimage/main.png`,
@@ -21,11 +21,11 @@ const frameMetadata = getFrameMetadata({
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://mframes.vercel.app/dapps'),
-    title: 'Try a dapp',
-    description: 'Try a dapp',
+    title: 'Dapp Explorer',
+    description: 'Dapp Explorer',
     openGraph: {
-        title: 'Try a dapp',
-        description: 'Try a dapp',
+        title: 'Dapp Explorer',
+        description: 'Dapp Explorer',
         images: ['https://mframes.vercel.app/dappsimage/main.png'],
     },
     other: {
@@ -39,6 +39,8 @@ export default function Home() {
             style={{
                 backgroundColor: '#121212',
                 paddingTop: '60px',
+                paddingLeft: '16px',
+                paddingRight: '16px',
                 height: '100vh',
                 position: 'relative', // this is needed for absolute positioning of child elements
             }}
@@ -50,7 +52,7 @@ export default function Home() {
                 style={{
                     position: 'absolute',
                     top: 0,
-                    right: 0
+                    right: -30
                 }}
             />
             <img src="/dappsimage/overlay2.webp"

@@ -143,8 +143,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 console.timeEnd('Total Response Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
-                        { label: 'Find Another' },
+                        { label: 'Explore Another' },
                         { action: 'post_redirect', label: label },
+                        { action: 'post_redirect', label: 'Leaderboard' },
                     ],
                     image: imageUrl,
                     post_url: 'https://mframes.vercel.app/api/dapps?' + 'urlR=' + urlR,
@@ -158,6 +159,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 console.timeEnd('Total Response Time');
                 // @ts-ignore
                 return NextResponse.redirect(url, { status: 302 });
+                break;
+            case 3:
+                console.timeEnd('Total Response Time');
+                // @ts-ignore
+                return NextResponse.redirect('https://mframes.vercel.app/dapps', { status: 302 });
                 break;
             default:
                 throw new Error('Invalid button ID.');

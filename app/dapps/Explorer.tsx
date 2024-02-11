@@ -47,7 +47,7 @@ export default function Explorer() {
 
     return (
         <>
-            <div className="space-y-4 text-center">
+            <div className="space-y-4 text-center" style={{ position: 'relative', zIndex: 1 }}>
                 <img src="/dappsimage/logolinea.svg" alt="Logo" className="mx-auto" style={{ width: '120px', marginBottom: '60px' }} />
 
                 <p style={{ marginBottom: '15px', fontSize: '60px', fontWeight: '300' }}>

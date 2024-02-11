@@ -21,7 +21,7 @@ export default function Leaderboard({
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-gray-700 sm:px-4 sm:py-2 sm:text-base font-sans"
                                 style={{ color: 'white', borderColor: '#505050', fontSize: '16px', fontWeight: '300' }}>
-                                Score
+                                Explores
                             </th>
                         </tr>
                     </thead>
