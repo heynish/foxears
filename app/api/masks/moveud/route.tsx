@@ -4,8 +4,6 @@ import {
     getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { moveImage } from '../../../core/moveImage';
-import ImageDetails from '../../../core/imageData';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.time('Total Move Handling Time');

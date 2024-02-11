@@ -5,7 +5,6 @@ import {
 } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 import { createBase } from '../../core/createBase';
-import ImageDetails from '../../core/imageData';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
 
 // Define the HUBBLE_URL endpoint
