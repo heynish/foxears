@@ -4,8 +4,6 @@ import {
     getFrameHtmlResponse,
 } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
-import { moveImage } from '../../../core/moveImage';
-import ImageDetails from '../../../core/imageData';
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.time('Total Move Handling Time');
@@ -34,7 +32,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         let iWidth = parseFloat(width);
 
         switch (buttonId) {
-            case 1:
+            case 3:
                 const postURLBack = `${process.env.HOST}/api/masks/choice?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
                 console.timeEnd('Total Move Handling Time');
                 return new NextResponse(getFrameHtmlResponse({
@@ -47,26 +45,25 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                     post_url: postURLBack,
                 }));
                 break;
-            case 2:
+            case 1:
                 xFloat -= 10;
                 break;
-            case 3:
+            case 2:
                 xFloat += 10;
                 break;
             default:
                 throw new Error('Invalid button ID.');
         }
 
-        const postURLLeft = `${process.env.HOST}/api/masks/movelr?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [
-                { label: 'Back' },
                 { label: '◀️ Left' },
-                { label: 'Right ▶️' }
+                { label: 'Right ▶️' },
+                { label: 'Back' }
             ],
             image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
-            post_url: postURLLeft,
+            post_url: `${process.env.HOST}/api/masks/movelr?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
         }));
 
     } catch (error) {

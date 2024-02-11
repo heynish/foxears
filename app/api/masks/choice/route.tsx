@@ -37,9 +37,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             case 1:
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
-                        { label: 'Back' },
                         { label: '◀️ Left' },
-                        { label: 'Right ▶️' }
+                        { label: 'Right ▶️' },
+                        { label: 'Back' }
                     ],
                     image: imgURL,
                     post_url: postLRURL,
@@ -48,9 +48,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             case 2:
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
-                        { label: 'Back' },
                         { label: '⬆ Up' },
-                        { label: '⬇ Down' }
+                        { label: '⬇ Down' },
+                        { label: 'Back' }
                     ],
                     image: imgURL,
                     post_url: postUDURL,
@@ -59,9 +59,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             case 3:
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
-                        { label: 'Back' },
                         { label: '◀️ Smaller' },
-                        { label: 'Bigger ▶️' }
+                        { label: 'Bigger ▶️' },
+                        { label: 'Back' }
                     ],
                     image: imgURL,
                     post_url: postRSURL,

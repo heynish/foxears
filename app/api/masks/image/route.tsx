@@ -13,6 +13,7 @@ const boldPath = join(process.cwd(), "public/font/AtypDisplay-Semibold.ttf");
 let bold = fs.readFileSync(boldPath);
 
 export async function GET(req: NextRequest) {
+    console.time("Image Return");
     const searchParams = req.nextUrl.searchParams
     const url = searchParams.get('url') ?? "";
     const x = searchParams.get('x') ?? "";
@@ -21,7 +22,6 @@ export async function GET(req: NextRequest) {
 
 
     const overlayImage = `${process.env.HOST}/ears.png`; // replace with your overlay image URL
-    console.log('overlayImage, url', overlayImage, url);
 
     const svg = await satori(
         <div style={{
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
         .resize(1200)
         .toFormat("png")
         .toBuffer();
-    console.log('Image Created');
+    console.timeEnd("Image Return");
     return new NextResponse(img, {
         status: 200,
         headers: {
