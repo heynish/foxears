@@ -32,7 +32,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         let iWidth = parseFloat(width);
 
         switch (buttonId) {
-            case 1:
+            case 3:
                 const postURLBack = `${process.env.HOST}/api/masks/choice?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
                 console.timeEnd('Total Move Handling Time');
                 return new NextResponse(getFrameHtmlResponse({
@@ -45,10 +45,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                     post_url: postURLBack,
                 }));
                 break;
-            case 2:
+            case 1:
                 yFloat -= 10;
                 break;
-            case 3:
+            case 2:
                 yFloat += 10;
                 break;
             default:
@@ -59,9 +59,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [
-                { label: 'Back' },
                 { label: '⬆ Up' },
-                { label: '⬇ Down' }
+                { label: '⬇ Down' },
+                { label: 'Back' }
             ],
             image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
             post_url: postURLLeft,
