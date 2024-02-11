@@ -24,7 +24,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         buttonId = message.button || 1;
 
-        let urlFinal = searchParams.get('urlfinal') ?? `${process.env.HOST}/3.png`;
         const urlBase = searchParams.get('url') ?? `${process.env.HOST}/3.png`;
         const xParam = searchParams.get('x') ?? '261.83333333333337';
         const yParam = searchParams.get('y') ?? '100.76666666666667';
@@ -36,7 +35,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         switch (buttonId) {
             case 1:
-                const postURLBack = `${process.env.HOST}/api/masks/choice?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+                const postURLBack = `${process.env.HOST}/api/masks/choice?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
                 console.timeEnd('Total Move Handling Time');
                 return new NextResponse(getFrameHtmlResponse({
                     buttons: [
@@ -44,7 +43,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: '↕️ Up/Down' },
                         { label: '🫧 Resize' },
                     ],
-                    image: urlFinal,
+                    image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
                     post_url: postURLBack,
                 }));
                 break;
@@ -62,11 +61,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
             x: 50, // Overlay position X-coordinate
             y: 50, // Overlay position Y-coordinate
         });
-        urlFinal = urlfinal;
         xFloat = x;
         yFloat = y;
         iWidth = w;
-        const postURLLeft = `${process.env.HOST}/api/masks/movelr?urlfinal=${urlFinal}&url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
+        const postURLLeft = `${process.env.HOST}/api/masks/movelr?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`;
         console.timeEnd('Total Move Handling Time');
         return new NextResponse(getFrameHtmlResponse({
             buttons: [
@@ -74,7 +72,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 { label: '◀️ Left' },
                 { label: 'Right ▶️' }
             ],
-            image: urlFinal,
+            image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xFloat}&y=${yFloat}&width=${iWidth}`,
             post_url: postURLLeft,
         }));
 
