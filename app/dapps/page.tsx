@@ -51,8 +51,8 @@ export default function Home() {
             <img src="/dappsimage/overlay.webp"
                 style={{
                     position: 'absolute',
-                    top: 0,
-                    right: -30
+                    top: -30,
+                    right: 0
                 }}
             />
             <img src="/dappsimage/overlay2.webp"
