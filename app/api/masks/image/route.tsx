@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     const overlayImage = `${process.env.HOST}/ears.png`; // replace with your overlay image URL
     console.log('overlayImage, url', overlayImage, url);
 
-    const svg = await satori(`
+    const svg = await satori(
         <div style={{
             justifyContent: "center",
             alignItems: "center",
@@ -35,12 +35,12 @@ export async function GET(req: NextRequest) {
             padding: 50,
             lineHeight: 1.2,
             color: "white",
-            backgroundImage: url(${url}),
+            backgroundImage: `url(${url})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
         }}>
-            <img src="${overlayImage}" style={{position: 'absolute', left: '${x}px', top: '${y}px', width: '${w}px'}} />
-        </div>`,
+
+        </div>,
         {
             width: 800,
             height: 418,
