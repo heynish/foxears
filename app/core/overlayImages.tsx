@@ -3,20 +3,107 @@ import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import ImageDetails from '../core/imageData';
 import path from 'path';
+import sharp from 'sharp';
 
 export interface OverlayOptions {
   x?: number; // X-coordinate of the overlay position (default: 0)
   y?: number; // Y-coordinate of the overlay npm i canvas@2.6.1position (default: 0)
 }
 
-
 export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<ImageDetails> {
   try {
     // Load base and overlay images using Jimp
     console.time('Image Processing Time 1');
-    /* const baseImage = await Jimp.read(path.resolve('public/3.png'));
+
+    console.time('Image loading Time All');
+    const baseImage = sharp(path.resolve('public/3.png'));
+    const overlayImage = await Jimp.read(path.resolve('public/ears.png'));
     const picture = await Jimp.read(overlayImagePath);
-    const overlayImage = await Jimp.read(path.resolve('public/ears.png')); */
+    console.timeEnd('Image loading Time All');
+
+    console.time('Image Resize Time');
+    // Scale down the picture (example: scale to 100x100)
+    picture.resize(300, Jimp.AUTO);
+    // Determine the smallest dimension (width or height)
+    const size = Math.min(picture.getWidth(), picture.getHeight());
+
+    // Crop the image to make it square from the top
+    const croppedImage = picture.crop(0, 0, size, size);
+    console.timeEnd('Image Resize Time');
+
+    console.time('Image Masking Time');
+    // Create a circle mask with full transparency
+    const diameter = croppedImage.getWidth();
+    const mask = new Jimp(diameter, diameter, 0x00000000); // Fully transparent
+
+    // Draw a white circle on the mask
+    mask.scan(0, 0, diameter, diameter, function (x, y, idx) {
+      const distance = Math.sqrt(
+        Math.pow(x - diameter / 2, 2) + Math.pow(y - diameter / 2, 2)
+      );
+      if (distance <= diameter / 2) {
+        // Paint the circle white
+        this.bitmap.data[idx + 0] = 255; // Red channel
+        this.bitmap.data[idx + 1] = 255; // Green channel
+        this.bitmap.data[idx + 2] = 255; // Blue channel
+        this.bitmap.data[idx + 3] = 255; // Alpha channel, 255 for full opacity
+      }
+    });
+
+    const bufferbase = await picture.getBufferAsync(Jimp.MIME_PNG);
+    console.timeEnd('Overlay Image Loading and Masking Time');
+
+    console.time('Base Image Composition Time');
+    const { width: baseWidth = 0, height: baseHeight = 0 } = await baseImage.metadata();
+
+    const x = (baseWidth / 2) - (diameter / 2);
+    const y = (baseHeight / 2) - (diameter / 2);
+
+    const compositeResult = await baseImage
+      .composite([{ input: bufferbase, top: y, left: x }])
+      .jpeg({ quality: 50 })
+      .toBuffer();
+
+    const newbufferbase = Buffer.from(compositeResult);
+    console.timeEnd('Base Image Composition Time');
+
+    const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
+
+    // Resize and position the overlay image at the top inside of the circle
+    const overlayDiameter = 300 / 2.5; // Sizing the overlay as 1/3 of the circle's diameter
+
+    // Calculate the position for the top overlay
+    const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
+    const overlayY = y + (diameter / 15); // A little bit down from the top of the circle
+
+    let overlayBuffer = await sharp(overlayImagePath)
+      .resize({ width: overlayDiameter })
+      .png()
+      .toBuffer();
+
+    // Composite the overlay image onto the base image
+    const finalBuffer = await sharp(baseImagePath)
+      .composite([{ input: overlayBuffer, left: overlayX, top: overlayY }])
+      .jpeg({ quality: 50 })
+      .toBuffer();
+    try {
+      const imageUrl = await uploadToS3(finalBuffer, crypto.randomBytes(16).toString('hex') + "temp.png");
+      return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY, w: overlayDiameter };
+    } catch (error) {
+      console.error('Error calling uploadToS3:', error);
+    }
+    return { urlfinal: "https://mframes.vercel.app/2.png", urlbase: "baseUrl", x: overlayX, y: overlayY, w: overlayDiameter };
+  } catch (error) {
+    console.error('Error overlaying images:', error);
+    throw new Error('Image overlay failed');
+  }
+}
+
+
+/* export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string, options: OverlayOptions = {}): Promise<ImageDetails> {
+  try {
+    // Load base and overlay images using Jimp
+    console.time('Image Processing Time 1');
 
     console.time('Image loading Time All');
     const [baseImage, picture, overlayImage] = await Promise.all([
@@ -104,4 +191,4 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     console.error('Error overlaying images:', error);
     throw new Error('Image overlay failed');
   }
-}
+} */
