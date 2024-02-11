@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
                     marginTop: 12
                 }}
             >
-                Total explores {" "}{rank}
+                Total explores {" "}{loads[0].loads}
             </div>
         </div>,
         {
