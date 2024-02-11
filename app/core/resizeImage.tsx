@@ -24,11 +24,6 @@ export async function resizeImage(baseImagePath: string, x: number, y: number, w
         // Resize and position the overlay image
         overlayImage.resize(w, Jimp.AUTO); // Maintain aspect ratio
 
-
-        // Calculate the horizontal shift to maintain the center
-
-
-        // Composite the overlay image onto the base image
         //baseImage.composite(overlayImage, x+shiftAmount, y);
         baseImage.composite(overlayImage, x, y);
         baseImage.quality(50);
