@@ -91,9 +91,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.timeEnd('User Data Update Time');
     console.log("Database updated");
 
-    const x = 50;
-    const y = 50;
-    const w = 50;
+    const x = 340;
+    const y = 79;
+    const w = 120;
 
     // Generate the post URL
     const postURL = `${process.env.HOST}/api/masks/choice?url=${urlbase}&x=${x}&y=${y}&width=${w}`;

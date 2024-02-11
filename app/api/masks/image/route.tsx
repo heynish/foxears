@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
 
 
     const overlayImage = `${process.env.HOST}/ears.png`; // replace with your overlay image URL
+    console.log('overlayImage, url', overlayImage, url);
 
     const svg = await satori(`
         <div style={{
