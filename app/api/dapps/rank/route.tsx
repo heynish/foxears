@@ -15,9 +15,9 @@ let bold = fs.readFileSync(boldPath);
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
-    const user = searchParams.get('user') ?? "";
+    const username = searchParams.get('user') ?? "";
 
-    const { data: rank, error } = await supabase.rpc('get_rank', { user })
+    const { data: rank, error } = await supabase.rpc('get_rank', { username })
 
     if (error) {
         console.error(error)
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     const { data: loads, error: error1 } = await supabase
         .from('dapps')
         .select('loads')
-        .eq('username', user)
+        .eq('username', username)
 
     if (error1) {
         console.error(error1)
