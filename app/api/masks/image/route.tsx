@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import satori from "satori";
 import sharp from 'sharp';
+import { join } from "path";
+import * as fs from "fs";
 
 export const dynamic = "force-dynamic";
+
+const regPath = join(process.cwd(), "public/font/AtypDisplay-Regular.ttf");
+let reg = fs.readFileSync(regPath);
+
+const boldPath = join(process.cwd(), "public/font/AtypDisplay-Semibold.ttf");
+let bold = fs.readFileSync(boldPath);
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
@@ -36,7 +44,20 @@ export async function GET(req: NextRequest) {
         {
             width: 800,
             height: 418,
-            fonts: [], // add this line
+            fonts: [
+                {
+                    name: "Atyp",
+                    data: reg,
+                    weight: 400,
+                    style: "normal",
+                },
+                {
+                    name: "Atyp",
+                    data: bold,
+                    weight: 800,
+                    style: "normal",
+                },
+            ],
         },
     );
 
