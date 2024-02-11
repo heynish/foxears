@@ -30,12 +30,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <Head>
-        <link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon" />
-        {/* Add any other meta tags, title, or links needed here */}
-      </Head>
       <body>
-        {/* Existing content */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
@@ -52,7 +47,6 @@ export default function Page() {
             height={300} // replace with the actual image height
             layout='intrinsic'  // This ensures the image maintains its natural width and height
           />
-          {/* Additional content */}
         </div>
       </body>
     </>

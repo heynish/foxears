@@ -35,7 +35,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     console.timeEnd('Mask');
 
     // Create a new Jimp image with the specified dimensions and color
-    const background = new Jimp(800, 410, 0x037DD6);
+    const background = new Jimp(800, 410, 0x037DD6ff);
 
     // Calculate the position to center the circle on the base image
     const x = (background.bitmap.width / 2) - (diameter / 2);
