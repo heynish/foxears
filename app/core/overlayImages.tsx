@@ -51,7 +51,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     });
 
     const bufferbase = await picture.getBufferAsync(Jimp.MIME_PNG);
-    console.timeEnd('Overlay Image Loading and Masking Time');
+    console.timeEnd('Image Masking Time');
 
     console.time('Base Image Composition Time');
     const { width: baseWidth = 0, height: baseHeight = 0 } = await baseImage.metadata();
@@ -68,7 +68,9 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     console.timeEnd('Base Image Composition Time');
 
     const baseUrl = await uploadToS3(newbufferbase, crypto.randomBytes(7).toString('hex') + ".png");
+    console.log("baseUrl", baseUrl);
 
+    console.time('Ears Processing');
     // Convert overlayImage to a buffer
     let overlayBuffer = await overlayImage.getBufferAsync(Jimp.MIME_PNG);
 
@@ -86,10 +88,12 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
       .toBuffer();
 
     // Composite the overlay image onto the base image
-    const finalBuffer = await sharp(baseImagePath)
+    const finalBuffer = await sharp(newbufferbase)
       .composite([{ input: overlayBuffer, left: overlayX, top: overlayY }])
       .jpeg({ quality: 50 })
       .toBuffer();
+    console.timeEnd('Ears Processing');
+
     try {
       const imageUrl = await uploadToS3(finalBuffer, crypto.randomBytes(16).toString('hex') + "temp.png");
       return { urlfinal: imageUrl, urlbase: baseUrl, x: overlayX, y: overlayY, w: overlayDiameter };
