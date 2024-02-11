@@ -42,8 +42,6 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const x = (background.bitmap.width / 2) - (diameter / 2);
     const y = (background.bitmap.height / 2) - (diameter / 2);
 
-    console.log("x, y", x, y);
-
     // Composite the picture onto the base image at the calculated position
     background.composite(croppedImage, x, y, {
       mode: Jimp.BLEND_SOURCE_OVER,
@@ -65,6 +63,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     // Calculate the position for the top overlay
     const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
     const overlayY = y + (diameter / 15); // A little bit down from the top of the circle
+
+    console.log("x, y", overlayX, overlayY);
 
     // Composite the overlay image onto the base image
     background.composite(overlayImage, overlayX, overlayY);

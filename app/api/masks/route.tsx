@@ -107,7 +107,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         { label: '↕️ Up/Down' },
         { label: '🫧 Resize' },
       ],
-      image: `${process.env.HOST}/api/masks/image?url=${urlbase}&x=${x}&y=${y}&width=${w}`;,
+      image: `${process.env.HOST}/api/masks/image?url=${urlbase}&x=${x}&y=${y}&width=${w}`,
       post_url: postURL,
     }));
 
