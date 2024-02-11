@@ -76,8 +76,8 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
     const overlayDiameter = 300 / 2.5; // Sizing the overlay as 1/3 of the circle's diameter
 
     // Calculate the position for the top overlay
-    const overlayX = x + (diameter - overlayDiameter) / 2; // Horizontally centered within the circle
-    const overlayY = y + (diameter / 15); // A little bit down from the top of the circle
+    const overlayX = Math.round(x + (diameter - overlayDiameter) / 2); // Horizontally centered within the circle
+    const overlayY = Math.round(y + (diameter / 15)); // A little bit down from the top of the circle
 
     // Resize overlayBuffer using Sharp
     overlayBuffer = await sharp(overlayBuffer)
