@@ -99,7 +99,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     const postURL = `${process.env.HOST}/api/masks/choice?url=${urlbase}&x=${x}&y=${y}&width=${w}`;
 
     // Prepare and return the HTML response
-    console.log("Sending response");
     console.timeEnd('Total Response Time');
     return new NextResponse(getFrameHtmlResponse({
       buttons: [
