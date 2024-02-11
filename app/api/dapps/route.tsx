@@ -128,14 +128,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         throw err;  // Ensure error is propagated if you want to handle it outside
                     }
                 }
-
                 const randomRow = await fetchData();
-
-                //console.time('Overlay Image Processing Time');
-                // Overlay images and get the details
-                // @ts-ignore
-                //const image = await createImage(name, desc, category);
-                //console.timeEnd('Overlay Image Processing Time');
                 const imageUrl = `https://mframes.vercel.app/api/dapps/image?name=${randomRow.Name}&desc=${randomRow.Desc}`;
                 const label = `Visit ${randomRow.Name}`;
                 const urlR = `${randomRow.url}`;
@@ -145,6 +138,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                     buttons: [
                         { label: 'Explore Another' },
                         { action: 'post_redirect', label: label },
+                        { label: 'My Score' },
                         { action: 'post_redirect', label: 'Leaderboard' },
                     ],
                     image: imageUrl,
@@ -161,6 +155,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                 return NextResponse.redirect(url, { status: 302 });
                 break;
             case 3:
+                const rankUrl = `https://mframes.vercel.app/api/dapps/rank?user=${username}`;
+                console.log('rankUrl', rankUrl);
+                console.timeEnd('Total Response Time');
+                return new NextResponse(getFrameHtmlResponse({
+                    buttons: [
+                        { label: 'Explore Another' },
+                    ],
+                    image: rankUrl,
+                    post_url: 'https://mframes.vercel.app/api/dapps',
+                })
+                );
+                break;
+            case 4:
                 console.timeEnd('Total Response Time');
                 // @ts-ignore
                 return NextResponse.redirect('https://mframes.vercel.app/dapps', { status: 302 });
