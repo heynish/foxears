@@ -8,6 +8,7 @@ import sharp from 'sharp';
 export async function overlayImages(baseImagePath: string, overlayImagePath: string, outputFileName: string): Promise<ImageDetails> {
   try {
 
+    console.time('Mask');
     const picture = await Jimp.read(overlayImagePath);
     picture.resize(300, Jimp.AUTO);
     const size = Math.min(picture.getWidth(), picture.getHeight());
@@ -31,6 +32,7 @@ export async function overlayImages(baseImagePath: string, overlayImagePath: str
 
     // Apply the circle mask onto the picture to cut out the circular area
     croppedImage.mask(mask, 0, 0);
+    console.timeEnd('Mask');
 
     // Create a new Jimp image with the specified dimensions and color
     const background = new Jimp(800, 410, 0x000000ff);
