@@ -30,7 +30,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         const postLRURL = `${process.env.HOST}/api/masks/movelr?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
         const postUDURL = `${process.env.HOST}/api/masks/moveud?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
         const postRSURL = `${process.env.HOST}/api/masks/movers?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
-        const imgURL = `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`;
         console.timeEnd('Total Choice Handling Time');
 
         switch (buttonId) {
@@ -41,7 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: 'Right ▶️' },
                         { label: 'Back' }
                     ],
-                    image: imgURL,
+                    image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`,
                     post_url: postLRURL,
                 }));
                 break;
@@ -52,7 +51,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: '⬇ Down' },
                         { label: 'Back' }
                     ],
-                    image: imgURL,
+                    image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`,
                     post_url: postUDURL,
                 }));
                 break;
@@ -63,7 +62,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
                         { label: 'Bigger ▶️' },
                         { label: 'Back' }
                     ],
-                    image: imgURL,
+                    image: `${process.env.HOST}/api/masks/image?url=${urlBase}&x=${xParam}&y=${yParam}&width=${width}`,
                     post_url: postRSURL,
                 }));
                 break;
