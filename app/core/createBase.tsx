@@ -36,9 +36,13 @@ export async function createBase(overlayImagePath: string): Promise<string> {
             }
         }).png();
 
+        // Calculate center position
+        const left = 250;
+        const top = 59;
+
         // Composite the image onto the background
         const output = await background
-            .composite([{ input: image, left: 0, top: 0 }])
+            .composite([{ input: image, left: left, top: top }])
             .toBuffer();
 
         return await uploadToS3(output, crypto.randomBytes(7).toString('hex') + ".png");
