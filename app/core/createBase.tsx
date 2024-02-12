@@ -5,10 +5,9 @@ import axios from 'axios';
 
 export async function createBase(overlayImagePath: string): Promise<string> {
     try {
-
-        console.time('Mask');
         // Fetch the image data
         console.time('Axios');
+        console.log(overlayImagePath);
         const response = await axios.get(overlayImagePath, { responseType: 'arraybuffer' });
         // Convert the data to a Buffer
         const imageBuffer = Buffer.from(response.data, 'binary');
@@ -16,6 +15,8 @@ export async function createBase(overlayImagePath: string): Promise<string> {
         console.time('Jimp');
         const picture = await Jimp.read(imageBuffer);
         console.timeEnd('Jimp');
+
+        console.time('Mask');
         picture.resize(300, Jimp.AUTO);
         const size = Math.min(picture.getWidth(), picture.getHeight());
         const croppedImage = picture.crop(0, 0, size, size);
@@ -51,11 +52,6 @@ export async function createBase(overlayImagePath: string): Promise<string> {
 
         // Composite the picture onto the base image at the calculated position
         background.composite(croppedImage, x, y);
-        /* background.composite(croppedImage, x, y, {
-            mode: Jimp.BLEND_SOURCE_OVER,
-            opacitySource: 1,
-            opacityDest: 1
-        }); */
 
         const bufferbase = await background.getBufferAsync(Jimp.MIME_JPEG);
         console.timeEnd('Final');
