@@ -3,7 +3,7 @@ import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import path from 'path';
 
-export async function createBase(overlayImagePath: string): Promise<String> {
+export async function createBase(overlayImagePath: string): Promise<string> {
     try {
 
         console.time('Mask');
