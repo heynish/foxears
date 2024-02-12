@@ -29,8 +29,8 @@ export async function createBase(overlayImagePath: string): Promise<string> {
         // Create a new sharp object for background
         const background = sharp({
             create: {
-                width: 300,
-                height: 300,
+                width: 800,
+                height: 418,
                 channels: 4,
                 background: { r: 3, g: 125, b: 214, alpha: 1 }
             }
