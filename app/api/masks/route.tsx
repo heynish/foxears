@@ -67,7 +67,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.log(pfpURL.toString());
 
     console.time('Overlay Image Processing Time');
-    const urlbase = await createBase(`${pfpURL.toString()}l.jpg`);
+    const urlbase = await createBase(`${pfpURL.toString()}.jpg`);
     console.timeEnd('Overlay Image Processing Time');
 
     // Prepare user data for adding/updating user records
