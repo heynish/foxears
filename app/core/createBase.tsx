@@ -1,14 +1,18 @@
 import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
-import path from 'path';
+import axios from 'axios';
 
 export async function createBase(overlayImagePath: string): Promise<string> {
     try {
 
         console.time('Mask');
-        //const picture = await Jimp.read(overlayImagePath);
-        const picture = await Jimp.read(`${process.env.HOST}/1.png`);
+        // Fetch the image data
+        const response = await axios.get(overlayImagePath, { responseType: 'arraybuffer' });
+        // Convert the data to a Buffer
+        const imageBuffer = Buffer.from(response.data, 'binary');
+
+        const picture = await Jimp.read(imageBuffer);
         picture.resize(300, Jimp.AUTO);
         const size = Math.min(picture.getWidth(), picture.getHeight());
         const croppedImage = picture.crop(0, 0, size, size);
