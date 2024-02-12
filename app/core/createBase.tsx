@@ -9,11 +9,13 @@ export async function createBase(overlayImagePath: string): Promise<string> {
         const response = await axios.get(overlayImagePath, { responseType: 'arraybuffer' });
         const imageBuffer = Buffer.from(response.data, 'binary');
 
+        // Create a circular mask
         const roundedCorners = Buffer.from(
             `<svg><rect x="0" y="0" width="300" height="300" rx="150" ry="150"/></svg>`
         );
 
-        const image = sharp(imageBuffer)
+        // Resize and apply mask
+        const image = await sharp(imageBuffer)
             .resize(300, 300, { fit: 'cover', position: 'center' })
             .composite([
                 {
@@ -21,9 +23,10 @@ export async function createBase(overlayImagePath: string): Promise<string> {
                     blend: 'dest-in'
                 }
             ])
-            .png();
+            .png()
+            .toBuffer();
 
-        // Create a new sharp object with a background color
+        // Create a new sharp object for background
         const background = sharp({
             create: {
                 width: 300,
@@ -31,11 +34,11 @@ export async function createBase(overlayImagePath: string): Promise<string> {
                 channels: 4,
                 background: { r: 3, g: 125, b: 214, alpha: 1 }
             }
-        });
+        }).png();
 
         // Composite the image onto the background
         const output = await background
-            .composite([{ input: await image.toBuffer(), gravity: 'center' }])
+            .composite([{ input: image, left: 0, top: 0 }])
             .toBuffer();
 
         return await uploadToS3(output, crypto.randomBytes(7).toString('hex') + ".png");
