@@ -1,4 +1,3 @@
-import Jimp from 'jimp';
 import { uploadToS3 } from './uploadToS3';
 import crypto from 'crypto';
 import axios from 'axios';
