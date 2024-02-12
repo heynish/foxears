@@ -6,6 +6,8 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 import { createBase } from '../../core/createBase';
 import { addUser, incrementUserTotalLoads } from '../../core/addUser';
+import url from 'url';
+import path from 'path'
 
 // Define the HUBBLE_URL endpoint
 const HUBBLE_URL = "https://nemes.farcaster.xyz:2281/v1";
@@ -49,8 +51,23 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       .catch(err => console.error(err));
     console.timeEnd('Fetch User Data Time');
 
+    let pfpURL = new URL(pfp);
+    let pathname = pfpURL.pathname;
+
+    // Parse the path
+    let parsedPath = path.parse(pathname);
+
+    // Remove the extension from the path
+    parsedPath.base = path.basename(parsedPath.base, parsedPath.ext);
+    parsedPath.ext = "";
+
+    // Format the path again
+    pfpURL.pathname = path.format(parsedPath);
+
+    console.log(pfpURL.toString());
+
     console.time('Overlay Image Processing Time');
-    const urlbase = await createBase(`${pfp}l.jpg`);
+    const urlbase = await createBase(`${pfpURL.toString()}l.jpg`);
     console.timeEnd('Overlay Image Processing Time');
 
     // Prepare user data for adding/updating user records
