@@ -6,33 +6,26 @@ import sharp from 'sharp'
 
 export async function createBase(overlayImagePath: string): Promise<string> {
     try {
-        // Fetch the image data
-        console.time('Axios');
-        console.log(overlayImagePath);
         const response = await axios.get(overlayImagePath, { responseType: 'arraybuffer' });
-        // Convert the data to a Buffer
         const imageBuffer = Buffer.from(response.data, 'binary');
-        console.timeEnd('Axios');
 
-        console.time('Sharp');
-        const picture = sharp(imageBuffer).resize(300, 300, { fit: 'cover' });
-
+        // Prepare the circle mask
         const roundedCorners = Buffer.from(
             `<svg><rect x="0" y="0" width="300" height="300" rx="150" ry="150"/></svg>`
         );
 
-        const output = await picture
+        const image = sharp(imageBuffer)
+            .resize(300, 300, { fit: 'cover', position: 'center' })
             .composite([
                 {
                     input: roundedCorners,
                     blend: 'dest-in'
                 }
             ])
-            .png()
-            .toBuffer();
+            .flatten({ background: { r: 3, g: 125, b: 214, alpha: 1 } })
+            .png();
 
-        console.timeEnd('Sharp');
-
+        const output = await image.toBuffer();
         return await uploadToS3(output, crypto.randomBytes(7).toString('hex') + ".png");
         /*         // Fetch the image data
                 console.time('Axios');
