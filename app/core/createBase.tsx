@@ -7,7 +7,8 @@ export async function createBase(overlayImagePath: string): Promise<string> {
     try {
 
         console.time('Mask');
-        const picture = await Jimp.read(overlayImagePath);
+        //const picture = await Jimp.read(overlayImagePath);
+        const picture = await Jimp.read(`${process.env.HOST}/1.png`);
         picture.resize(300, Jimp.AUTO);
         const size = Math.min(picture.getWidth(), picture.getHeight());
         const croppedImage = picture.crop(0, 0, size, size);
